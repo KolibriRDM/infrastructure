@@ -1,0 +1,64 @@
+name: food-delivery
+
+services:
+  postgres:
+    image: postgres:17.11-bookworm
+    restart: unless-stopped
+    environment:
+      POSTGRES_INITDB_ARGS: "--auth-host=scram-sha-256 --auth-local=trust"
+      POSTGRES_USER: ${POSTGRES_USER:?POSTGRES_USER is required}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required}
+      POSTGRES_DB: ${POSTGRES_DB:?POSTGRES_DB is required}
+      CATALOG_DB_PASSWORD: ${CATALOG_DB_PASSWORD:?CATALOG_DB_PASSWORD is required}
+      ORDERS_DB_PASSWORD: ${ORDERS_DB_PASSWORD:?ORDERS_DB_PASSWORD is required}
+      NOTIFICATIONS_DB_PASSWORD: ${NOTIFICATIONS_DB_PASSWORD:?NOTIFICATIONS_DB_PASSWORD is required}
+    ports:
+      - "127.0.0.1:15432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./postgres/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", 'pg_isready -h 127.0.0.1 -U "$${POSTGRES_USER}" -d "$${POSTGRES_DB}"']
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 10s
+
+  migrate-catalog:
+    image: migrate/migrate:v4.20.1
+    profiles: [tools]
+    environment:
+      PGPASSWORD: ${CATALOG_DB_PASSWORD:?CATALOG_DB_PASSWORD is required}
+    volumes:
+      - ../../../catalog-service/migrations:/migrations:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+    entrypoint:
+      - migrate
+      - -path
+      - /migrations
+      - -database
+      - postgres://catalog_app@postgres:5432/${CATALOG_MIGRATION_DB:-catalog_db}?sslmode=disable
+    command: [up]
+
+  migrate-orders:
+    image: migrate/migrate:v4.20.1
+    profiles: [tools]
+    environment:
+      PGPASSWORD: ${ORDERS_DB_PASSWORD:?ORDERS_DB_PASSWORD is required}
+    volumes:
+      - ../../../orders-service/migrations:/migrations:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+    entrypoint:
+      - migrate
+      - -path
+      - /migrations
+      - -database
+      - postgres://orders_app@postgres:5432/${ORDERS_MIGRATION_DB:-orders_db}?sslmode=disable
+    command: [up]
+
+volumes:
+  postgres_data:
