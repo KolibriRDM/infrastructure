@@ -38,8 +38,10 @@ func TestDay2Processes(t *testing.T) {
 	client := &http.Client{Timeout: 5 * time.Second}
 	defer client.CloseIdleConnections()
 	catalogAddress := freeAddress(t)
-	catalogURL, stopCatalog := startProcess(t, ctx, client, "DAY2_CATALOG_BINARY", map[string]string{
+	catalogGRPCAddress := freeAddress(t)
+	_, stopCatalog := startProcess(t, ctx, client, "DAY2_CATALOG_BINARY", map[string]string{
 		"CATALOG_HTTP_ADDR":    catalogAddress,
+		"CATALOG_GRPC_ADDR":    catalogGRPCAddress,
 		"CATALOG_DATABASE_URL": os.Getenv("DAY2_CATALOG_DATABASE_URL"),
 	})
 	defer stopCatalog()
@@ -47,7 +49,7 @@ func TestDay2Processes(t *testing.T) {
 		return startProcess(t, ctx, client, "DAY2_ORDERS_BINARY", map[string]string{
 			"ORDERS_HTTP_ADDR":    freeAddress(t),
 			"ORDERS_DATABASE_URL": os.Getenv("DAY2_ORDERS_DATABASE_URL"),
-			"CATALOG_BASE_URL":    catalogURL,
+			"CATALOG_GRPC_ADDR":   catalogGRPCAddress,
 		})
 	}
 	ordersURL, stopOrders := startOrders()
