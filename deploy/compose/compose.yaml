@@ -139,6 +139,7 @@ services:
       NOTIFICATIONS_DB_PASSWORD: ${NOTIFICATIONS_DB_PASSWORD:?NOTIFICATIONS_DB_PASSWORD is required}
       KAFKA_BROKERS: "kafka:9092"
       ORDER_CREATED_TOPIC: "food.order-created.v1"
+      ORDER_CREATED_DLQ_TOPIC: "food.order-created.dlq.v1"
       KAFKA_CONSUMER_GROUP: "notifications-v1"
     ports:
       - "127.0.0.1:8081:8081"

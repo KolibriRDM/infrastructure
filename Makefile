@@ -1,8 +1,8 @@
 COMPOSE = docker compose --env-file .env -f deploy/compose/compose.yaml
 
-.PHONY: apps-start up apps-up apps-stop status logs demo-order test-events-e2e test-orders-relay test-notifications-postgres help db-up migrate-notifications notifications-version kafka-up kafka-topics kafka-describe migrate migrate-catalog catalog-version migrate-orders orders-version seed-catalog test-catalog-postgres test-orders-postgres test-day2
+.PHONY: test-notifications-kafka apps-start up apps-up apps-stop status logs demo-order test-events-e2e test-orders-relay test-notifications-postgres help db-up migrate-notifications notifications-version kafka-up kafka-topics kafka-describe migrate migrate-catalog catalog-version migrate-orders orders-version seed-catalog test-catalog-postgres test-orders-postgres test-day2
 help:
-	@printf '%s\n' 'make up / status / logs / apps-stop' 'make demo-order' 'make db-up / migrate / seed-catalog' 'make migrate-notifications / notifications-version' 'make kafka-up / kafka-topics / kafka-describe' 'make test-orders-relay / test-events-e2e' 'make test-catalog-postgres / test-orders-postgres / test-notifications-postgres / test-day2'
+	@printf '%s\n' 'make up / status / logs / apps-stop' 'make demo-order' 'make db-up / migrate / seed-catalog' 'make migrate-notifications / notifications-version' 'make kafka-up / kafka-topics / kafka-describe' 'make test-orders-relay / test-events-e2e / test-notifications-kafka' 'make test-catalog-postgres / test-orders-postgres / test-notifications-postgres / test-day2'
 db-up:
 	$(COMPOSE) up -d --wait postgres
 migrate: migrate-catalog migrate-orders migrate-notifications
@@ -96,3 +96,7 @@ demo-order:
 # Запускает ранее собранные образы без обращения к registry для сборки.
 apps-start:
 	$(COMPOSE) up -d --no-build --pull never --wait --wait-timeout 120 catalog orders notifications
+
+# Проверяет retry, DLQ и смену владельцев партиций на настоящем брокере.
+test-notifications-kafka:
+	bash ./scripts/test-notifications-kafka.sh
