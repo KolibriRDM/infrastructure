@@ -24,6 +24,134 @@ services:
       retries: 10
       start_period: 10s
 
+  # Kafka хранит события заказов и передаёт их потребителям.
+  kafka:
+    image: apache/kafka:4.1.2
+    restart: unless-stopped
+    environment:
+      CLUSTER_ID: "4L6g3nShT-eMCtK--X86sw"
+      KAFKA_NODE_ID: "1"
+      # Один узел совмещает брокер и контроллер KRaft.
+      KAFKA_PROCESS_ROLES: "broker,controller"
+      KAFKA_CONTROLLER_QUORUM_VOTERS: "1@kafka:9093"
+      KAFKA_LOG_DIRS: "/var/lib/kafka/data"
+      # Отдельные адреса для контейнеров, локальных приложений и контроллера.
+      KAFKA_LISTENERS: "INTERNAL://:9092,EXTERNAL://:19092,CONTROLLER://:9093"
+      KAFKA_ADVERTISED_LISTENERS: "INTERNAL://kafka:9092,EXTERNAL://127.0.0.1:19092"
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: "INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT,CONTROLLER:PLAINTEXT"
+      KAFKA_INTER_BROKER_LISTENER_NAME: "INTERNAL"
+      KAFKA_CONTROLLER_LISTENER_NAMES: "CONTROLLER"
+      # Служебные топики используют одну реплику на локальном брокере.
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: "1"
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: "1"
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: "1"
+      KAFKA_NUM_PARTITIONS: "3"
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "false"
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: "0"
+    ports:
+      - "127.0.0.1:19092:19092"
+    volumes:
+      - kafka_data:/var/lib/kafka/data
+    # Готовность проверяется запросом к Kafka API.
+    healthcheck:
+      test: ["CMD", "/opt/kafka/bin/kafka-topics.sh", "--bootstrap-server", "kafka:9092", "--list"]
+      interval: 10s
+      timeout: 10s
+      retries: 12
+      start_period: 30s
+
+  # Веб-интерфейс показывает топики, сообщения и группы потребителей.
+  kafka-ui:
+    image: ghcr.io/kafbat/kafka-ui:v1.4.2
+    restart: unless-stopped
+    profiles: ["ui"]
+    ports: ["127.0.0.1:8083:8080"]
+    environment:
+      KAFKA_CLUSTERS_0_NAME: "food-delivery"
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: "kafka:9092"
+      DYNAMIC_CONFIG_ENABLED: "false"
+    depends_on:
+      kafka:
+        condition: service_healthy
+
+  # Приложения используют DNS-имена контейнеров для межсервисных соединений.
+  catalog:
+    build:
+      context: ../../../catalog-service
+    image: food-delivery/catalog:local
+    restart: unless-stopped
+    stop_grace_period: 15s
+    environment:
+      LOG_LEVEL: ${LOG_LEVEL:-info}
+      CATALOG_HTTP_ADDR: ":8082"
+      CATALOG_GRPC_ADDR: ":9082"
+      CATALOG_DATABASE_URL: "postgres://catalog_app@postgres:5432/catalog_db?sslmode=disable"
+      CATALOG_DB_PASSWORD: ${CATALOG_DB_PASSWORD:?CATALOG_DB_PASSWORD is required}
+    ports:
+      - "127.0.0.1:8082:8082"
+      - "127.0.0.1:9082:9082"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "/healthcheck", "http://127.0.0.1:8082/readyz"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+      start_period: 10s
+
+  orders:
+    build:
+      context: ../../../orders-service
+    image: food-delivery/orders:local
+    restart: unless-stopped
+    stop_grace_period: 15s
+    environment:
+      LOG_LEVEL: ${LOG_LEVEL:-info}
+      ORDERS_HTTP_ADDR: ":8080"
+      ORDERS_DATABASE_URL: "postgres://orders_app@postgres:5432/orders_db?sslmode=disable"
+      ORDERS_DB_PASSWORD: ${ORDERS_DB_PASSWORD:?ORDERS_DB_PASSWORD is required}
+      CATALOG_GRPC_ADDR: "catalog:9082"
+      KAFKA_BROKERS: "kafka:9092"
+      ORDER_CREATED_TOPIC: "food.order-created.v1"
+    ports:
+      - "127.0.0.1:8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "/healthcheck", "http://127.0.0.1:8080/readyz"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+      start_period: 10s
+
+  notifications:
+    build:
+      context: ../../../notifications-service
+    image: food-delivery/notifications:local
+    restart: unless-stopped
+    stop_grace_period: 15s
+    environment:
+      LOG_LEVEL: ${LOG_LEVEL:-info}
+      NOTIFICATIONS_HTTP_ADDR: ":8081"
+      NOTIFICATIONS_DATABASE_URL: "postgres://notifications_app@postgres:5432/notifications_db?sslmode=disable"
+      NOTIFICATIONS_DB_PASSWORD: ${NOTIFICATIONS_DB_PASSWORD:?NOTIFICATIONS_DB_PASSWORD is required}
+      KAFKA_BROKERS: "kafka:9092"
+      ORDER_CREATED_TOPIC: "food.order-created.v1"
+      KAFKA_CONSUMER_GROUP: "notifications-v1"
+    ports:
+      - "127.0.0.1:8081:8081"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "/healthcheck", "http://127.0.0.1:8081/readyz"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+      start_period: 10s
+
   migrate-catalog:
     image: migrate/migrate:v4.20.1
     profiles: [tools]
@@ -60,5 +188,25 @@ services:
       - postgres://orders_app@postgres:5432/${ORDERS_MIGRATION_DB:-orders_db}?sslmode=disable
     command: [up]
 
+  # Применяет миграции только к базе сервиса уведомлений.
+  migrate-notifications:
+    image: migrate/migrate:v4.20.1
+    profiles: [tools]
+    environment:
+      PGPASSWORD: ${NOTIFICATIONS_DB_PASSWORD:?NOTIFICATIONS_DB_PASSWORD is required}
+    volumes:
+      - ../../../notifications-service/migrations:/migrations:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+    entrypoint:
+      - migrate
+      - -path
+      - /migrations
+      - -database
+      - postgres://notifications_app@postgres:5432/${NOTIFICATIONS_MIGRATION_DB:-notifications_db}?sslmode=disable
+    command: [up]
+
 volumes:
   postgres_data:
+  kafka_data:

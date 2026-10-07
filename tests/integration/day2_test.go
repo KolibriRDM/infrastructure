@@ -45,11 +45,19 @@ func TestDay2Processes(t *testing.T) {
 		"CATALOG_DATABASE_URL": os.Getenv("DAY2_CATALOG_DATABASE_URL"),
 	})
 	defer stopCatalog()
+	// Занятый тестом порт исключает отправку событий в рабочую Kafka.
+	kafkaUnavailable, err := net.Listen("tcp", "127.0.0.1:0")
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer kafkaUnavailable.Close()
 	startOrders := func() (string, func()) {
 		return startProcess(t, ctx, client, "DAY2_ORDERS_BINARY", map[string]string{
 			"ORDERS_HTTP_ADDR":    freeAddress(t),
 			"ORDERS_DATABASE_URL": os.Getenv("DAY2_ORDERS_DATABASE_URL"),
 			"CATALOG_GRPC_ADDR":   catalogGRPCAddress,
+			"KAFKA_BROKERS":       kafkaUnavailable.Addr().String(),
+			"ORDER_CREATED_TOPIC": "day2-outbox-test",
 		})
 	}
 	ordersURL, stopOrders := startOrders()
@@ -163,7 +171,7 @@ func TestDay2Processes(t *testing.T) {
 			t.Fatalf("old snapshot changed: %+v", replay)
 		}
 	})
-	t.Run("outbox stores contract and stays pending", func(t *testing.T) {
+	t.Run("outbox stores contract while Kafka unavailable", func(t *testing.T) {
 		var raw []byte
 		var eventID, eventType string
 		var pending bool
@@ -183,7 +191,7 @@ func TestDay2Processes(t *testing.T) {
 		if err := json.Unmarshal(raw, &payload); err != nil {
 			t.Fatal(err)
 		}
-		if eventType != "order.created.v1" || payload.Type != eventType || payload.EventID != eventID || payload.Version != 1 || !payload.At.Equal(first.CreatedAt) || payload.OrderID != first.ID || payload.UserID != userID || payload.Total != 79900 || !pending || attempts != 0 || strings.Contains(string(raw), "delivery_address") {
+		if eventType != "order.created.v1" || payload.Type != eventType || payload.EventID != eventID || payload.Version != 1 || !payload.At.Equal(first.CreatedAt) || payload.OrderID != first.ID || payload.UserID != userID || payload.Total != 79900 || !pending || strings.Contains(string(raw), "delivery_address") {
 			t.Fatalf("event=%s pending=%v attempts=%d", raw, pending, attempts)
 		}
 	})
@@ -323,7 +331,7 @@ func testPool(t *testing.T, ctx context.Context, dsnKey, passwordKey, prefix str
 	t.Helper()
 	cfg, err := pgxpool.ParseConfig(os.Getenv(dsnKey))
 	if err != nil || !strings.HasPrefix(cfg.ConnConfig.Database, prefix) {
-		t.Fatal("use scripts/test-day2.sh with isolated test databases")
+		t.Fatal("use the integration test script with isolated databases")
 	}
 	cfg.ConnConfig.Password = os.Getenv(passwordKey)
 	pool, err := pgxpool.NewWithConfig(ctx, cfg)
@@ -356,7 +364,7 @@ func startProcess(t *testing.T, ctx context.Context, client *http.Client, binary
 	t.Helper()
 	binary := os.Getenv(binaryKey)
 	if binary == "" {
-		t.Fatal("use scripts/test-day2.sh to build test processes")
+		t.Fatal("use the integration test script to build test processes")
 	}
 	cmd := exec.CommandContext(ctx, binary)
 	env := make(map[string]string)
@@ -409,6 +417,9 @@ func startProcess(t *testing.T, ctx context.Context, client *http.Client, binary
 	address := settings["ORDERS_HTTP_ADDR"]
 	if address == "" {
 		address = settings["CATALOG_HTTP_ADDR"]
+	}
+	if address == "" {
+		address = settings["NOTIFICATIONS_HTTP_ADDR"]
 	}
 	url := "http://" + address
 	deadline := time.NewTimer(8 * time.Second)

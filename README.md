@@ -1,6 +1,6 @@
 # Food Delivery Infrastructure
 
-Отдельный Git-репозиторий для локального PostgreSQL, совместных команд и сквозных тестов.
+Отдельный Git-репозиторий для локальной инфраструктуры, совместных команд и сквозных тестов.
 Сервисы остаются самостоятельными проектами. Go-модуль здесь нужен только
 сквозным тестам; он не импортирует код сервисов.
 
@@ -10,6 +10,7 @@
 food-delivery/
   catalog-service/     свой .git, go.mod, миграции и Dockerfile
   orders-service/      свой .git, go.mod, миграции и Dockerfile
+  notifications-service/ свой .git, go.mod, HTTP, миграции и Makefile
   infrastructure/      этот репозиторий
 ```
 
@@ -21,35 +22,89 @@ HTTP-модели сквозных тестов объявлены отдель�
 
 ```sh
 cp .env.example .env # только если .env ещё отсутствует
-make db-up
-make migrate
-make seed-catalog
+make up
+make status
+make demo-order
 ```
 
-При разделении прежний `.env` уже скопирован с сохранением паролей.
-Затем в двух терминалах: `make -C ../catalog-service run` и
-`make -C ../orders-service run`.
+`make up` последовательно поднимает PostgreSQL, применяет миграции трёх БД,
+добавляет отсутствующее демоменю, запускает Kafka/Kafbat UI и создаёт отсутствующие
+топики. Затем собирает и запускает catalog, orders и notifications, ожидая их readiness.
+Повторный запуск сохраняет данные и существующие цены меню. Если эти сервисы
+уже запущены вручную, останови их перед запуском контейнеров: порты совпадают.
+
+`make apps-up` пересобирает и запускает только приложения на подготовленном стенде.
+`make apps-start` запускает уже собранные образы без сборки и скачивания.
+`make apps-stop` останавливает приложения, сохраняя БД, Kafka и GUI.
+`make logs` показывает логи трёх сервисов; Ctrl+C прекращает просмотр.
 
 | Сервис | Протокол и адрес на локальном стенде |
 | --- | --- |
 | orders | HTTP `127.0.0.1:8080` |
 | catalog | HTTP `127.0.0.1:8082`, gRPC `127.0.0.1:9082` |
+| notifications | HTTP `127.0.0.1:8081` |
 | PostgreSQL | `127.0.0.1:15432` |
+| Kafka с компьютера | `127.0.0.1:19092` |
+| Kafka внутри Compose | `kafka:9092` |
+| Kafbat UI | HTTP `127.0.0.1:8083`, профиль `ui` |
 
 Orders обращается к catalog по gRPC. В `.env` каталога `CATALOG_GRPC_ADDR=:9082`
 задаёт адрес прослушивания, в `.env` orders `CATALOG_GRPC_ADDR=127.0.0.1:9082`
 задаёт адрес подключения. Конфигурация, соединения с БД и жизненный цикл каждого
 процесса независимы. HTTP `/readyz` каждого сервиса проверяет только свою БД.
 
-Compose приложений, Kafka и notifications ещё предстоит реализовать.
-Сейчас Compose запускает PostgreSQL и отдельные команды миграций.
+Все три приложения работают в Compose. Orders обращается к `catalog:9082`,
+приложения используют `postgres:5432` и `kafka:9092` внутри сети Compose.
+Отдельные Go-модули, репозитории и образы сохранены. Orders публикует outbox-события,
+notifications читает их и сохраняет уведомления с дедупликацией.
+
+В каждом образе есть маленькая Go-команда `/healthcheck`: она проверяет `/readyz`
+без shell/curl в distroless. Readiness зависит от собственной БД, поэтому остановка
+Kafka не делает HTTP нездоровым. `stop_grace_period` даёт 15 секунд на остановку.
+Приложения при запуске зависят от готовности PostgreSQL; подготовкой миграций,
+топиков и меню управляет `make up`. Обычный `docker compose up` на пустом стенде
+не заменяет этот порядок подготовки.
+
+## Kafka и Kafbat UI
+
+```sh
+docker compose --env-file .env -f deploy/compose/compose.yaml --profile ui config --quiet
+docker compose --env-file .env -f deploy/compose/compose.yaml --profile ui up -d --wait kafka kafka-ui
+docker compose --env-file .env -f deploy/compose/compose.yaml --profile ui ps
+docker compose --env-file .env -f deploy/compose/compose.yaml --profile ui logs --tail=100 kafka kafka-ui
+```
+
+UI доступен на http://localhost:8083 и подключается к `kafka:9092`.
+Go-приложения, запущенные на компьютере, будут подключаться к `127.0.0.1:19092`.
+Kafka сообщает клиентам соответствующий advertised listener. Контроллер KRaft
+работает на `kafka:9093`; его порт не публикуется на компьютере.
+
+Используются `apache/kafka:4.1.2` и `ghcr.io/kafbat/kafka-ui:v1.4.2`.
+Один узел совмещает broker/controller; replication factor служебных топиков — 1.
+Kafka хранит данные в volume `food-delivery_kafka_data`; постоянный `CLUSTER_ID`
+нельзя произвольно менять при повторном использовании этого volume.
+Healthcheck обращается к Kafka API; UI запускается после готовности брокера.
+
+Автосоздание топиков отключено. `make kafka-topics` запускает Kafka/UI и создаёт
+отсутствующие топики; `make kafka-describe` показывает их параметры.
+
+| Топик | Партиции | Реплики | Хранение |
+| --- | ---: | ---: | --- |
+| `food.order-created.v1` | 3 | 1 | 7 дней |
+| `food.order-created.dlq.v1` | 3 | 1 | 14 дней |
+
+Повторный запуск создания сохраняет существующие топики и их данные, но не
+исправляет отличающиеся настройки. После создания заказа relay публикует событие,
+а consumer группы notifications-v1 сохраняет уведомление. Один брокер позволяет
+проверить рестарты, но не защищает от потери его диска.
 
 ## Существующие данные
 
 Имя Compose-проекта остаётся `food-delivery`; volume — `food-delivery_postgres_data`.
 Порт PostgreSQL сохраняется: `127.0.0.1:15432`. Разделение исходников не переносит
 и не очищает БД. Роли catalog_app, orders_app и notifications_app разделены;
-последняя база подготовлена заранее, сам сервис пока не реализован.
+база уведомлений подготовлена заранее, у нового сервиса есть конфигурация,
+модель, миграция, HTTP и работающий Kafka consumer.
 
 Init-скрипт создаёт роли и базы только на пустом volume. Его изменение не обновит
 пароли существующих ролей. Обычный `docker compose ... down` сохраняет volume;
@@ -60,13 +115,35 @@ docker compose --env-file .env -f deploy/compose/compose.yaml ps
 docker compose --env-file .env -f deploy/compose/compose.yaml logs postgres
 make catalog-version
 make orders-version
+make notifications-version
 ```
+
+## Миграция уведомлений
+
+Миграции принадлежат `notifications-service/migrations`, инфраструктура монтирует
+их в отдельную команду `migrate-notifications` с ролью `notifications_app`.
+
+```sh
+make db-up
+make migrate-notifications
+make notifications-version
+```
+
+Первая миграция создаёт `notifications`: UUID уведомления, события, заказа и
+пользователя, вид, статус и время создания. UNIQUE(event_id) обеспечивает
+дедупликацию; индекс (user_id, order_id, created_at) обслуживает чтение.
+Внешних ключей в другие сервисы нет. Допустимы kind=order_created и status=simulated.
+После успешного применения версия — `1`, без отметки dirty. Повторный `up`
+возвращает `no change`. Общая цель `make migrate` включает все три сервиса.
+`NOTIFICATIONS_MIGRATION_DB` позволяет выбрать отдельную тестовую базу;
+по умолчанию используется `notifications_db`.
 
 ## Проверки
 
 ```sh
 make test-catalog-postgres
 make test-orders-postgres
+make test-notifications-postgres
 make test-day2
 ```
 
@@ -84,6 +161,14 @@ outbox, rollback и рестарт orders при остановленном cata
 Название `make test-day2` сохранено: это бизнес-сценарии второго дня, теперь
 проходящие через gRPC. Оно не означает, что сервисы продолжают общаться по HTTP.
 
+Тест уведомлений создаёт отдельную `notifications_test_*` базу и применяет
+миграцию ролью notifications_app. Проверяются SaveOnce, повтор события,
+конкурентные дубли, чтение всех полей, фильтрация по пользователю и заказу,
+стабильная сортировка, ограничения БД и отмена при ожидании соединения.
+Также проверяются запуск процесса, HTTP, занятый порт и остановка по SIGINT/SIGTERM.
+Временная база удаляется при завершении скрипта; рабочая notifications_db
+не меняется. Интеграционный тест запускается с `-race`.
+
 ## Контракты и отдельные образы
 
 Исходный protobuf-контракт принадлежит catalog-service; orders-service хранит
@@ -95,6 +180,7 @@ outbox, rollback и рестарт orders при остановленном cata
 ```sh
 docker build -t food-delivery/catalog:local ../catalog-service
 docker build -t food-delivery/orders:local ../orders-service
+docker build -t food-delivery/notifications:local ../notifications-service
 ```
 
 Каждая сборка использует только каталог своего сервиса. Сгенерированные `.pb.go`
@@ -102,9 +188,57 @@ docker build -t food-delivery/orders:local ../orders-service
 Сборка образов не запускает контейнеры приложений.
 
 Третий день посвящён разделению проектов и связи orders → catalog по gRPC.
-Следующий этап — публикация pending outbox-событий в Kafka и их обработка
-отдельным notifications-service.
+Публикация pending outbox-событий в Kafka и их обработка отдельным
+notifications-service реализованы и проверяются сквозным тестом.
 
 `.env` содержит настройки локального стенда; сервисы используют собственные `.env`
 только со своими настройками. После изменения паролей обновляй соответствующие
 локальные файлы согласованно. Реальные секреты в Git не входят.
+
+## Проверка outbox relay
+
+`make test-orders-relay` создаёт отдельную временную БД orders и Kafka-контейнер
+на свободном порту. Тест запускает настоящий orders, проверяет доставку outbox,
+останавливает только тестовый брокер, проверяет pending/retry и доступность HTTP,
+затем восстанавливает брокер и проверяет доставку тем же процессом orders.
+Также проверяются SIGTERM, запуск без Kafka, SIGINT и ошибка занятого HTTP-порта.
+Тестовые процессы, контейнер и БД удаляются после выполнения; рабочая Kafka
+не останавливается. Нужны Docker, Go и Python 3 для выбора свободного порта.
+
+## Сквозная проверка событий
+
+`make test-events-e2e` собирает три сервиса с `-race`, создаёт три временные БД,
+применяет миграции и загружает тестовое меню. В запущенной Kafka создаются
+отдельный топик с тремя партициями и уникальная consumer group.
+
+Проверяется создание заказа через HTTP с обращением к catalog по gRPC,
+публикация outbox, сохранение уведомления в PostgreSQL и его чтение через HTTP.
+Повторный HTTP-запрос сохраняет тот же заказ. Повторное Kafka-событие подтверждается
+без второго уведомления; тест читает committed offset у брокера. Чужому пользователю
+уведомление не возвращается. После остановки notifications создаётся второй заказ;
+новый процесс той же группы получает накопившееся событие.
+
+Тест удаляет свои процессы, бинарники, БД, топик и consumer group. Рабочие таблицы,
+топики и offsets не изменяются, рабочая Kafka не останавливается. Нужны Docker и Go.
+Образы PostgreSQL/Kafka запускаются через существующий Compose без пересоздания.
+При принудительном убийстве теста очистка временных ресурсов не гарантируется.
+
+## Завершение проверки четвёртого дня в GUI
+
+1. Выполни `make demo-order`: команда создаст заказ, дождётся уведомления через HTTP
+   и выведет `order_id`, `event_id` и `notification_id`. Каждый запуск создаёт новый демозаказ.
+2. Открой http://localhost:8083, кластер `food-delivery`, топик `food.order-created.v1`.
+3. На вкладке сообщений найди событие по выведенному `order_id`/`event_id`;
+   при необходимости выбери чтение с начала и обнови список. Key должен совпадать с order_id,
+   в JSON ожидаются type=`order.created.v1`, schema_version=1 и тот же event_id.
+4. Проверь три партиции топика и группу `notifications-v1`: после обработки lag должен
+   вернуться к нулю. Одна активная реплика notifications обслуживает три партиции.
+
+Уведомление и событие сохраняются на рабочем учебном стенде для самостоятельного
+просмотра. Проверки дублей, перезапуска notifications и отказа Kafka автоматизированы
+в `make test-events-e2e` и `make test-orders-relay` на изолированных ресурсах.
+
+Проверка 07.10 завершена: обычная сборка трёх Dockerfile прошла после восстановления
+DNS Docker. Контейнеры из этих образов запущены и healthy; событие заказа,
+уведомление через HTTP, три партиции и группа notifications-v1 (STABLE, lag=0)
+проверены. Полный запуск — make up; запуск готовых образов — make apps-start.
