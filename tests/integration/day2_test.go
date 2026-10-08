@@ -39,7 +39,7 @@ func TestDay2Processes(t *testing.T) {
 	defer client.CloseIdleConnections()
 	catalogAddress := freeAddress(t)
 	catalogGRPCAddress := freeAddress(t)
-	_, stopCatalog := startProcess(t, ctx, client, "DAY2_CATALOG_BINARY", map[string]string{
+	catalogURL, stopCatalog := startProcess(t, ctx, client, "DAY2_CATALOG_BINARY", map[string]string{
 		"CATALOG_HTTP_ADDR":    catalogAddress,
 		"CATALOG_GRPC_ADDR":    catalogGRPCAddress,
 		"CATALOG_DATABASE_URL": os.Getenv("DAY2_CATALOG_DATABASE_URL"),
@@ -159,10 +159,10 @@ func TestDay2Processes(t *testing.T) {
 		assertDelta(before, 1)
 	})
 	t.Run("menu updates preserve snapshots", func(t *testing.T) {
-		if _, err := catalogPool.Exec(ctx, "UPDATE menu_items SET price_kopecks=30000 WHERE id=$1::uuid", pizzaID); err != nil {
-			t.Fatal(err)
-		}
+		testMenuPatch(t, ctx, client, catalogURL, map[string]any{"price_kopecks": 30000}, 30000, true)
+		before := counts()
 		fresh := decodeOrder(post("new-price", userID, request, 201))
+		assertDelta(before, 1)
 		if fresh.TotalKopecks != 89900 || fresh.Items[0].UnitPriceKopecks != 30000 {
 			t.Fatalf("new order=%+v", fresh)
 		}
@@ -194,6 +194,11 @@ func TestDay2Processes(t *testing.T) {
 		if eventType != "order.created.v1" || payload.Type != eventType || payload.EventID != eventID || payload.Version != 1 || !payload.At.Equal(first.CreatedAt) || payload.OrderID != first.ID || payload.UserID != userID || payload.Total != 79900 || !pending || strings.Contains(string(raw), "delivery_address") {
 			t.Fatalf("event=%s pending=%v attempts=%d", raw, pending, attempts)
 		}
+	})
+	t.Run("order status and cancellation", func(t *testing.T) {
+		before := counts()
+		testOrderBusinessOperations(t, ctx, client, ordersURL, request)
+		assertDelta(before, 2)
 	})
 	t.Run("ten concurrent repeats", func(t *testing.T) {
 		before := counts()
@@ -259,12 +264,15 @@ func TestDay2Processes(t *testing.T) {
 	})
 	t.Run("unavailable dish leaves no writes", func(t *testing.T) {
 		before := counts()
-		if _, err := catalogPool.Exec(ctx, "UPDATE menu_items SET is_available=false WHERE id=$1::uuid", pizzaID); err != nil {
-			t.Fatal(err)
-		}
+		testMenuPatch(t, ctx, client, catalogURL, map[string]any{"is_available": false}, 30000, false)
 		post("unavailable-dish", userID, request, 400)
 		assertDelta(before, 0)
-		post("first", userID, request, 200)
+		replay := decodeOrder(post("first", userID, request, 200))
+		read := decodeOrder(get("/v1/orders/"+first.ID, userID, 200))
+		if !reflect.DeepEqual(replay, first) || !reflect.DeepEqual(read, first) {
+			t.Fatal("unavailable dish changed existing order")
+		}
+		assertDelta(before, 0)
 	})
 	t.Run("restart orders while catalog is down", func(t *testing.T) {
 		stopCatalog()
@@ -295,7 +303,7 @@ type apiResponse struct {
 }
 
 // Выполняет HTTP-запрос и проверяет служебные заголовки.
-func apiRequest(ctx context.Context, client *http.Client, method, url, user, key string, payload any) (apiResponse, error) {
+func apiRequest(ctx context.Context, client *http.Client, method, url, user, key string, payload any, headers ...map[string]string) (apiResponse, error) {
 	var data []byte
 	var err error
 	if payload != nil {
@@ -311,6 +319,11 @@ func apiRequest(ctx context.Context, client *http.Client, method, url, user, key
 	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("X-Demo-User-ID", user)
 	req.Header.Set("Idempotency-Key", key)
+	for _, fields := range headers {
+		for name, value := range fields {
+			req.Header.Set(name, value)
+		}
+	}
 	resp, err := client.Do(req)
 	if err != nil {
 		return apiResponse{}, err

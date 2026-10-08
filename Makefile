@@ -1,8 +1,8 @@
 COMPOSE = docker compose --env-file .env -f deploy/compose/compose.yaml
 
-.PHONY: test-notifications-kafka apps-start up apps-up apps-stop status logs demo-order test-events-e2e test-orders-relay test-notifications-postgres help db-up migrate-notifications notifications-version kafka-up kafka-topics kafka-describe migrate migrate-catalog catalog-version migrate-orders orders-version seed-catalog test-catalog-postgres test-orders-postgres test-day2
+.PHONY: check-menu-cache redis-up redis-cli test-redis test-business test-notifications-kafka apps-start up apps-up apps-stop status logs demo-order test-events-e2e test-orders-relay test-notifications-postgres help db-up migrate-notifications notifications-version kafka-up kafka-topics kafka-describe migrate migrate-catalog catalog-version migrate-orders orders-version seed-catalog test-catalog-postgres test-orders-postgres test-day2
 help:
-	@printf '%s\n' 'make up / status / logs / apps-stop' 'make demo-order' 'make db-up / migrate / seed-catalog' 'make migrate-notifications / notifications-version' 'make kafka-up / kafka-topics / kafka-describe' 'make test-orders-relay / test-events-e2e / test-notifications-kafka' 'make test-catalog-postgres / test-orders-postgres / test-notifications-postgres / test-day2'
+	@printf '%s\n' 'make up / status / logs / apps-stop' 'make demo-order' 'make redis-up / redis-cli / test-redis' 'make db-up / migrate / seed-catalog' 'make migrate-notifications / notifications-version' 'make kafka-up / kafka-topics / kafka-describe' 'make test-orders-relay / test-events-e2e / test-notifications-kafka' 'make test-catalog-postgres / test-orders-postgres / test-notifications-postgres / test-business'
 db-up:
 	$(COMPOSE) up -d --wait postgres
 migrate: migrate-catalog migrate-orders migrate-notifications
@@ -16,6 +16,7 @@ orders-version:
 	$(COMPOSE) run --rm -T migrate-orders version
 seed-catalog:
 	$(COMPOSE) exec -T postgres sh -ec 'export PGPASSWORD="$${CATALOG_DB_PASSWORD}"; exec psql -X -w -h 127.0.0.1 -U catalog_app -d catalog_db -v ON_ERROR_STOP=1' < scripts/seed-catalog.sql
+	@$(COMPOSE) exec -T redis redis-cli -e DEL menu:v1:00000000-0000-4000-8000-000000000001 menu:v1:00000000-0000-4000-8000-000000000002 >/dev/null 2>&1 || printf '%s\n' 'Redis cache invalidation skipped: Redis unavailable; existing menu keys will expire by TTL.'
 test-catalog-postgres:
 	./scripts/test-catalog-postgres.sh
 test-orders-postgres:
@@ -71,6 +72,7 @@ up:
 	$(MAKE) migrate
 	$(MAKE) seed-catalog
 	$(MAKE) kafka-topics
+	$(MAKE) redis-up
 	$(MAKE) apps-up
 
 # Собирает и запускает приложения после подготовки инфраструктуры.
@@ -100,3 +102,23 @@ apps-start:
 # Проверяет retry, DLQ и смену владельцев партиций на настоящем брокере.
 test-notifications-kafka:
 	bash ./scripts/test-notifications-kafka.sh
+
+# Проверяет PATCH меню, снимки заказов, статусы и права на двух процессах.
+test-business:
+	bash ./scripts/test-day2.sh
+
+# Запускает Redis и его GUI с проверкой готовности.
+redis-up:
+	$(COMPOSE) --profile ui up -d --wait --wait-timeout 120 redis redis-insight
+
+# Открывает интерактивную консоль Redis.
+redis-cli:
+	$(COMPOSE) exec redis redis-cli
+
+# Проверяет запись, TTL, удаление ключа и готовность GUI.
+test-redis: redis-up
+	bash ./scripts/test-redis.sh
+
+# Проверяет кэш на запущенном стенде и восстанавливает цену и Redis.
+check-menu-cache:
+	python3 scripts/check-menu-cache.py
