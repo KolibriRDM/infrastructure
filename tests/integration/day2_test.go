@@ -390,6 +390,14 @@ func startProcess(t *testing.T, ctx context.Context, client *http.Client, binary
 	for key, value := range settings {
 		env[key] = value
 	}
+	// Временные базы используют отдельный Redis вместо кэша рабочего стенда.
+	redisAddr := os.Getenv("FOOD_TEST_REDIS_ADDR")
+	host, port, err := net.SplitHostPort(redisAddr)
+	if err != nil || host != "127.0.0.1" || port == "" || port == "16379" {
+		t.Fatal("run integration tests through scripts/with-test-redis.sh")
+	}
+	env["CATALOG_REDIS_ADDR"] = redisAddr
+	env["ORDERS_REDIS_ADDR"] = redisAddr
 	for key, value := range env {
 		cmd.Env = append(cmd.Env, key+"="+value)
 	}

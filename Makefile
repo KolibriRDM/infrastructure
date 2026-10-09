@@ -1,8 +1,8 @@
 COMPOSE = docker compose --env-file .env -f deploy/compose/compose.yaml
 
-.PHONY: check-menu-cache redis-up redis-cli test-redis test-business test-notifications-kafka apps-start up apps-up apps-stop status logs demo-order test-events-e2e test-orders-relay test-notifications-postgres help db-up migrate-notifications notifications-version kafka-up kafka-topics kafka-describe migrate migrate-catalog catalog-version migrate-orders orders-version seed-catalog test-catalog-postgres test-orders-postgres test-day2
+.PHONY: grafana-up grafana-logs prometheus-check prometheus-up prometheus-logs test-order-rate-limit check-order-rate-limit check-menu-cache redis-up redis-cli test-redis test-business test-notifications-kafka apps-start up apps-up apps-stop status logs demo-order test-events-e2e test-orders-relay test-notifications-postgres help db-up migrate-notifications notifications-version kafka-up kafka-topics kafka-describe migrate migrate-catalog catalog-version migrate-orders orders-version seed-catalog test-catalog-postgres test-orders-postgres test-day2
 help:
-	@printf '%s\n' 'make up / status / logs / apps-stop' 'make demo-order' 'make redis-up / redis-cli / test-redis' 'make db-up / migrate / seed-catalog' 'make migrate-notifications / notifications-version' 'make kafka-up / kafka-topics / kafka-describe' 'make test-orders-relay / test-events-e2e / test-notifications-kafka' 'make test-catalog-postgres / test-orders-postgres / test-notifications-postgres / test-business'
+	@printf '%s\n' 'make up / status / logs / apps-stop' 'make prometheus-check / prometheus-up / prometheus-logs' 'make grafana-up / grafana-logs' 'make demo-order' 'make redis-up / redis-cli / test-redis' 'make test-order-rate-limit / check-order-rate-limit / check-menu-cache' 'make db-up / migrate / seed-catalog' 'make migrate-notifications / notifications-version' 'make kafka-up / kafka-topics / kafka-describe' 'make test-orders-relay / test-events-e2e / test-notifications-kafka' 'make test-catalog-postgres / test-orders-postgres / test-notifications-postgres / test-business'
 db-up:
 	$(COMPOSE) up -d --wait postgres
 migrate: migrate-catalog migrate-orders migrate-notifications
@@ -22,7 +22,7 @@ test-catalog-postgres:
 test-orders-postgres:
 	./scripts/test-orders-postgres.sh
 test-day2:
-	./scripts/test-day2.sh
+	bash ./scripts/with-test-redis.sh bash ./scripts/test-day2.sh
 
 # Запускает Kafka и интерфейс управления.
 kafka-up:
@@ -64,7 +64,7 @@ test-orders-relay:
 
 # Проверяет всю цепочку заказа и уведомления с настоящей Kafka.
 test-events-e2e:
-	bash ./scripts/test-events-e2e.sh
+	bash ./scripts/with-test-redis.sh bash ./scripts/test-events-e2e.sh
 
 # Подготавливает БД, миграции, меню и топики перед запуском приложений.
 up:
@@ -85,7 +85,7 @@ apps-stop:
 
 # Показывает состояние приложений, инфраструктуры и GUI.
 status:
-	$(COMPOSE) --profile ui ps
+	$(COMPOSE) --profile ui --profile monitoring ps
 
 # Показывает последние сообщения приложений и продолжает чтение.
 logs:
@@ -105,7 +105,7 @@ test-notifications-kafka:
 
 # Проверяет PATCH меню, снимки заказов, статусы и права на двух процессах.
 test-business:
-	bash ./scripts/test-day2.sh
+	bash ./scripts/with-test-redis.sh bash ./scripts/test-day2.sh
 
 # Запускает Redis и его GUI с проверкой готовности.
 redis-up:
@@ -122,3 +122,32 @@ test-redis: redis-up
 # Проверяет кэш на запущенном стенде и восстанавливает цену и Redis.
 check-menu-cache:
 	python3 scripts/check-menu-cache.py
+
+# Проверяет Lua и Go-лимитер на отдельном временном Redis.
+test-order-rate-limit:
+	bash ./scripts/with-test-redis.sh sh -ec 'cd ../orders-service; go test -tags=integration -race -count=1 -timeout 45s ./internal/ratelimiter'
+
+# Проверяет лимит и отказ Redis через HTTP работающего стенда.
+check-order-rate-limit:
+	python3 scripts/check-order-rate-limit.py
+
+# Проверяет Compose и настройки сбора метрик до запуска.
+prometheus-check:
+	$(COMPOSE) --profile monitoring config --quiet
+	$(COMPOSE) --profile monitoring run --rm --no-deps --entrypoint /bin/promtool prometheus check config /etc/prometheus/prometheus.yml
+
+# Запускает Prometheus после проверки конфигурации.
+prometheus-up: prometheus-check
+	$(COMPOSE) --profile monitoring up -d --wait --wait-timeout 120 prometheus
+
+# Показывает журнал сбора метрик.
+prometheus-logs:
+	$(COMPOSE) --profile monitoring logs --tail=100 -f prometheus
+
+# Подключает Grafana и файловый dashboard к проверенному Prometheus.
+grafana-up: prometheus-check
+	$(COMPOSE) --profile monitoring up -d --wait --wait-timeout 180 grafana
+
+# Показывает журнал Grafana и загрузки dashboard.
+grafana-logs:
+	$(COMPOSE) --profile monitoring logs --tail=100 -f grafana

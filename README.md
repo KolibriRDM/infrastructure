@@ -322,3 +322,141 @@ RDB/AOF отключены, данные Redis исчезают при его п
 Настройки подключения и health endpoint взяты из официальной документации:
 [Redis Insight configuration](https://redis.io/docs/latest/operate/redisinsight/configuration/),
 [Docker installation](https://redis.io/docs/latest/operate/redisinsight/install/install-on-docker/).
+
+
+## Проверка лимитера заказов
+
+Orders считает попытки POST /v1/orders: 30 запросов на UUID за 60 секунд с первой
+попытки. Счётчик `rate_limit:orders:create:v1:<user_id>` изменяется атомарным Lua.
+Повтор с тем же Idempotency-Key расходует лимит, сохраняя бизнес-идемпотентность.
+Превышение возвращает JSON 429 и Retry-After, округлённый вверх до секунд.
+Ошибка Redis допускает запрос, отменённый контекст останавливает обработку.
+
+```sh
+make redis-up
+make apps-up
+make test-order-rate-limit
+make test-business
+make check-menu-cache
+make check-order-rate-limit
+```
+
+`test-order-rate-limit`, `test-business`, `test-day2` и `test-events-e2e` запускаются
+через `scripts/with-test-redis.sh`: отдельный контейнер без постоянного хранилища,
+случайный loopback-порт, удаление по ID после завершения команды. Образ совпадает
+с закреплённым образом рабочего Redis и должен быть загружен (`make redis-up`).
+Сквозные процессы получают адрес через FOOD_TEST_REDIS_ADDR; запуск напрямую
+без обёртки отклоняется, чтобы временные БД не использовали кэш рабочего стенда.
+
+`check-order-rate-limit` проверяет работающий Compose после пересборки orders:
+создание одного заказа и 29 повторов, 429 на 31-й попытке, TTL и Retry-After,
+независимость второго пользователя, чтение и readiness. Затем останавливает
+Redis, проверяет допуск POST при отказе и восстанавливает Redis в finally.
+При перезапуске очищаются непостоянные меню и счётчики всего учебного стенда.
+Два проверочных заказа сохраняются в PostgreSQL; каждый запуск использует новые
+UUID пользователей. Последний POST заполняет счётчик для просмотра в Redis Insight;
+ключ напечатан в конце и живёт 60 секунд. Проверка меню также перезапускает Redis,
+поэтому запускай её перед проверкой лимитера. При SIGKILL/отказе Docker автоматическое
+восстановление не гарантируется; `make redis-up` восстанавливает локальный Redis.
+
+
+## Prometheus
+
+Профиль `monitoring` добавляет Prometheus 3.13.4: сбор `/metrics` у orders:8080,
+catalog:8082 и notifications:8081 каждые 5 секунд с таймаутом 2 секунды.
+Конфигурация находится в `deploy/compose/prometheus/prometheus.yml`; история
+хранится 7 дней в volume `prometheus_data` и сохраняется при пересоздании контейнера.
+Prometheus запускается независимо от приложений: их отказ виден как `up=0`.
+
+На подготовленном стенде выполни из этой папки:
+
+```sh
+make apps-up
+make prometheus-up
+make status
+```
+
+`apps-up` пересобирает приложения, чтобы контейнеры получили актуальные `/metrics`.
+`prometheus-up` сначала проверяет Compose и конфигурацию через promtool, затем ждёт
+готовности Prometheus. Отдельная проверка: `make prometheus-check`; журнал:
+`make prometheus-logs`. После изменения конфигурации выполни `make prometheus-check`
+и `docker compose --env-file .env -f deploy/compose/compose.yaml --profile monitoring restart prometheus`.
+Команда `make up` пока запускает основной стенд; мониторинг включается отдельно.
+
+Интерфейс: [Prometheus](http://localhost:9090),
+источники: [Targets](http://localhost:9090/targets).
+Через один-два интервала сбора ожидаются три источника со статусом UP.
+Запрос `up` возвращает по единице для jobs orders/catalog/notifications.
+`food_outbox_stats_up` должен быть 1; `food_outbox_pending_events` может быть 0,
+если очередь уже отправлена. Доступность `/metrics` не гарантирует доступность БД:
+`up` и `food_outbox_stats_up` проверяют разные части системы.
+
+Счётчики HTTP/кэша/Kafka появляются после соответствующей операции; отсутствие
+серии до первой операции нормально. Метрики содержат service и ограниченные
+категории; идентификаторы заказов и событий остаются в JSON-логах.
+Grafana подключается командой `make grafana-up`; настройка описана ниже.
+
+
+## Grafana и dashboard
+
+На запущенном стенде (`make apps-up`, Prometheus) выполни:
+
+```sh
+make grafana-up
+make status
+```
+
+Открой [Grafana](http://localhost:3000) или
+[Food Delivery — обзор](http://localhost:3000/d/food-delivery-overview).
+Начальные учётные данные задаются GRAFANA_ADMIN_USER и GRAFANA_ADMIN_PASSWORD
+в `.env` (учебные значения из `.env.example`: admin / grafana_local).
+Они применяются при первом создании БД Grafana; изменение `.env` не меняет
+пароль уже созданного пользователя. Регистрация отключена; порт привязан к loopback.
+Внутренняя БД сохраняется в volume `grafana_data`. Журнал: `make grafana-logs`.
+
+Источник Prometheus с UID `food-prometheus` создаётся автоматически из
+`deploy/compose/grafana/provisioning/datasources/prometheus.yml`.
+Provider из `provisioning/dashboards/default.yml` читает каталог
+`deploy/compose/grafana/dashboards` каждые 30 секунд. JSON dashboard хранится в Git;
+изменения делаются в файле, сохранение через UI отключено. После изменения
+настройки datasource требуется перезапуск Grafana; JSON панелей подхватывается автоматически.
+
+Панели: UP трёх сервисов, доступность статистики outbox, pending/age, HTTP RPS,
+4xx/5xx по статусам (включая 429), p95 по маршрутам, cache hit/miss/error и hit ratio,
+Kafka created/duplicate/dlq (скорость и счётчики), число горутин. HTTP-панели не
+включают gRPC. `$__rate_interval` учитывает шаг 5 секунд и берёт минимум четыре
+измерительных интервала. При отсутствии трафика p95 и hit ratio не определены;
+до первой операции некоторые серии отсутствуют. Пропуски не маскируются нулями.
+При outbox_stats_up=0 старые pending/age скрыты. Kafka считает завершённые результаты
+до commit offset, включая повторные обработки, а не уникальные события.
+
+Для демонстрации можно выполнить `make demo-order`: он сохраняет один учебный заказ
+и ждёт уведомление; запросы также дают HTTP-трафик. Чтение публичного меню создаёт
+метрики кэша. Дождись нескольких циклов сбора и обновления dashboard.
+
+
+## Итоговая проверка наблюдаемости
+
+Проверено 09.10.2026 на работающем стенде: трафик меню виден в RPS/p95/cache hit,
+запросы отсутствующего маршрута orders — в серии 404. Демонстрационный заказ
+обрабатывается Kafka consumer; результат created сохраняется в истории метрик.
+После остановки notifications его up становится 0, после запуска — 1;
+мониторинг остаётся доступен. Пересоздание контейнеров Prometheus/Grafana без
+удаления volumes сохранило историю, источник и файловый dashboard.
+
+Для повторной проверки используй команды из этой папки:
+
+```sh
+make status
+make demo-order
+docker compose --env-file .env -f deploy/compose/compose.yaml stop notifications
+# После нескольких scrape-интервалов проверь up{job="notifications"} == 0.
+docker compose --env-file .env -f deploy/compose/compose.yaml up -d --no-deps --wait --wait-timeout 120 notifications
+# Дождись up == 1, затем проверь сохранность истории после пересоздания мониторинга.
+docker compose --env-file .env -f deploy/compose/compose.yaml --profile monitoring up -d --force-recreate --wait --wait-timeout 180 prometheus grafana
+```
+
+Перезапуск приложения обнуляет его счётчики, но не историю в Prometheus.
+На проверенном снимке все три приложения и мониторинг healthy, статистика
+outbox доступна, очередь пуста. Итоговая приёмка отказов Kafka/БД и полного
+набора GUI относится к последующим этапам проекта.

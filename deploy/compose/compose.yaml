@@ -112,6 +112,51 @@ services:
       retries: 20
       start_period: 20s
 
+  # Собирает и хранит метрики трёх приложений.
+  prometheus:
+    image: prom/prometheus:v3.13.4
+    restart: unless-stopped
+    profiles: ["monitoring"]
+    ports: ["127.0.0.1:9090:9090"]
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.path=/prometheus
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
+    # Проверяет готовность Prometheus принимать запросы.
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1:9090/-/ready"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+      start_period: 10s
+
+  # Показывает метрики проекта на подготовленном dashboard.
+  grafana:
+    image: grafana/grafana:13.2.2
+    restart: unless-stopped
+    profiles: ["monitoring"]
+    ports: ["127.0.0.1:3000:3000"]
+    environment:
+      GF_SECURITY_ADMIN_USER: ${GRAFANA_ADMIN_USER:-admin}
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASSWORD:?GRAFANA_ADMIN_PASSWORD is required}
+      GF_USERS_ALLOW_SIGN_UP: "false"
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./grafana/dashboards:/var/lib/grafana/dashboards:ro
+    depends_on:
+      prometheus:
+        condition: service_healthy
+    # Проверяет готовность Grafana и её внутренней БД.
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1:3000/api/health"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 20s
+
   # Приложения используют DNS-имена контейнеров для межсервисных соединений.
   catalog:
     build:
@@ -147,6 +192,7 @@ services:
     stop_grace_period: 15s
     environment:
       LOG_LEVEL: ${LOG_LEVEL:-info}
+      ORDERS_REDIS_ADDR: "redis:6379"
       ORDERS_HTTP_ADDR: ":8080"
       ORDERS_DATABASE_URL: "postgres://orders_app@postgres:5432/orders_db?sslmode=disable"
       ORDERS_DB_PASSWORD: ${ORDERS_DB_PASSWORD:?ORDERS_DB_PASSWORD is required}
@@ -251,3 +297,5 @@ volumes:
   postgres_data:
   kafka_data:
   redis_insight_data:
+  prometheus_data:
+  grafana_data:

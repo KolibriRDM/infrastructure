@@ -1,0 +1,25 @@
+# Задаёт период сбора метрик и таймаут запроса.
+global:
+  scrape_interval: 5s
+  scrape_timeout: 2s
+
+# Собирает метрики приложений по внутренним адресам Compose.
+scrape_configs:
+  - job_name: orders
+    metrics_path: /metrics
+    static_configs:
+      - targets: ["orders:8080"]
+  - job_name: catalog
+    metrics_path: /metrics
+    static_configs:
+      - targets: ["catalog:8082"]
+  - job_name: notifications
+    metrics_path: /metrics
+    static_configs:
+      - targets: ["notifications:8081"]
+
+# Ограничивает хранение истории метрик семью днями.
+storage:
+  tsdb:
+    retention:
+      time: 7d
