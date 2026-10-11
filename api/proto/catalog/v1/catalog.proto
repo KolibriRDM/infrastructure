@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package food.catalog.v1;
+
+// Запрос проверки блюд выбранного ресторана.
+message ResolveItemsRequest {
+    string restaurant_id = 1;
+    repeated string item_ids = 2;
+}
+
+// Название и актуальная цена проверенного блюда.
+message ResolvedItem {
+    string id = 1;
+    string name = 2;
+    int64 price_kopecks = 3;
+}
+
+// Проверенные блюда ресторана в порядке запроса.
+message ResolveItemsResponse {
+    string restaurant_id = 1;
+    repeated ResolvedItem items = 2;
+}
+
+// Внутреннее API каталога для сервиса заказов.
+service CatalogService {
+    // Возвращает все запрошенные блюда либо ошибку.
+    rpc ResolveItems(ResolveItemsRequest) returns (ResolveItemsResponse);
+}

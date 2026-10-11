@@ -1,5 +1,27 @@
 name: food-delivery
 
+# Оба каталога используют один образ, одну БД и общий Redis.
+x-catalog: &catalog-service
+  image: food-delivery/catalog:local
+  restart: unless-stopped
+  stop_grace_period: 15s
+  environment:
+    LOG_LEVEL: ${LOG_LEVEL:-info}
+    CATALOG_REDIS_ADDR: "redis:6379"
+    CATALOG_HTTP_ADDR: ":8082"
+    CATALOG_GRPC_ADDR: ":9082"
+    CATALOG_DATABASE_URL: "postgres://catalog_app@postgres:5432/catalog_db?sslmode=disable"
+    CATALOG_DB_PASSWORD: ${CATALOG_DB_PASSWORD:?CATALOG_DB_PASSWORD is required}
+  depends_on:
+    postgres:
+      condition: service_healthy
+  healthcheck:
+    test: ["CMD", "/healthcheck", "http://127.0.0.1:8082/readyz"]
+    interval: 5s
+    timeout: 3s
+    retries: 12
+    start_period: 10s
+
 services:
   postgres:
     image: postgres:17.11-bookworm
@@ -112,7 +134,7 @@ services:
       retries: 20
       start_period: 20s
 
-  # Собирает и хранит метрики трёх приложений.
+  # Собирает метрики сервисов, обоих каталогов и балансировщика.
   prometheus:
     image: prom/prometheus:v3.13.4
     restart: unless-stopped
@@ -157,28 +179,48 @@ services:
       retries: 20
       start_period: 20s
 
-  # Приложения используют DNS-имена контейнеров для межсервисных соединений.
+  # Сохраняем прежние имя и порты первого каталога.
   catalog:
+    <<: *catalog-service
     build:
       context: ../../../catalog-service
-    image: food-delivery/catalog:local
+    ports:
+      - "127.0.0.1:8082:8082"
+      - "127.0.0.1:9082:9082"
+
+  # Второй процесс использует тот же собранный образ каталога.
+  catalog-2:
+    <<: *catalog-service
+    ports:
+      - "127.0.0.1:8085:8082"
+      - "127.0.0.1:9085:9082"
+
+  # Общая точка входа HTTP и gRPC для двух экземпляров каталога.
+  balancer:
+    build:
+      context: ../..
+    image: food-delivery/balancer:local
     restart: unless-stopped
     stop_grace_period: 15s
     environment:
       LOG_LEVEL: ${LOG_LEVEL:-info}
-      CATALOG_REDIS_ADDR: "redis:6379"
-      CATALOG_HTTP_ADDR: ":8082"
-      CATALOG_GRPC_ADDR: ":9082"
-      CATALOG_DATABASE_URL: "postgres://catalog_app@postgres:5432/catalog_db?sslmode=disable"
-      CATALOG_DB_PASSWORD: ${CATALOG_DB_PASSWORD:?CATALOG_DB_PASSWORD is required}
+      BALANCER_HTTP_ADDR: ":8084"
+      BALANCER_GRPC_ADDR: ":9084"
+      BALANCER_CATALOG_1_HTTP_URL: "http://catalog:8082"
+      BALANCER_CATALOG_1_GRPC_ADDR: "catalog:9082"
+      BALANCER_CATALOG_2_HTTP_URL: "http://catalog-2:8082"
+      BALANCER_CATALOG_2_GRPC_ADDR: "catalog-2:9082"
     ports:
-      - "127.0.0.1:8082:8082"
-      - "127.0.0.1:9082:9082"
+      - "127.0.0.1:8084:8084"
+      - "127.0.0.1:9084:9084"
+    # Readiness решает балансировщик; второй каталог может быть недоступен.
     depends_on:
-      postgres:
-        condition: service_healthy
+      catalog:
+        condition: service_started
+      catalog-2:
+        condition: service_started
     healthcheck:
-      test: ["CMD", "/healthcheck", "http://127.0.0.1:8082/readyz"]
+      test: ["CMD", "/healthcheck", "http://127.0.0.1:8084/readyz"]
       interval: 5s
       timeout: 3s
       retries: 12
@@ -196,12 +238,14 @@ services:
       ORDERS_HTTP_ADDR: ":8080"
       ORDERS_DATABASE_URL: "postgres://orders_app@postgres:5432/orders_db?sslmode=disable"
       ORDERS_DB_PASSWORD: ${ORDERS_DB_PASSWORD:?ORDERS_DB_PASSWORD is required}
-      CATALOG_GRPC_ADDR: "catalog:9082"
+      CATALOG_GRPC_ADDR: "balancer:9084"
       KAFKA_BROKERS: "kafka:9092"
       ORDER_CREATED_TOPIC: "food.order-created.v1"
     ports:
       - "127.0.0.1:8080:8080"
     depends_on:
+      balancer:
+        condition: service_started
       postgres:
         condition: service_healthy
     healthcheck:

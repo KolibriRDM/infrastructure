@@ -1,6 +1,6 @@
 COMPOSE = docker compose --env-file .env -f deploy/compose/compose.yaml
 
-.PHONY: grafana-up grafana-logs prometheus-check prometheus-up prometheus-logs test-order-rate-limit check-order-rate-limit check-menu-cache redis-up redis-cli test-redis test-business test-notifications-kafka apps-start up apps-up apps-stop status logs demo-order test-events-e2e test-orders-relay test-notifications-postgres help db-up migrate-notifications notifications-version kafka-up kafka-topics kafka-describe migrate migrate-catalog catalog-version migrate-orders orders-version seed-catalog test-catalog-postgres test-orders-postgres test-day2
+.PHONY: check-balancer generate grafana-up grafana-logs prometheus-check prometheus-up prometheus-logs test-order-rate-limit check-order-rate-limit check-menu-cache redis-up redis-cli test-redis test-business test-notifications-kafka apps-start up apps-up apps-stop status logs demo-order test-events-e2e test-orders-relay test-notifications-postgres help db-up migrate-notifications notifications-version kafka-up kafka-topics kafka-describe migrate migrate-catalog catalog-version migrate-orders orders-version seed-catalog test-catalog-postgres test-orders-postgres test-day2
 help:
 	@printf '%s\n' 'make up / status / logs / apps-stop' 'make prometheus-check / prometheus-up / prometheus-logs' 'make grafana-up / grafana-logs' 'make demo-order' 'make redis-up / redis-cli / test-redis' 'make test-order-rate-limit / check-order-rate-limit / check-menu-cache' 'make db-up / migrate / seed-catalog' 'make migrate-notifications / notifications-version' 'make kafka-up / kafka-topics / kafka-describe' 'make test-orders-relay / test-events-e2e / test-notifications-kafka' 'make test-catalog-postgres / test-orders-postgres / test-notifications-postgres / test-business'
 db-up:
@@ -77,11 +77,12 @@ up:
 
 # Собирает и запускает приложения после подготовки инфраструктуры.
 apps-up:
-	$(COMPOSE) up -d --build --wait --wait-timeout 120 catalog orders notifications
+	$(COMPOSE) build catalog balancer orders notifications
+	$(COMPOSE) up -d --no-build --pull never --wait --wait-timeout 120 catalog catalog-2 balancer orders notifications
 
 # Останавливает приложения, сохраняя инфраструктуру и её данные.
 apps-stop:
-	$(COMPOSE) stop catalog orders notifications
+	$(COMPOSE) stop balancer orders catalog catalog-2 notifications
 
 # Показывает состояние приложений, инфраструктуры и GUI.
 status:
@@ -89,7 +90,7 @@ status:
 
 # Показывает последние сообщения приложений и продолжает чтение.
 logs:
-	$(COMPOSE) logs --tail=100 -f catalog orders notifications
+	$(COMPOSE) logs --tail=100 -f catalog catalog-2 balancer orders notifications
 
 # Создаёт демонстрационный заказ и ждёт уведомление для просмотра в GUI.
 demo-order:
@@ -97,7 +98,7 @@ demo-order:
 
 # Запускает ранее собранные образы без обращения к registry для сборки.
 apps-start:
-	$(COMPOSE) up -d --no-build --pull never --wait --wait-timeout 120 catalog orders notifications
+	$(COMPOSE) up -d --no-build --pull never --wait --wait-timeout 120 catalog catalog-2 balancer orders notifications
 
 # Проверяет retry, DLQ и смену владельцев партиций на настоящем брокере.
 test-notifications-kafka:
@@ -151,3 +152,14 @@ grafana-up: prometheus-check
 # Показывает журнал Grafana и загрузки dashboard.
 grafana-logs:
 	$(COMPOSE) --profile monitoring logs --tail=100 -f grafana
+
+# Генерирует локальную копию gRPC-контракта каталога.
+generate:
+	test "$$(buf --version)" = "1.72.0"
+	test "$$(protoc-gen-go --version)" = "protoc-gen-go v1.36.12"
+	test "$$(protoc-gen-go-grpc --version)" = "protoc-gen-go-grpc 1.6.2"
+	buf generate api/proto
+
+# Проверяет отказы каталогов на работающем стенде и восстанавливает контейнеры.
+check-balancer:
+	FOOD_BALANCER_COMPOSE_DIR="$(CURDIR)" GOWORK=off go test -tags=integration -count=1 -timeout 240s -v ./tests/balancer

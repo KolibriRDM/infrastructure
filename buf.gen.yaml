@@ -1,0 +1,13 @@
+version: v2
+
+plugins:
+  - local: protoc-gen-go
+    out: .
+    opt:
+      - module=github.com/KolibriRDM/food-delivery-infrastructure
+      - Mcatalog/v1/catalog.proto=github.com/KolibriRDM/food-delivery-infrastructure/internal/transport/grpc/catalogv1
+  - local: protoc-gen-go-grpc
+    out: .
+    opt:
+      - module=github.com/KolibriRDM/food-delivery-infrastructure
+      - Mcatalog/v1/catalog.proto=github.com/KolibriRDM/food-delivery-infrastructure/internal/transport/grpc/catalogv1
