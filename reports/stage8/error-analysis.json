@@ -1,0 +1,312 @@
+{
+  "http_503_logs": 30,
+  "duration_min_ms": 501.565709,
+  "duration_max_ms": 2226.373376,
+  "grpc_non_ok": {
+    "Canceled": 24,
+    "DeadlineExceeded": 3
+  },
+  "interpretation": "HTTP durations and gRPC errors are consistent with the 500ms RPC deadline under load. Existing HTTP logs do not identify the dependency cause of every 503.",
+  "requests": [
+    {
+      "request_id": "76SFS4Q34P4PDHVDAL4PBEQKQS",
+      "time": "2026-10-11T12:23:32.498156259Z",
+      "level": "INFO",
+      "msg": "HTTP request",
+      "method": "POST",
+      "route": "POST /v1/orders",
+      "duration": 505911584,
+      "status": 503
+    },
+    {
+      "msg": "HTTP request",
+      "method": "POST",
+      "request_id": "PECBERODL7DH3DB4QABN5RT5LW",
+      "time": "2026-10-11T12:23:35.793513344Z",
+      "level": "INFO",
+      "route": "POST /v1/orders",
+      "status": 503,
+      "duration": 771192625
+    },
+    {
+      "status": 503,
+      "time": "2026-10-11T12:23:35.858119469Z",
+      "level": "INFO",
+      "msg": "HTTP request",
+      "duration": 834396917,
+      "request_id": "N3PO2M7D3BJRRVQ4EMC4TOBSPR",
+      "method": "POST",
+      "route": "POST /v1/orders"
+    },
+    {
+      "duration": 525877250,
+      "request_id": "O6FMVRK33ZVSVOPA22XYVTUQWD",
+      "msg": "HTTP request",
+      "method": "POST",
+      "status": 503,
+      "time": "2026-10-11T12:23:35.866147844Z",
+      "level": "INFO",
+      "route": "POST /v1/orders"
+    },
+    {
+      "request_id": "3OCNVK44KVDTWSA7E3JFAH2FAE",
+      "level": "INFO",
+      "status": 503,
+      "time": "2026-10-11T12:23:36.015475135Z",
+      "msg": "HTTP request",
+      "method": "POST",
+      "route": "POST /v1/orders",
+      "duration": 646482833
+    },
+    {
+      "msg": "HTTP request",
+      "method": "POST",
+      "status": 503,
+      "time": "2026-10-11T12:23:36.240509802Z",
+      "level": "INFO",
+      "route": "POST /v1/orders",
+      "duration": 846477417,
+      "request_id": "S4FOZHVD56X2KOZTDKKIR7IRCL"
+    },
+    {
+      "time": "2026-10-11T12:24:11.43049293Z",
+      "level": "INFO",
+      "msg": "HTTP request",
+      "method": "POST",
+      "request_id": "EJ6AZBD3YEQWTP7BNRQMEDAWR3",
+      "route": "POST /v1/orders",
+      "status": 503,
+      "duration": 518825959
+    },
+    {
+      "route": "POST /v1/orders",
+      "request_id": "A7D23DBMZDQJ7ETKWECKYOQRKB",
+      "time": "2026-10-11T12:23:29.639104841Z",
+      "level": "INFO",
+      "method": "POST",
+      "status": 503,
+      "duration": 592869375,
+      "msg": "HTTP request"
+    },
+    {
+      "method": "POST",
+      "route": "POST /v1/orders",
+      "status": 503,
+      "level": "INFO",
+      "duration": 584008000,
+      "request_id": "KHG53YICZY4MARJ2H5OBNZPYPQ",
+      "time": "2026-10-11T12:22:54.729659838Z",
+      "msg": "HTTP request"
+    },
+    {
+      "level": "INFO",
+      "method": "POST",
+      "status": 503,
+      "duration": 607206583,
+      "time": "2026-10-11T12:22:54.752936047Z",
+      "msg": "HTTP request",
+      "route": "POST /v1/orders",
+      "request_id": "SSI62LJQGAEYKPB62H67HPSEOW"
+    },
+    {
+      "level": "INFO",
+      "route": "POST /v1/orders",
+      "status": 503,
+      "duration": 695218959,
+      "request_id": "7KMZV5E3ZRCE4UKGD2JFJIUIHR",
+      "msg": "HTTP request",
+      "method": "POST",
+      "time": "2026-10-11T12:22:54.871622922Z"
+    },
+    {
+      "msg": "HTTP request",
+      "route": "POST /v1/orders",
+      "status": 503,
+      "time": "2026-10-11T12:22:55.129274922Z",
+      "level": "INFO",
+      "method": "POST",
+      "duration": 762833959,
+      "request_id": "S3QPF2PHCP6RHUNS7TAZHPXHBC"
+    },
+    {
+      "msg": "HTTP request",
+      "method": "POST",
+      "status": 503,
+      "duration": 773559167,
+      "level": "INFO",
+      "route": "POST /v1/orders",
+      "request_id": "DZLT6VDGDBMWIEJQKYWNKKEQRL",
+      "time": "2026-10-11T12:22:55.256390839Z"
+    },
+    {
+      "level": "INFO",
+      "msg": "HTTP request",
+      "method": "POST",
+      "route": "POST /v1/orders",
+      "status": 503,
+      "duration": 1202874209,
+      "time": "2026-10-11T12:22:55.421946505Z",
+      "request_id": "QAII5KNIZ3TRJVQ45V7PEMYTZQ"
+    },
+    {
+      "level": "INFO",
+      "msg": "HTTP request",
+      "method": "POST",
+      "route": "POST /v1/orders",
+      "duration": 641873042,
+      "request_id": "BY5UC6SU5RAFNGEBKVGO64XJUC",
+      "time": "2026-10-11T12:22:55.776158589Z",
+      "status": 503
+    },
+    {
+      "method": "POST",
+      "request_id": "TSLE5KSQJGXSEKVL3HJTFXRMUI",
+      "route": "POST /v1/orders",
+      "status": 503,
+      "duration": 1324003834,
+      "time": "2026-10-11T12:22:55.776491047Z",
+      "level": "INFO",
+      "msg": "HTTP request"
+    },
+    {
+      "time": "2026-10-11T12:22:55.883316714Z",
+      "msg": "HTTP request",
+      "status": 503,
+      "duration": 706139292,
+      "level": "INFO",
+      "method": "POST",
+      "route": "POST /v1/orders",
+      "request_id": "WR7UEKF62ZZ4ATPUKPSWWENXDH"
+    },
+    {
+      "route": "POST /v1/orders",
+      "time": "2026-10-11T12:22:55.928890672Z",
+      "status": 503,
+      "duration": 765786208,
+      "request_id": "OQXMCINCVS5AMVNOCMCR7YDRXD",
+      "level": "INFO",
+      "msg": "HTTP request",
+      "method": "POST"
+    },
+    {
+      "method": "POST",
+      "duration": 2226373376,
+      "time": "2026-10-11T12:22:56.040943714Z",
+      "route": "POST /v1/orders",
+      "status": 503,
+      "request_id": "GYTJNHE4PF24HCRTR52YM57BG4",
+      "level": "INFO",
+      "msg": "HTTP request"
+    },
+    {
+      "route": "POST /v1/orders",
+      "duration": 2001136960,
+      "time": "2026-10-11T12:22:56.298345839Z",
+      "level": "INFO",
+      "method": "POST",
+      "status": 503,
+      "request_id": "Y6NMV2WMNLAO2FRKZFYQO5SUQ5",
+      "msg": "HTTP request"
+    },
+    {
+      "request_id": "ZBTAD2ASMPDLRCI7X4IKKZZOSM",
+      "level": "INFO",
+      "msg": "HTTP request",
+      "duration": 1209723459,
+      "time": "2026-10-11T12:22:56.546213214Z",
+      "method": "POST",
+      "route": "POST /v1/orders",
+      "status": 503
+    },
+    {
+      "duration": 780915500,
+      "level": "INFO",
+      "method": "POST",
+      "request_id": "QBVPJGMEIZIO2T2S5NH533I5P6",
+      "time": "2026-10-11T12:22:56.604449673Z",
+      "msg": "HTTP request",
+      "route": "POST /v1/orders",
+      "status": 503
+    },
+    {
+      "status": 503,
+      "request_id": "QY247QB6L45EDIATKXRCDVKPDY",
+      "time": "2026-10-11T12:22:56.815047423Z",
+      "level": "INFO",
+      "method": "POST",
+      "route": "POST /v1/orders",
+      "duration": 547910083,
+      "msg": "HTTP request"
+    },
+    {
+      "time": "2026-10-11T12:22:58.051778715Z",
+      "level": "INFO",
+      "msg": "HTTP request",
+      "method": "POST",
+      "request_id": "BKVH2YG4KSY5XEMRXW2BSWHWWZ",
+      "route": "POST /v1/orders",
+      "status": 503,
+      "duration": 923398167
+    },
+    {
+      "duration": 606975542,
+      "time": "2026-10-11T12:23:10.888914138Z",
+      "level": "INFO",
+      "status": 503,
+      "request_id": "CZI3SLIU3E64QGRPEDD74ZUDT6",
+      "msg": "HTTP request",
+      "method": "POST",
+      "route": "POST /v1/orders"
+    },
+    {
+      "msg": "HTTP request",
+      "method": "POST",
+      "time": "2026-10-11T12:23:13.199770958Z",
+      "level": "INFO",
+      "route": "POST /v1/orders",
+      "status": 503,
+      "duration": 734634541,
+      "request_id": "RQ5QV6OFQNBG2BDF4O223QKOTP"
+    },
+    {
+      "msg": "HTTP request",
+      "method": "POST",
+      "duration": 782746125,
+      "request_id": "P5KFJHVRROKMJSPHSNK4OO5WDM",
+      "time": "2026-10-11T12:23:13.239628125Z",
+      "level": "INFO",
+      "route": "POST /v1/orders",
+      "status": 503
+    },
+    {
+      "msg": "HTTP request",
+      "method": "POST",
+      "route": "POST /v1/orders",
+      "duration": 733998249,
+      "request_id": "XYXLHHFZC57SJTBBGDIZLR64I5",
+      "time": "2026-10-11T12:23:13.241516916Z",
+      "level": "INFO",
+      "status": 503
+    },
+    {
+      "time": "2026-10-11T12:23:13.242333375Z",
+      "level": "INFO",
+      "route": "POST /v1/orders",
+      "duration": 734075166,
+      "msg": "HTTP request",
+      "method": "POST",
+      "status": 503,
+      "request_id": "MJUBR4FGGRVW7KY3WOCBEWXLCJ"
+    },
+    {
+      "level": "INFO",
+      "msg": "HTTP request",
+      "route": "POST /v1/orders",
+      "duration": 501565709,
+      "time": "2026-10-11T12:23:23.833710921Z",
+      "method": "POST",
+      "status": 503,
+      "request_id": "AIPRNRBCWNNDKGQF4YRRVOSXTX"
+    }
+  ]
+}

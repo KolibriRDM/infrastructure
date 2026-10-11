@@ -1,0 +1,48 @@
+# Создаёт отдельный reader только для приложений этого Compose-проекта.
+filebeat.autodiscover:
+  providers:
+    - type: docker
+      host: unix:///var/run/docker.sock
+      labels.dedot: true
+      templates:
+        - condition:
+            regexp:
+              docker.container.name: '^/?food-delivery-(catalog(-2)?|orders|notifications|balancer)-[0-9]+$'
+          config:
+            - type: filestream
+              id: food-${data.docker.container.id}
+              paths: ["/var/lib/docker/containers/${data.docker.container.id}/*.log"]
+              prospector.scanner.fingerprint.length: 64
+              parsers:
+                - container:
+                    stream: all
+                    format: docker
+              processors:
+                - decode_json_fields:
+                    fields: [message]
+                    target: app
+                    add_error_key: true
+                    overwrite_keys: false
+                - rename:
+                    fields:
+                      - from: app.service
+                        to: service.name
+                    ignore_missing: true
+                    fail_on_error: false
+# app сохраняет исходные поля slog без конфликта с ECS-полями Filebeat.
+setup.ilm.enabled: false
+# Явный шаблон создаёт обычный индекс с нулём реплик на одном узле.
+setup.template.name: food-delivery-logs-index
+setup.template.pattern: food-delivery-logs
+setup.template.overwrite: true
+setup.template.json.enabled: true
+setup.template.json.path: /usr/share/filebeat/template.json
+setup.template.json.name: food-delivery-logs-index
+setup.template.json.data_stream: false
+output.elasticsearch:
+  hosts: ["http://elasticsearch:9200"]
+  index: "food-delivery-logs"
+logging.level: warning
+http.enabled: true
+http.host: 127.0.0.1
+http.port: 5066

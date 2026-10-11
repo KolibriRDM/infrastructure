@@ -1,6 +1,6 @@
 COMPOSE = docker compose --env-file .env -f deploy/compose/compose.yaml
 
-.PHONY: check-balancer generate grafana-up grafana-logs prometheus-check prometheus-up prometheus-logs test-order-rate-limit check-order-rate-limit check-menu-cache redis-up redis-cli test-redis test-business test-notifications-kafka apps-start up apps-up apps-stop status logs demo-order test-events-e2e test-orders-relay test-notifications-postgres help db-up migrate-notifications notifications-version kafka-up kafka-topics kafka-describe migrate migrate-catalog catalog-version migrate-orders orders-version seed-catalog test-catalog-postgres test-orders-postgres test-day2
+.PHONY: logs-up logs-check logs-stop load-menu load-orders ci-check check-balancer generate grafana-up grafana-logs prometheus-check prometheus-up prometheus-logs test-order-rate-limit check-order-rate-limit check-menu-cache redis-up redis-cli test-redis test-business test-notifications-kafka apps-start up apps-up apps-stop status logs demo-order test-events-e2e test-orders-relay test-notifications-postgres help db-up migrate-notifications notifications-version kafka-up kafka-topics kafka-describe migrate migrate-catalog catalog-version migrate-orders orders-version seed-catalog test-catalog-postgres test-orders-postgres test-day2
 help:
 	@printf '%s\n' 'make up / status / logs / apps-stop' 'make prometheus-check / prometheus-up / prometheus-logs' 'make grafana-up / grafana-logs' 'make demo-order' 'make redis-up / redis-cli / test-redis' 'make test-order-rate-limit / check-order-rate-limit / check-menu-cache' 'make db-up / migrate / seed-catalog' 'make migrate-notifications / notifications-version' 'make kafka-up / kafka-topics / kafka-describe' 'make test-orders-relay / test-events-e2e / test-notifications-kafka' 'make test-catalog-postgres / test-orders-postgres / test-notifications-postgres / test-business'
 db-up:
@@ -86,7 +86,7 @@ apps-stop:
 
 # Показывает состояние приложений, инфраструктуры и GUI.
 status:
-	$(COMPOSE) --profile ui --profile monitoring ps
+	$(COMPOSE) --profile ui --profile monitoring --profile logs ps
 
 # Показывает последние сообщения приложений и продолжает чтение.
 logs:
@@ -94,7 +94,7 @@ logs:
 
 # Создаёт демонстрационный заказ и ждёт уведомление для просмотра в GUI.
 demo-order:
-	python3 scripts/demo-order.py
+	go run ./cmd/devcheck demo-order
 
 # Запускает ранее собранные образы без обращения к registry для сборки.
 apps-start:
@@ -122,7 +122,7 @@ test-redis: redis-up
 
 # Проверяет кэш на запущенном стенде и восстанавливает цену и Redis.
 check-menu-cache:
-	python3 scripts/check-menu-cache.py
+	go run ./cmd/devcheck check-menu-cache
 
 # Проверяет Lua и Go-лимитер на отдельном временном Redis.
 test-order-rate-limit:
@@ -130,7 +130,7 @@ test-order-rate-limit:
 
 # Проверяет лимит и отказ Redis через HTTP работающего стенда.
 check-order-rate-limit:
-	python3 scripts/check-order-rate-limit.py
+	go run ./cmd/devcheck check-order-rate-limit
 
 # Проверяет Compose и настройки сбора метрик до запуска.
 prometheus-check:
@@ -163,3 +163,41 @@ generate:
 # Проверяет отказы каталогов на работающем стенде и восстанавливает контейнеры.
 check-balancer:
 	FOOD_BALANCER_COMPOSE_DIR="$(CURDIR)" GOWORK=off go test -tags=integration -count=1 -timeout 240s -v ./tests/balancer
+
+# Поднимает централизованный сбор журналов отдельным профилем.
+logs-up:
+	$(COMPOSE) --profile logs config --quiet
+	$(COMPOSE) --profile logs up -d --wait --wait-timeout 360 elasticsearch kibana filebeat
+	$(MAKE) logs-check
+
+# Проверяет Filebeat и доступность Elasticsearch/Kibana.
+logs-check:
+	$(COMPOSE) --profile logs exec -T filebeat filebeat test config -e --strict.perms=false
+	$(COMPOSE) --profile logs exec -T filebeat filebeat test output -e --strict.perms=false
+	curl -fsS http://127.0.0.1:9200/_cluster/health
+	curl -fsS http://127.0.0.1:5601/api/status > /dev/null
+	go run ./cmd/devcheck check-logs
+
+# Останавливает сбор логов, сохраняя индексы и смещения чтения.
+logs-stop:
+	$(COMPOSE) --profile logs stop filebeat kibana elasticsearch
+
+# Запускает отдельный трёхминутный сценарий двадцатью клиентами.
+load-menu:
+	go run ./cmd/devcheck load menu
+load-orders:
+	go run ./cmd/devcheck load orders
+
+# Выполняет те же локальные проверки, что и CI.
+ci-check:
+	bash scripts/ci-check.sh
+
+.PHONY: check-guis
+# Проверяет страницы и реальные подключения Kafka UI и Redis Insight.
+check-guis:
+	go run ./cmd/devcheck check-guis
+
+.PHONY: check-load-delivery
+# Сверяет все события последнего нагрузочного прогона после разгрузки outbox.
+check-load-delivery:
+	go run ./cmd/devcheck check-load-delivery

@@ -1,0 +1,66 @@
+name: CI
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          cache: true
+      - run: bash scripts/ci-check.sh
+  image:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build --tag food-delivery/ci:${{ github.sha }} .
+  integration:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: infrastructure
+      - uses: actions/checkout@v4
+        with:
+          repository: ${{ vars.CATALOG_REPOSITORY || format('{0}/catalog-service', github.repository_owner) }}
+          path: catalog-service
+          token: ${{ secrets.FOOD_REPOS_TOKEN || github.token }}
+      - uses: actions/checkout@v4
+        with:
+          repository: ${{ vars.ORDERS_REPOSITORY || format('{0}/orders-service', github.repository_owner) }}
+          path: orders-service
+          token: ${{ secrets.FOOD_REPOS_TOKEN || github.token }}
+      - uses: actions/checkout@v4
+        with:
+          repository: ${{ vars.NOTIFICATIONS_REPOSITORY || format('{0}/notifications-service', github.repository_owner) }}
+          path: notifications-service
+          token: ${{ secrets.FOOD_REPOS_TOKEN || github.token }}
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: infrastructure/go.mod
+          cache-dependency-path: infrastructure/go.sum
+      - name: Prepare and check stack
+        working-directory: infrastructure
+        run: |
+          cp .env.example .env
+          make up
+          make check-balancer
+          make test-business
+          make test-events-e2e
+          make check-guis
+      - name: Stop test stack
+        if: always()
+        working-directory: infrastructure
+        run: docker compose --env-file .env -f deploy/compose/compose.yaml down -v

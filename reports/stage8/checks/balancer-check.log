@@ -1,0 +1,10 @@
+FOOD_BALANCER_COMPOSE_DIR="/Users/riendemal/Desktop/RienDeMal/go_projects/food-delivery/infrastructure" GOWORK=off go test -tags=integration -count=1 -timeout 240s -v ./tests/balancer
+=== RUN   TestBalancerCompose
+    compose_test.go:147: both healthy: HTTP and RPC split 2/2 on one gRPC connection
+    compose_test.go:156: catalog-2 stopped: all HTTP/RPC sent to catalog-1
+    compose_test.go:162: catalog-2 restored: split 2/2 without restarting balancer
+    compose_test.go:179: both stopped: HTTP 503, RPC Unavailable, healthz 200; errors returned within limits
+    compose_test.go:210: SIGTERM exit code 0; after restart HTTP/RPC work and old client reconnects
+--- PASS: TestBalancerCompose (22.16s)
+PASS
+ok  	github.com/KolibriRDM/food-delivery-infrastructure/tests/balancer	23.113s

@@ -1,0 +1,26 @@
+?   	github.com/KolibriRDM/notifications-service/cmd/healthcheck	[no test files]
+ok  	github.com/KolibriRDM/notifications-service/cmd/notifications	4.001s
+?   	github.com/KolibriRDM/notifications-service/internal/errors	[no test files]
+ok  	github.com/KolibriRDM/notifications-service/internal/handler	4.978s
+?   	github.com/KolibriRDM/notifications-service/internal/handler/dto	[no test files]
+ok  	github.com/KolibriRDM/notifications-service/internal/kafkaconsumer	10.069s
+ok  	github.com/KolibriRDM/notifications-service/internal/kafkapublisher	5.853s
+ok  	github.com/KolibriRDM/notifications-service/internal/model	5.397s
+ok  	github.com/KolibriRDM/notifications-service/internal/platform/config	8.040s
+ok  	github.com/KolibriRDM/notifications-service/internal/platform/metrics	6.746s
+ok  	github.com/KolibriRDM/notifications-service/internal/platform/postgres	6.268s
+ok  	github.com/KolibriRDM/notifications-service/internal/repository	7.147s
+ok  	github.com/KolibriRDM/notifications-service/internal/service	7.521s
+?   	github.com/KolibriRDM/notifications-service/cmd/healthcheck	[no test files]
+ok  	github.com/KolibriRDM/notifications-service/cmd/notifications	12.414s
+?   	github.com/KolibriRDM/notifications-service/internal/errors	[no test files]
+ok  	github.com/KolibriRDM/notifications-service/internal/handler	12.979s
+?   	github.com/KolibriRDM/notifications-service/internal/handler/dto	[no test files]
+ok  	github.com/KolibriRDM/notifications-service/internal/kafkaconsumer	16.890s
+ok  	github.com/KolibriRDM/notifications-service/internal/kafkapublisher	15.014s
+ok  	github.com/KolibriRDM/notifications-service/internal/model	13.794s
+ok  	github.com/KolibriRDM/notifications-service/internal/platform/config	10.135s
+ok  	github.com/KolibriRDM/notifications-service/internal/platform/metrics	10.639s
+ok  	github.com/KolibriRDM/notifications-service/internal/platform/postgres	14.349s
+ok  	github.com/KolibriRDM/notifications-service/internal/repository	11.767s
+ok  	github.com/KolibriRDM/notifications-service/internal/service	13.285s

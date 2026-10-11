@@ -1,0 +1,5 @@
+# Используется только во время измерения; профиль извлекается из контейнера после штатной остановки.
+services:
+  balancer:
+    environment:
+      BALANCER_CPU_PROFILE: /tmp/balancer.cpu.pprof

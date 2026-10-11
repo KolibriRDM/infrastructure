@@ -1,0 +1,31 @@
+284b3305d808ce80b3388263f67217bcbbfa47426bb9a6c22b6b63363328f573
+BEGIN
+CREATE TABLE
+CREATE TABLE
+CREATE INDEX
+COMMIT
+ok  	github.com/KolibriRDM/catalog-service/internal/repository	10.234s
+Unable to find image 'redis:8.2.9' locally
+8.2.9: Pulling from library/redis
+747ab85041d0: Pulling fs layer
+78ced1a78a27: Pulling fs layer
+4ebc45da47a8: Pulling fs layer
+862ff8fcd14f: Pulling fs layer
+72fcb056b170: Pulling fs layer
+4f4fb700ef54: Pulling fs layer
+4f4fb700ef54: Already exists
+2297d949c59d: Download complete
+747ab85041d0: Download complete
+4ebc45da47a8: Download complete
+4ebc45da47a8: Pull complete
+862ff8fcd14f: Download complete
+862ff8fcd14f: Pull complete
+72fcb056b170: Download complete
+d639d51b12a7: Download complete
+78ced1a78a27: Download complete
+Digest: sha256:66b7f4c2f3c6ef1b298bbd7b13c806bc6f71e61f1136a4f58710daf2cb053b21
+Status: Downloaded newer image for redis:8.2.9
+457574e8470c62d5d42079732a7791c9e79e978f6dd85e89c9507ffe6756f102
+ok  	github.com/KolibriRDM/catalog-service/internal/repository/menucache	2.170s
+food-ci-redis-2201423972
+food-ci-postgres-2201423972

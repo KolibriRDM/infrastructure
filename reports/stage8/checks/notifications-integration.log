@@ -1,0 +1,11 @@
+8442fee1ef5ba9ca99917e8dfe7e5962f595cf5cc28e73a6e14e04e224fc402a
+BEGIN
+CREATE TABLE
+CREATE INDEX
+COMMIT
+ok  	github.com/KolibriRDM/notifications-service/internal/repository	2.832s
+91bf315ebcf1b44ee5011852ee77326972f328c7db952f66aea2cb78fd5665b1
+ok  	github.com/KolibriRDM/notifications-service/internal/kafkaconsumer	32.147s
+ok  	github.com/KolibriRDM/notifications-service/cmd/notifications	5.280s
+food-ci-kafka-413dc4a870
+food-ci-postgres-413dc4a870

@@ -2,10 +2,12 @@ package main
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"log/slog"
 	"os"
 	"os/signal"
+	"runtime/pprof"
 	"syscall"
 
 	"github.com/KolibriRDM/food-delivery-infrastructure/internal/platform/config"
@@ -20,7 +22,19 @@ func main() {
 }
 
 // Загружает настройки, создаёт логгер и обрабатывает сигналы остановки.
-func run() error {
+func run() (runErr error) {
+	if path := os.Getenv("BALANCER_CPU_PROFILE"); path != "" {
+		file, err := os.Create(path)
+		if err != nil {
+			return fmt.Errorf("create CPU profile: %w", err)
+		}
+		if err := pprof.StartCPUProfile(file); err != nil {
+			_ = file.Close()
+			return fmt.Errorf("start CPU profile: %w", err)
+		}
+		// Сначала завершаем сбор профиля, затем закрываем файл.
+		defer func() { pprof.StopCPUProfile(); runErr = errors.Join(runErr, file.Close()) }()
+	}
 	cfg, err := config.LoadBalancer()
 	if err != nil {
 		return fmt.Errorf("load balancer config: %w", err)

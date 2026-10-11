@@ -1,0 +1,320 @@
+File: service
+Build ID: 29584188d89b45675e3127f7c12161d347f774b8
+Type: cpu
+Time: 2026-10-11 15:18:28 MSK
+Duration: 637.53s, Total samples = 117.55s (18.44%)
+Showing nodes accounting for 76.02s, 64.67% of 117.55s total
+Dropped 1491 nodes (cum <= 0.59s)
+      flat  flat%   sum%        cum   cum%
+    25.17s 21.41% 21.41%     25.17s 21.41%  internal/runtime/syscall/linux.Syscall6
+    10.96s  9.32% 30.74%     10.96s  9.32%  runtime.futex
+        4s  3.40% 34.14%         4s  3.40%  runtime.memclrNoHeapPointers
+     1.90s  1.62% 35.75%      1.90s  1.62%  runtime.nanotime (inline)
+     1.86s  1.58% 37.34%      2.61s  2.22%  runtime.tryDeferToSpanScan
+     1.23s  1.05% 38.38%      1.23s  1.05%  runtime.memmove
+     0.98s  0.83% 39.22%      0.98s  0.83%  runtime.asyncPreempt
+     0.90s  0.77% 39.98%      4.16s  3.54%  runtime.selectgo
+     0.74s  0.63% 40.61%      1.62s  1.38%  runtime.unlock2
+     0.73s  0.62% 41.23%      2.94s  2.50%  runtime.scanObject
+     0.71s   0.6% 41.84%      1.13s  0.96%  runtime.lock2
+     0.71s   0.6% 42.44%      1.78s  1.51%  runtime.scanObjectsSmall
+     0.70s   0.6% 43.04%      0.91s  0.77%  runtime.step
+     0.68s  0.58% 43.62%      1.17s     1%  runtime.(*stkframe).getStackMap
+     0.66s  0.56% 44.18%      0.66s  0.56%  runtime.write1
+     0.61s  0.52% 44.70%      0.61s  0.52%  runtime.usleep
+     0.59s   0.5% 45.20%     13.82s 11.76%  runtime.mallocgc
+     0.56s  0.48% 45.67%     16.36s 13.92%  runtime.findRunnable
+     0.53s  0.45% 46.13%      0.59s   0.5%  runtime.(*mspan).writeHeapBitsSmall
+     0.53s  0.45% 46.58%      0.62s  0.53%  runtime.getempty
+     0.53s  0.45% 47.03%      0.61s  0.52%  runtime.typePointers.next
+     0.52s  0.44% 47.47%      0.80s  0.68%  runtime.(*spanSet).pop
+     0.51s  0.43% 47.90%      1.39s  1.18%  runtime.mallocgcSmallScanNoHeaderSC5
+     0.50s  0.43% 48.33%      1.49s  1.27%  runtime.pcvalue
+     0.50s  0.43% 48.75%      1.75s  1.49%  runtime.scanblock
+     0.46s  0.39% 49.15%      1.58s  1.34%  runtime.(*unwinder).resolveInternal
+     0.42s  0.36% 49.50%      1.85s  1.57%  runtime.stealWork
+     0.41s  0.35% 49.85%      1.12s  0.95%  runtime.mallocgcSmallScanNoHeaderSC7
+     0.38s  0.32% 50.17%      0.91s  0.77%  net/textproto.CanonicalMIMEHeaderKey
+     0.38s  0.32% 50.50%      0.97s  0.83%  runtime.mallocgcSmallScanNoHeaderSC2
+     0.37s  0.31% 50.81%      0.59s   0.5%  runtime.(*mspan).typePointersOfUnchecked
+     0.37s  0.31% 51.13%      0.66s  0.56%  runtime.casgstatus
+     0.36s  0.31% 51.43%      1.40s  1.19%  runtime.(*timers).check
+     0.35s   0.3% 51.73%      0.86s  0.73%  runtime.freeDeadSpanSPMCs
+     0.35s   0.3% 52.03%      0.61s  0.52%  runtime.mallocgcSmallScanNoHeaderSC3
+     0.30s  0.26% 52.28%      3.16s  2.69%  runtime.notesleep
+     0.29s  0.25% 52.53%      0.90s  0.77%  runtime.(*mcache).prepareForSweep
+     0.28s  0.24% 52.77%      1.11s  0.94%  sync.(*Pool).Get
+     0.27s  0.23% 53.00%      0.92s  0.78%  runtime.(*sweepLocked).sweep
+     0.25s  0.21% 53.21%      1.33s  1.13%  runtime.makechan
+     0.25s  0.21% 53.42%      4.63s  3.94%  runtime.mallocgcSmallScanNoHeader
+     0.25s  0.21% 53.64%      3.97s  3.38%  runtime.netpoll
+     0.25s  0.21% 53.85%     23.90s 20.33%  syscall.Syscall
+     0.21s  0.18% 54.03%      0.65s  0.55%  runtime.mallocgcTinySC2
+     0.20s  0.17% 54.20%      4.87s  4.14%  runtime.newobject
+     0.20s  0.17% 54.37%      0.82s   0.7%  runtime.runqgrab
+     0.19s  0.16% 54.53%      0.66s  0.56%  context.(*cancelCtx).Done
+     0.19s  0.16% 54.69%     18.04s 15.35%  internal/poll.(*FD).Write
+     0.19s  0.16% 54.85%      1.78s  1.51%  runtime.chansend
+     0.19s  0.16% 55.01%      0.94s   0.8%  runtime.mapaccess2_faststr
+     0.18s  0.15% 55.17%      4.37s  3.72%  bufio.(*Reader).Peek
+     0.18s  0.15% 55.32%      1.06s   0.9%  runtime.growslice
+     0.17s  0.14% 55.47%      9.82s  8.35%  net/http/httputil.(*ReverseProxy).ServeHTTP
+     0.17s  0.14% 55.61%      4.96s  4.22%  runtime.wakep
+     0.16s  0.14% 55.75%         5s  4.25%  google.golang.org/grpc/internal/transport.(*http2Client).reader
+     0.16s  0.14% 55.88%      1.71s  1.45%  runtime.reentersyscall
+     0.14s  0.12% 56.00%      1.34s  1.14%  google.golang.org/grpc/internal/transport.(*controlBuffer).executeAndPut
+     0.14s  0.12% 56.12%      0.99s  0.84%  internal/poll.runtime_pollSetDeadline
+     0.14s  0.12% 56.24%      1.03s  0.88%  net/http.(*chunkWriter).writeHeader
+     0.14s  0.12% 56.36%      0.64s  0.54%  runtime.greyobject
+     0.14s  0.12% 56.48%      0.88s  0.75%  runtime.mapaccess1_faststr
+     0.13s  0.11% 56.59%      5.01s  4.26%  net.(*conn).Read
+     0.13s  0.11% 56.70%      0.65s  0.55%  runtime.(*timer).modify
+     0.13s  0.11% 56.81%      0.87s  0.74%  runtime.adjustframe
+     0.13s  0.11% 56.92%      2.94s  2.50%  runtime.bgsweep
+     0.13s  0.11% 57.03%      0.64s  0.54%  runtime.mapaccess2
+     0.13s  0.11% 57.14%     18.51s 15.75%  runtime.schedule
+     0.13s  0.11% 57.25%      1.20s  1.02%  runtime.suspendG
+     0.13s  0.11% 57.36%      6.36s  5.41%  syscall.read
+     0.12s   0.1% 57.46%      0.71s   0.6%  github.com/prometheus/client_golang/prometheus.(*MetricVec).GetMetricWithLabelValues
+     0.12s   0.1% 57.57%      3.25s  2.76%  google.golang.org/grpc/internal/transport/readyreader.NewNonBlocking.func1
+     0.12s   0.1% 57.67%      4.42s  3.76%  internal/poll.(*FD).Read
+     0.12s   0.1% 57.77%      1.07s  0.91%  net/http.Header.writeSubset
+     0.12s   0.1% 57.87%      1.52s  1.29%  runtime.mapassign_faststr
+     0.12s   0.1% 57.98%     17.84s 15.18%  runtime.park_m
+     0.11s 0.094% 58.07%      0.72s  0.61%  net/textproto.canonicalMIMEHeaderKey
+     0.11s 0.094% 58.16%      2.38s  2.02%  net/textproto.readMIMEHeader
+     0.11s 0.094% 58.26%      1.12s  0.95%  runtime.mallocgcSmallNoscan
+     0.11s 0.094% 58.35%      0.65s  0.55%  runtime.stackalloc
+     0.10s 0.085% 58.43%      6.12s  5.21%  google.golang.org/grpc/internal/transport.(*http2Server).HandleStreams
+     0.10s 0.085% 58.52%      1.96s  1.67%  net/http.(*Request).write
+     0.10s 0.085% 58.60%      4.30s  3.66%  net/http.(*Transport).roundTrip
+     0.10s 0.085% 58.69%      1.92s  1.63%  net/http.(*persistConn).roundTrip
+     0.10s 0.085% 58.77%      7.95s  6.76%  runtime.futexwakeup
+     0.10s 0.085% 58.86%      7.36s  6.26%  runtime.notewakeup
+     0.10s 0.085% 58.95%      0.59s   0.5%  time.runtimeNow
+     0.09s 0.077% 59.02%      1.53s  1.30%  golang.org/x/net/http2.(*Framer).readMetaFrame
+     0.09s 0.077% 59.10%      0.73s  0.62%  golang.org/x/net/http2.(*Framer).readMetaFrame.func1
+     0.09s 0.077% 59.17%      3.49s  2.97%  internal/poll.(*FD).RawRead
+     0.09s 0.077% 59.25%      0.80s  0.68%  internal/runtime/maps.(*Map).Delete
+     0.09s 0.077% 59.33%      0.99s  0.84%  runtime.newproc1
+     0.08s 0.068% 59.40%      1.86s  1.58%  context.WithDeadlineCause
+     0.08s 0.068% 59.46%     13.03s 11.08%  github.com/KolibriRDM/food-delivery-infrastructure/internal/balancer.(*HTTPProxy).ServeHTTP
+     0.08s 0.068% 59.53%      2.25s  1.91%  golang.org/x/net/http2.(*Framer).ReadFrameForHeader
+     0.08s 0.068% 59.60%     10.79s  9.18%  google.golang.org/grpc.(*Server).processRPC
+     0.08s 0.068% 59.67%      3.56s  3.03%  google.golang.org/grpc.recv
+     0.08s 0.068% 59.74%      1.27s  1.08%  google.golang.org/protobuf/proto.Unmarshal
+     0.08s 0.068% 59.80%     18.14s 15.43%  net.(*netFD).Write
+     0.08s 0.068% 59.87%      2.28s  1.94%  runtime.(*mcentral).cacheSpan
+     0.08s 0.068% 59.94%      1.65s  1.40%  runtime.gcStart
+     0.08s 0.068% 60.01%      1.08s  0.92%  runtime.mapassign
+     0.08s 0.068% 60.08%      5.52s  4.70%  runtime.markroot
+     0.08s 0.068% 60.14%      2.54s  2.16%  runtime.ready
+     0.07s  0.06% 60.20%      2.29s  1.95%  google.golang.org/grpc/internal/transport.(*http2Server).operateHeaders
+     0.07s  0.06% 60.26%      1.79s  1.52%  google.golang.org/grpc/internal/transport.(*loopyWriter).handle
+     0.07s  0.06% 60.32%      3.77s  3.21%  google.golang.org/grpc/internal/transport/readyreader.(*bufReadyReader).Read
+     0.07s  0.06% 60.38%      4.51s  3.84%  net.(*netFD).Read
+     0.07s  0.06% 60.44%      0.64s  0.54%  runtime.(*mheap).initSpan
+     0.07s  0.06% 60.50%      0.90s  0.77%  runtime.(*spanSet).reset
+     0.07s  0.06% 60.56%      0.60s  0.51%  runtime.acquirep
+     0.07s  0.06% 60.62%      1.82s  1.55%  runtime.injectglist.func1
+     0.07s  0.06% 60.68%      4.04s  3.44%  runtime.makeslice
+     0.07s  0.06% 60.74%      0.66s  0.56%  time.Now
+     0.06s 0.051% 60.79%      2.60s  2.21%  _.goready.func1
+     0.06s 0.051% 60.84%      4.17s  3.55%  bufio.(*Reader).fill
+     0.06s 0.051% 60.89%      1.74s  1.48%  context.(*cancelCtx).propagateCancel
+     0.06s 0.051% 60.94%      3.77s  3.21%  golang.org/x/net/http2.readFrameHeader
+     0.06s 0.051% 61.00%      1.43s  1.22%  google.golang.org/grpc/encoding/proto.(*codecV2).Unmarshal
+     0.06s 0.051% 61.05%      6.42s  5.46%  google.golang.org/grpc/internal/transport.(*bufWriter).flushKeepBuffer
+     0.06s 0.051% 61.10%      1.27s  1.08%  google.golang.org/grpc/internal/transport.(*http2Client).NewStream
+     0.06s 0.051% 61.15%      1.09s  0.93%  google.golang.org/protobuf/proto.UnmarshalOptions.unmarshal
+     0.06s 0.051% 61.20%      1.79s  1.52%  internal/runtime/maps.(*Map).growToSmall
+     0.06s 0.051% 61.25%     18.20s 15.48%  net.(*conn).Write
+     0.06s 0.051% 61.30%     30.99s 26.36%  net/http.(*conn).serve
+     0.06s 0.051% 61.35%      2.01s  1.71%  net/http.(*connReader).Read
+     0.06s 0.051% 61.40%      2.50s  2.13%  net/http.(*persistConn).readResponse
+     0.06s 0.051% 61.45%      9.40s  8.00%  runtime.gcDrain
+     0.06s 0.051% 61.51%      0.62s  0.53%  runtime.gfget
+     0.06s 0.051% 61.56%      1.39s  1.18%  runtime.slicebytetostring
+     0.06s 0.051% 61.61%      1.13s  0.96%  runtime.sweepone
+     0.05s 0.043% 61.65%      0.63s  0.54%  context.(*cancelCtx).cancel
+     0.05s 0.043% 61.69%      0.66s  0.56%  fmt.Fprintf
+     0.05s 0.043% 61.74%      0.74s  0.63%  github.com/KolibriRDM/food-delivery-infrastructure/internal/balancer.(*Metrics).ObserveRequest
+     0.05s 0.043% 61.78%      0.71s   0.6%  github.com/prometheus/client_golang/prometheus.(*CounterVec).WithLabelValues
+     0.05s 0.043% 61.82%      3.91s  3.33%  golang.org/x/net/http2.(*Framer).ReadFrameHeader
+     0.05s 0.043% 61.86%      0.78s  0.66%  golang.org/x/net/http2/hpack.(*Decoder).callEmit
+     0.05s 0.043% 61.91%      0.84s  0.71%  google.golang.org/grpc/internal/transport.(*controlBuffer).get
+     0.05s 0.043% 61.95%      3.54s  3.01%  net.(*rawConn).Read
+     0.05s 0.043% 61.99%      0.62s  0.53%  net/http.(*Transport).queueForIdleConn
+     0.05s 0.043% 62.03%      0.68s  0.58%  net/http.(*Transport).tryPutIdleConn
+     0.05s 0.043% 62.08%      4.35s  3.70%  net/http.(*conn).readRequest
+     0.05s 0.043% 62.12%      1.35s  1.15%  net/http.(*connReader).backgroundRead
+     0.05s 0.043% 62.16%      7.64s  6.50%  net/http.(*persistConn).readLoop
+     0.05s 0.043% 62.20%      9.39s  7.99%  net/http.(*persistConn).writeLoop
+     0.05s 0.043% 62.25%      2.79s  2.37%  runtime.(*mcache).refill
+     0.05s 0.043% 62.29%      1.25s  1.06%  runtime.(*mheap).alloc.func1
+     0.05s 0.043% 62.33%      3.16s  2.69%  runtime.futexsleep
+     0.05s 0.043% 62.37%      0.96s  0.82%  runtime.goschedImpl
+     0.05s 0.043% 62.42%      1.48s  1.26%  runtime.mallocgcSmallScanSlowPath
+     0.05s 0.043% 62.46%      1.42s  1.21%  runtime.scanframeworker
+     0.05s 0.043% 62.50%      2.09s  1.78%  runtime.send
+     0.05s 0.043% 62.54%      5.95s  5.06%  runtime.startm
+     0.05s 0.043% 62.59%     21.75s 18.50%  runtime.systemstack
+     0.05s 0.043% 62.63%     21.74s 18.49%  syscall.RawSyscall6
+     0.05s 0.043% 62.67%     17.66s 15.02%  syscall.write
+     0.04s 0.034% 62.71%     13.48s 11.47%  bufio.(*Writer).Flush
+     0.04s 0.034% 62.74%      6.41s  5.45%  github.com/KolibriRDM/food-delivery-infrastructure/internal/balancer.(*GRPCProxy).ResolveItems
+     0.04s 0.034% 62.77%      8.92s  7.59%  github.com/KolibriRDM/food-delivery-infrastructure/internal/transport/grpc/catalogv1._CatalogService_ResolveItems_Handler
+     0.04s 0.034% 62.81%      0.97s  0.83%  golang.org/x/net/http2/hpack.(*Decoder).Write
+     0.04s 0.034% 62.84%      2.33s  1.98%  google.golang.org/grpc.newClientStream
+     0.04s 0.034% 62.88%      2.10s  1.79%  google.golang.org/grpc.newClientStreamWithParams
+     0.04s 0.034% 62.91%      1.75s  1.49%  google.golang.org/grpc/internal/transport.(*Stream).ReadMessageHeader
+     0.04s 0.034% 62.94%      6.50s  5.53%  google.golang.org/grpc/internal/transport.(*framer).readFrame
+     0.04s 0.034% 62.98%      1.06s   0.9%  google.golang.org/grpc/internal/transport.(*http2Client).operateHeaders
+     0.04s 0.034% 63.01%      1.23s  1.05%  internal/poll.setDeadlineImpl
+     0.04s 0.034% 63.05%      3.82s  3.25%  io.ReadAtLeast
+     0.04s 0.034% 63.08%      0.90s  0.77%  net/http.(*bodyEOFSignal).Read
+     0.04s 0.034% 63.11%      0.85s  0.72%  net/http.(*connReader).abortPendingRead
+     0.04s 0.034% 63.15%      0.73s  0.62%  net/http.Header.Clone (inline)
+     0.04s 0.034% 63.18%      1.30s  1.11%  runtime.(*mheap).alloc
+     0.04s 0.034% 63.22%      1.23s  1.05%  runtime.(*mheap).allocSpan
+     0.04s 0.034% 63.25%      1.39s  1.18%  runtime.entersyscallWakeSysmon
+     0.04s 0.034% 63.28%      3.20s  2.72%  runtime.mPark (inline)
+     0.04s 0.034% 63.32%      0.86s  0.73%  runtime.runqsteal
+     0.04s 0.034% 63.35%      2.49s  2.12%  runtime.scanSpan
+     0.04s 0.034% 63.39%      3.82s  3.25%  runtime.stopm
+     0.04s 0.034% 63.42%      6.40s  5.44%  syscall.Read (inline)
+     0.03s 0.026% 63.45%      0.63s  0.54%  github.com/KolibriRDM/food-delivery-infrastructure/internal/balancer.(*HTTPProxy).ServeHTTP.func1
+     0.03s 0.026% 63.47%      1.42s  1.21%  google.golang.org/grpc.(*csAttempt).recvMsg
+     0.03s 0.026% 63.50%      1.96s  1.67%  google.golang.org/grpc.(*parser).recvMsg
+     0.03s 0.026% 63.52%      2.38s  2.02%  google.golang.org/grpc.(*serverStream).RecvMsg
+     0.03s 0.026% 63.55%      9.41s  8.01%  google.golang.org/grpc/internal/transport.(*loopyWriter).run
+     0.03s 0.026% 63.57%      1.08s  0.92%  google.golang.org/grpc/internal/transport.(*loopyWriter).writeHeader
+     0.03s 0.026% 63.60%      3.57s  3.04%  google.golang.org/grpc/internal/transport/readyreader.(*nonBlockingReader).ReadOnReady
+     0.03s 0.026% 63.62%      3.49s  2.97%  internal/runtime/syscall/linux.EpollWait
+     0.03s 0.026% 63.65%      0.62s  0.53%  net/http.(*Request).Clone
+     0.03s 0.026% 63.68%      4.33s  3.68%  net/http.(*Transport).RoundTrip
+     0.03s 0.026% 63.70%      1.20s  1.02%  net/http.(*Transport).getConn
+     0.03s 0.026% 63.73%      2.09s  1.78%  net/http.(*persistConn).Read
+     0.03s 0.026% 63.75%      7.04s  5.99%  net/http.(*response).finishRequest
+     0.03s 0.026% 63.78%      6.83s  5.81%  net/http.persistConnWriter.Write
+     0.03s 0.026% 63.80%      2.94s  2.50%  runtime.(*mcache).nextFree
+     0.03s 0.026% 63.83%      0.73s  0.62%  runtime.(*mcentral).uncacheSpan
+     0.03s 0.026% 63.85%      2.10s  1.79%  runtime.copystack
+     0.03s 0.026% 63.88%      0.74s  0.63%  runtime.forEachPInternal
+     0.03s 0.026% 63.90%      2.44s  2.08%  runtime.injectglist
+     0.03s 0.026% 63.93%      0.69s  0.59%  runtime.netpollBreak
+     0.03s 0.026% 63.96%      1.72s  1.46%  runtime.newarray
+     0.03s 0.026% 63.98%      1.33s  1.13%  runtime.newproc
+     0.03s 0.026% 64.01%      1.30s  1.11%  runtime.newproc.func1
+     0.03s 0.026% 64.03%      2.61s  2.22%  runtime.newstack
+     0.02s 0.017% 64.05%      1.25s  1.06%  context.WithCancel
+     0.02s 0.017% 64.07%      1.94s  1.65%  context.WithTimeout
+     0.02s 0.017% 64.08%      4.92s  4.19%  github.com/KolibriRDM/food-delivery-infrastructure/internal/transport/grpc/catalogv1.(*catalogServiceClient).ResolveItems
+     0.02s 0.017% 64.10%      0.82s   0.7%  golang.org/x/net/http2/hpack.(*Encoder).WriteField
+     0.02s 0.017% 64.12%     11.01s  9.37%  google.golang.org/grpc.(*Server).handleStream
+     0.02s 0.017% 64.13%      9.74s  8.29%  google.golang.org/grpc.(*Server).wrapUnaryHandler.func1
+     0.02s 0.017% 64.15%      1.91s  1.62%  google.golang.org/grpc.(*clientStream).RecvMsg
+     0.02s 0.017% 64.17%      3.29s  2.80%  google.golang.org/grpc.(*clientStream).withRetry
+     0.02s 0.017% 64.19%      0.73s  0.62%  google.golang.org/grpc.(*serverStream).SendMsg
+     0.02s 0.017% 64.20%      4.84s  4.12%  google.golang.org/grpc.invoke
+     0.02s 0.017% 64.22%     21.55s 18.33%  internal/poll.ignoringEINTRIO (inline)
+     0.02s 0.017% 64.24%      1.76s  1.50%  internal/runtime/maps.newGroups (inline)
+     0.02s 0.017% 64.25%      1.74s  1.48%  internal/runtime/maps.newarray
+     0.02s 0.017% 64.27%      5.12s  4.36%  net/http.checkConnErrorWriter.Write
+     0.02s 0.017% 64.29%      2.67s  2.27%  net/http.readRequestLimit
+     0.02s 0.017% 64.30%     15.74s 13.39%  net/http.serverHandler.ServeHTTP
+     0.02s 0.017% 64.32%      3.49s  2.97%  net/http/httputil.(*ReverseProxy).copyBuffer
+     0.02s 0.017% 64.34%      0.71s   0.6%  runtime.(*mcache).allocLarge
+     0.02s 0.017% 64.36%      1.64s  1.40%  runtime.(*unwinder).next
+     0.02s 0.017% 64.37%      1.19s  1.01%  runtime.deductAssistCredit
+     0.02s 0.017% 64.39%      2.55s  2.17%  runtime.gcDrainN
+     0.02s 0.017% 64.41%      0.61s  0.52%  runtime.heapSetTypeNoHeader (inline)
+     0.02s 0.017% 64.42%      0.78s  0.66%  runtime.selectnbsend
+     0.01s 0.0085% 64.43%      0.66s  0.56%  github.com/prometheus/client_golang/prometheus.(*CounterVec).GetMetricWithLabelValues (inline)
+     0.01s 0.0085% 64.44%      1.13s  0.96%  github.com/prometheus/client_golang/prometheus.safeCollect
+     0.01s 0.0085% 64.45%      0.82s   0.7%  golang.org/x/net/http2/hpack.(*Decoder).parseFieldIndexed
+     0.01s 0.0085% 64.46%      0.93s  0.79%  golang.org/x/net/http2/hpack.(*Decoder).parseHeaderFieldRepr
+     0.01s 0.0085% 64.47%      4.86s  4.13%  google.golang.org/grpc.(*ClientConn).Invoke
+     0.01s 0.0085% 64.47%     11.02s  9.37%  google.golang.org/grpc.(*Server).serveStreams.func2.1
+     0.01s 0.0085% 64.48%      2.11s  1.79%  google.golang.org/grpc.newClientStream.func3
+     0.01s 0.0085% 64.49%      2.05s  1.74%  google.golang.org/grpc.recvAndDecompress
+     0.01s 0.0085% 64.50%      0.89s  0.76%  google.golang.org/grpc/internal/transport.(*loopyWriter).clientHeaderHandler
+     0.01s 0.0085% 64.51%      1.64s  1.40%  google.golang.org/grpc/internal/transport.(*recvBufferReader).ReadMessageHeader
+     0.01s 0.0085% 64.52%      1.38s  1.17%  google.golang.org/grpc/internal/transport.(*recvBufferReader).readMessageHeader
+     0.01s 0.0085% 64.53%      0.59s   0.5%  google.golang.org/protobuf/internal/impl.(*MessageInfo).unmarshal
+     0.01s 0.0085% 64.53%      1.13s  0.96%  net/http.(*Client).do
+     0.01s 0.0085% 64.54%     15.72s 13.37%  net/http.(*ServeMux).ServeHTTP
+     0.01s 0.0085% 64.55%      1.06s   0.9%  net/http.(*chunkWriter).Write
+     0.01s 0.0085% 64.56%      0.94s   0.8%  net/http.(*connReader).startBackgroundRead
+     0.01s 0.0085% 64.57%      2.43s  2.07%  net/http.ReadResponse
+     0.01s 0.0085% 64.58%      1.63s  1.39%  runtime.(*mcentral).grow
+     0.01s 0.0085% 64.59%      0.98s  0.83%  runtime.(*mspan).initHeapBits
+     0.01s 0.0085% 64.59%      0.75s  0.64%  runtime.forEachP.func1
+     0.01s 0.0085% 64.60%      1.12s  0.95%  runtime.funcspdelta (inline)
+     0.01s 0.0085% 64.61%     10.33s  8.79%  runtime.gcBgMarkWorker
+     0.01s 0.0085% 64.62%      9.41s  8.01%  runtime.gcBgMarkWorker.func2
+     0.01s 0.0085% 64.63%      1.04s  0.88%  runtime.gcMarkDone
+     0.01s 0.0085% 64.64%      2.74s  2.33%  runtime.mallocgcLarge
+     0.01s 0.0085% 64.64%     19.12s 16.27%  runtime.mcall
+     0.01s 0.0085% 64.65%      1.45s  1.23%  runtime.resetspinning
+     0.01s 0.0085% 64.66%      3.03s  2.58%  runtime.scanstack
+     0.01s 0.0085% 64.67%     17.67s 15.03%  syscall.Write (inline)
+         0     0% 64.67%      1.86s  1.58%  context.WithDeadline (inline)
+         0     0% 64.67%      1.47s  1.25%  context.withCancel (inline)
+         0     0% 64.67%      1.79s  1.52%  github.com/KolibriRDM/food-delivery-infrastructure/internal/balancer.(*HealthChecker).Run.func1
+         0     0% 64.67%      1.76s  1.50%  github.com/KolibriRDM/food-delivery-infrastructure/internal/balancer.(*HealthChecker).checkBackend
+         0     0% 64.67%      1.68s  1.43%  github.com/KolibriRDM/food-delivery-infrastructure/internal/balancer.(*HealthChecker).checkHTTP
+         0     0% 64.67%      1.79s  1.52%  github.com/KolibriRDM/food-delivery-infrastructure/internal/balancer.(*HealthChecker).runBackend
+         0     0% 64.67%      1.13s  0.96%  github.com/prometheus/client_golang/prometheus.(*Registry).Gather.func1
+         0     0% 64.67%      0.78s  0.66%  github.com/prometheus/client_golang/prometheus.(*processCollector).Collect
+         0     0% 64.67%      0.78s  0.66%  github.com/prometheus/client_golang/prometheus.(*processCollector).processCollect
+         0     0% 64.67%      1.63s  1.39%  github.com/prometheus/client_golang/prometheus/promhttp.HandlerForTransactional.func1
+         0     0% 64.67%      6.12s  5.21%  google.golang.org/grpc.(*Server).handleRawConn.func1
+         0     0% 64.67%      6.12s  5.21%  google.golang.org/grpc.(*Server).serveStreams
+         0     0% 64.67%      2.38s  2.02%  google.golang.org/grpc.(*Server).wrapUnaryHandler.func1.1
+         0     0% 64.67%      1.42s  1.21%  google.golang.org/grpc.(*clientStream).RecvMsg.func1
+         0     0% 64.67%      1.27s  1.08%  google.golang.org/grpc.(*csAttempt).newStream
+         0     0% 64.67%      1.32s  1.12%  google.golang.org/grpc.newClientStreamWithParams.func2
+         0     0% 64.67%      6.50s  5.53%  google.golang.org/grpc/internal/transport.(*bufWriter).Flush
+         0     0% 64.67%      0.88s  0.75%  google.golang.org/grpc/internal/transport.(*controlBuffer).put (inline)
+         0     0% 64.67%      1.65s  1.40%  google.golang.org/grpc/internal/transport.(*transportReader).ReadMessageHeader
+         0     0% 64.67%      5.89s  5.01%  google.golang.org/grpc/internal/transport.NewHTTP2Client.func6
+         0     0% 64.67%      3.52s  2.99%  google.golang.org/grpc/internal/transport.NewServerTransport.func3
+         0     0% 64.67%      2.72s  2.31%  google.golang.org/grpc/internal/transport/readyreader.sysRead (inline)
+         0     0% 64.67%      1.04s  0.88%  internal/poll.(*FD).SetReadDeadline (inline)
+         0     0% 64.67%      3.82s  3.25%  io.ReadFull (inline)
+         0     0% 64.67%      1.04s  0.88%  net.(*conn).SetReadDeadline
+         0     0% 64.67%      1.04s  0.88%  net.(*netFD).SetReadDeadline (inline)
+         0     0% 64.67%      1.13s  0.96%  net/http.(*Client).Do (inline)
+         0     0% 64.67%      1.05s  0.89%  net/http.(*Client).send
+         0     0% 64.67%      0.75s  0.64%  net/http.(*ServeMux).findHandler
+         0     0% 64.67%      0.68s  0.58%  net/http.(*persistConn).readLoop.func2
+         0     0% 64.67%      1.93s  1.64%  net/http.HandlerFunc.ServeHTTP
+         0     0% 64.67%      0.90s  0.77%  net/http.Header.Del (inline)
+         0     0% 64.67%      1.04s  0.88%  net/http.send
+         0     0% 64.67%      3.49s  2.97%  net/http/httputil.(*ReverseProxy).copyResponse
+         0     0% 64.67%      1.39s  1.18%  net/textproto.(*Reader).ReadMIMEHeader (inline)
+         0     0% 64.67%      0.90s  0.77%  net/textproto.MIMEHeader.Del (inline)
+         0     0% 64.67%      1.02s  0.87%  runtime.chansend1
+         0     0% 64.67%      1.81s  1.54%  runtime.entersyscall
+         0     0% 64.67%      0.92s  0.78%  runtime.finishsweep_m
+         0     0% 64.67%      0.75s  0.64%  runtime.forEachP (inline)
+         0     0% 64.67%      2.75s  2.34%  runtime.gcAssistAlloc
+         0     0% 64.67%      2.57s  2.19%  runtime.gcAssistAlloc.func2
+         0     0% 64.67%      2.57s  2.19%  runtime.gcAssistAlloc1
+         0     0% 64.67%      7.03s  5.98%  runtime.gcDrainMarkWorkerDedicated (inline)
+         0     0% 64.67%      2.37s  2.02%  runtime.gcDrainMarkWorkerIdle (inline)
+         0     0% 64.67%      0.69s  0.59%  runtime.gcMarkTermination
+         0     0% 64.67%      0.92s  0.78%  runtime.gcStart.func3
+         0     0% 64.67%      2.62s  2.23%  runtime.goready (inline)
+         0     0% 64.67%      0.61s  0.52%  runtime.gosched_m
+         0     0% 64.67%      1.12s  0.95%  runtime.lock (inline)
+         0     0% 64.67%      1.13s  0.96%  runtime.lockWithRank (inline)
+         0     0% 64.67%      4.26s  3.62%  runtime.markroot.func1
+         0     0% 64.67%      1.01s  0.86%  runtime.markrootBlock
+         0     0% 64.67%      1.35s  1.15%  runtime.memclrNoHeapPointersChunked
+         0     0% 64.67%      0.69s  0.59%  runtime.semawakeup (inline)
+         0     0% 64.67%      1.62s  1.38%  runtime.unlock (inline)
+         0     0% 64.67%      0.69s  0.59%  runtime.unlock2Wake
+         0     0% 64.67%      1.62s  1.38%  runtime.unlockWithRank (inline)
+         0     0% 64.67%      0.66s  0.56%  runtime.write

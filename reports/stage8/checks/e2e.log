@@ -1,0 +1,84 @@
+bash ./scripts/with-test-redis.sh bash ./scripts/test-day2.sh
+Isolated test Redis: 127.0.0.1:57054 (food-test-redis-1791720122-55346)
+ Container food-delivery-postgres-1 Running 
+ Container food-delivery-postgres-1 Waiting 
+ Container food-delivery-postgres-1 Healthy 
+CREATE DATABASE
+REVOKE
+CREATE DATABASE
+REVOKE
+ Container food-delivery-migrate-orders-run-472954db6906 Creating 
+ Container food-delivery-migrate-orders-run-472954db6906 Created 
+1/u create_orders (153.441542ms)
+ Container food-delivery-migrate-catalog-run-aa2f879a99e1 Creating 
+ Container food-delivery-migrate-catalog-run-aa2f879a99e1 Created 
+1/u create_catalog (14.405666ms)
+BEGIN
+INSERT 0 2
+INSERT 0 6
+COMMIT
+=== RUN   TestDay2Processes
+=== RUN   TestDay2Processes/read_and_canonical_replay
+=== RUN   TestDay2Processes/foreign_and_missing_orders_are_indistinguishable
+=== RUN   TestDay2Processes/changed_body_conflicts
+=== RUN   TestDay2Processes/key_scoped_by_user
+=== RUN   TestDay2Processes/menu_updates_preserve_snapshots
+=== RUN   TestDay2Processes/outbox_stores_contract_while_Kafka_unavailable
+=== RUN   TestDay2Processes/order_status_and_cancellation
+=== RUN   TestDay2Processes/ten_concurrent_repeats
+=== RUN   TestDay2Processes/outbox_failure_rolls_back_complete_order
+=== RUN   TestDay2Processes/unavailable_dish_leaves_no_writes
+=== RUN   TestDay2Processes/restart_orders_while_catalog_is_down
+--- PASS: TestDay2Processes (5.83s)
+    --- PASS: TestDay2Processes/read_and_canonical_replay (0.02s)
+    --- PASS: TestDay2Processes/foreign_and_missing_orders_are_indistinguishable (0.01s)
+    --- PASS: TestDay2Processes/changed_body_conflicts (0.01s)
+    --- PASS: TestDay2Processes/key_scoped_by_user (0.02s)
+    --- PASS: TestDay2Processes/menu_updates_preserve_snapshots (0.05s)
+    --- PASS: TestDay2Processes/outbox_stores_contract_while_Kafka_unavailable (0.00s)
+    --- PASS: TestDay2Processes/order_status_and_cancellation (0.14s)
+    --- PASS: TestDay2Processes/ten_concurrent_repeats (0.15s)
+    --- PASS: TestDay2Processes/outbox_failure_rolls_back_complete_order (0.06s)
+    --- PASS: TestDay2Processes/unavailable_dish_leaves_no_writes (0.06s)
+    --- PASS: TestDay2Processes/restart_orders_while_catalog_is_down (3.18s)
+PASS
+ok  	github.com/KolibriRDM/food-delivery-infrastructure/tests/integration	8.029s
+DROP DATABASE
+DROP DATABASE
+bash ./scripts/with-test-redis.sh bash ./scripts/test-events-e2e.sh
+Isolated test Redis: 127.0.0.1:57431 (food-test-redis-1791720162-55631)
+ Container food-delivery-kafka-1 Running 
+ Container food-delivery-postgres-1 Running 
+ Container food-delivery-postgres-1 Waiting 
+ Container food-delivery-kafka-1 Waiting 
+ Container food-delivery-postgres-1 Healthy 
+ Container food-delivery-kafka-1 Healthy 
+CREATE DATABASE
+REVOKE
+CREATE DATABASE
+REVOKE
+CREATE DATABASE
+REVOKE
+ Container food-delivery-migrate-notifications-run-c1b7ba6d8388 Creating 
+ Container food-delivery-migrate-notifications-run-c1b7ba6d8388 Created 
+1/u create_notifications (12.568458ms)
+ Container food-delivery-migrate-orders-run-81ebeb0fa792 Creating 
+ Container food-delivery-migrate-orders-run-81ebeb0fa792 Created 
+1/u create_orders (22.474167ms)
+ Container food-delivery-migrate-catalog-run-d19f49d640dd Creating 
+ Container food-delivery-migrate-catalog-run-d19f49d640dd Created 
+1/u create_catalog (26.659834ms)
+BEGIN
+INSERT 0 2
+INSERT 0 6
+COMMIT
+=== RUN   TestOrderNotificationEvents
+    events_test.go:163: HTTP order -> catalog gRPC -> PostgreSQL outbox -> Kafka -> notifications PostgreSQL -> HTTP passed
+    events_test.go:185: repeated Kafka event committed without creating another notification
+    events_test.go:209: notifications restart consumed backlog with the same group; two orders, two events, two notifications
+--- PASS: TestOrderNotificationEvents (15.12s)
+PASS
+ok  	github.com/KolibriRDM/food-delivery-infrastructure/tests/integration	17.258s
+DROP DATABASE
+DROP DATABASE
+DROP DATABASE

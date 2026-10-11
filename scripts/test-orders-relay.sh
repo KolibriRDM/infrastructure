@@ -48,7 +48,7 @@ ORDERS_MIGRATION_DB="$test_db" "${compose[@]}" run --rm --no-deps -T migrate-ord
 export ORDERS_TEST_DATABASE_URL="postgres://orders_app@127.0.0.1:15432/$test_db?sslmode=disable"
 export ORDERS_TEST_DB_PASSWORD="$ORDERS_DB_PASSWORD"
 # Выбираем свободный host-порт для изолированного брокера.
-broker_port="$(python3 -c 'import socket; s=socket.socket(); s.bind(("127.0.0.1",0)); print(s.getsockname()[1]); s.close()')"
+broker_port="$(go run ./cmd/devcheck free-port)"
 docker run -d --name "$broker_name" -p "127.0.0.1:$broker_port:9092" \
   -e CLUSTER_ID=4L6g3nShT-eMCtK--X86sw \
   -e KAFKA_NODE_ID=1 -e KAFKA_PROCESS_ROLES=broker,controller \

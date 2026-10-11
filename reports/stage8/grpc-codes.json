@@ -1,0 +1,98 @@
+{
+  "status": "success",
+  "data": {
+    "resultType": "vector",
+    "result": [
+      {
+        "metric": {
+          "__name__": "food_balancer_requests_total",
+          "backend": "catalog-1",
+          "code": "OK",
+          "instance": "balancer:8084",
+          "job": "balancer",
+          "protocol": "grpc",
+          "service": "catalog-balancer"
+        },
+        "value": [
+          1791721577.716,
+          "22231"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "food_balancer_requests_total",
+          "backend": "catalog-2",
+          "code": "OK",
+          "instance": "balancer:8084",
+          "job": "balancer",
+          "protocol": "grpc",
+          "service": "catalog-balancer"
+        },
+        "value": [
+          1791721577.716,
+          "22134"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "food_balancer_requests_total",
+          "backend": "catalog-1",
+          "code": "Canceled",
+          "instance": "balancer:8084",
+          "job": "balancer",
+          "protocol": "grpc",
+          "service": "catalog-balancer"
+        },
+        "value": [
+          1791721577.716,
+          "4"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "food_balancer_requests_total",
+          "backend": "catalog-1",
+          "code": "DeadlineExceeded",
+          "instance": "balancer:8084",
+          "job": "balancer",
+          "protocol": "grpc",
+          "service": "catalog-balancer"
+        },
+        "value": [
+          1791721577.716,
+          "2"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "food_balancer_requests_total",
+          "backend": "catalog-2",
+          "code": "Canceled",
+          "instance": "balancer:8084",
+          "job": "balancer",
+          "protocol": "grpc",
+          "service": "catalog-balancer"
+        },
+        "value": [
+          1791721577.716,
+          "20"
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "food_balancer_requests_total",
+          "backend": "catalog-2",
+          "code": "DeadlineExceeded",
+          "instance": "balancer:8084",
+          "job": "balancer",
+          "protocol": "grpc",
+          "service": "catalog-balancer"
+        },
+        "value": [
+          1791721577.716,
+          "1"
+        ]
+      }
+    ]
+  }
+}

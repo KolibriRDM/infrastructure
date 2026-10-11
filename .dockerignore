@@ -4,3 +4,9 @@
 bin
 coverage.out
 **/__pycache__
+
+# Документация и результаты проверок не входят в образ.
+README.md
+.github
+scripts
+reports

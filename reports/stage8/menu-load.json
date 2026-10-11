@@ -1,0 +1,1411 @@
+{
+  "scenario": "menu",
+  "run_id": "88bdeece40244ce89028467bc4570343",
+  "timestamp": "2026-10-11T12:22:18.211844+00:00",
+  "clients": 20,
+  "duration_requested_s": 180,
+  "elapsed_s": 180.02327166707255,
+  "think_ms": 20,
+  "load_model": "closed loop, one outstanding request per client; not a maximum capacity benchmark",
+  "user_pool": 0,
+  "limiter_enabled": true,
+  "requests": 122400,
+  "rps": 679.9120961781064,
+  "successful_rps": 679.9120961781064,
+  "status_counts": {
+    "200": 122400
+  },
+  "http_429": 0,
+  "http_5xx": 0,
+  "p95_ms": 22.03470910899341,
+  "successful_p95_ms": 22.034334018826485,
+  "p99_ms": 56.50141695514321,
+  "backend_selection_delta": {
+    "http/catalog-2": 61200.0,
+    "http/catalog-1": 61200.0
+  },
+  "outbox": {
+    "samples": [
+      {
+        "time": 1791721151.559249,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721152.578523,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721153.598699,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721154.609438,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721155.616003,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721156.631763,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721157.639373,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721158.648839,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721159.663845,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721160.672818,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721161.6863291,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721162.6954172,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721163.712736,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721164.741199,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721165.756913,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721166.76268,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721167.774452,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721168.7863622,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721169.819485,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721170.835485,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721171.847449,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721172.858619,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721173.878185,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721174.8818529,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721175.897569,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721176.906921,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721177.920935,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721178.950932,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721179.9830358,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721180.999729,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721182.044317,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721183.0760782,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721184.113609,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721185.145926,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721186.1605172,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721187.172152,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721188.177085,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721189.19616,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721190.2024891,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721191.230313,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721192.242574,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721193.252577,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721194.2842538,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721195.312497,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721196.319694,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721197.330146,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721198.333698,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721199.3820422,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721200.401991,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721201.4409359,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721202.458313,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721203.4843369,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721204.497757,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721205.5054789,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721206.510638,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721207.5158558,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721208.5309372,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721209.5722399,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721210.583929,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721211.593732,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721212.624303,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721213.634335,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721214.6430988,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721215.6497622,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721216.6606889,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721217.674339,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721218.682997,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721219.689079,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721220.697363,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721221.7296681,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721222.812941,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721223.842012,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721224.872316,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721225.890638,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721226.95227,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721227.9654222,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721228.973933,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721229.98033,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721231.0007858,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721232.005033,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721233.0304132,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721234.056635,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721235.064832,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721236.2534752,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721237.265793,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721238.270099,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721239.287848,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721240.298265,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721241.326085,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721242.333947,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721243.338264,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721244.348442,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721245.35747,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721246.376747,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721247.384577,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721248.3967738,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721249.4296699,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721250.464266,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721251.471591,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721252.4901319,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721253.496806,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721254.5703921,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721255.579303,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721256.5857348,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721257.595028,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721258.605064,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721259.646432,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721260.6555772,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721261.67417,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721262.6905391,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721263.70852,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721264.7859058,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721265.790258,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721266.822056,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721267.853842,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721268.868632,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721269.895398,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721270.901373,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721271.923556,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721272.9459321,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721273.953137,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721274.967066,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721275.981029,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721276.9971972,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721278.024247,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721279.0416698,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721280.110862,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721281.134068,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721282.152073,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721283.175016,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721284.295407,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721285.3519812,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721286.362572,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721287.369557,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721288.37732,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721289.459244,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721290.4783459,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721291.513999,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721292.519666,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721293.524548,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721294.551434,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721295.56383,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721296.57092,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721297.580276,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721298.6123898,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721299.832555,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721300.842241,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721301.862889,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721302.923705,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721304.223965,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721305.253834,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721306.2586172,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721307.27153,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721308.2836092,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721309.307602,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721310.3362439,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721311.3636649,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721312.369406,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721313.409411,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721314.4256,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721315.4576619,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721316.465569,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721317.4739358,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721318.4878888,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721319.512884,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721320.533775,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721321.563206,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721322.5712981,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721323.586266,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721324.593527,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721325.622443,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721326.640927,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721327.655862,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721328.661251,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721329.678242,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721330.6942139,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721331.708551,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721332.752768,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721333.7631629,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721334.7736409,
+        "pending": 0.0,
+        "stats_up": 1.0
+      },
+      {
+        "time": 1791721335.783073,
+        "pending": 0.0,
+        "stats_up": 1.0
+      }
+    ],
+    "max_pending": 0,
+    "errors": []
+  },
+  "outbox_drained_after_s": 5.024615291040391,
+  "error_examples": [],
+  "sample_orders": [],
+  "host": "macOS-26.3.1-arm64-arm-64bit",
+  "docker": {
+    "ServerVersion": "29.7.2",
+    "Architecture": "aarch64",
+    "NCPU": 10,
+    "MemTotal": 8214851584
+  },
+  "containers": [
+    {
+      "Command": "\"/service\"",
+      "CreatedAt": "2026-10-11 15:05:26 +0300 MSK",
+      "Engine": "",
+      "ExitCode": 0,
+      "Health": "healthy",
+      "ID": "7c6cc77e06d2",
+      "Image": "food-delivery/balancer:local",
+      "Labels": "com.docker.compose.version=5.5.1,com.docker.compose.depends_on=,com.docker.compose.project=food-delivery,com.docker.compose.project.config_files=/Users/riendemal/Desktop/RienDeMal/go_projects/food-delivery/infrastructure/deploy/compose/compose.yaml,/Users/riendemal/Desktop/RienDeMal/go_projects/food-delivery/infrastructure/deploy/compose/profile.yaml,com.docker.compose.project.working_dir=/Users/riendemal/Desktop/RienDeMal/go_projects/food-delivery/infrastructure/deploy/compose,com.docker.compose.service=balancer,desktop.docker.io/ports/8084/tcp=127.0.0.1:8084,com.docker.compose.container-number=1,com.docker.compose.replace=balancer-1,desktop.docker.io/ports.scheme=v2,desktop.docker.io/ports/9084/tcp=127.0.0.1:9084,com.docker.compose.config-hash=82025f6fad011e667eef1160f7591066058a16b7569ebf1a812c3afb89030dbf,com.docker.compose.image=sha256:9ac4be5d50848d0ee77f613374bab3ce8c294e5688cda9fadfae04120613ea62,com.docker.compose.oneoff=False,com.docker.compose.project.environment_file=/Users/riendemal/Desktop/RienDeMal/go_projects/food-delivery/infrastructure/.env",
+      "LocalVolumes": "0",
+      "Mounts": "",
+      "Name": "food-delivery-balancer-1",
+      "Names": "food-delivery-balancer-1",
+      "Networks": "food-delivery_default",
+      "Ports": "127.0.0.1:8084->8084/tcp, 127.0.0.1:9084->9084/tcp",
+      "Project": "food-delivery",
+      "Publishers": [
+        {
+          "URL": "127.0.0.1",
+          "TargetPort": 8084,
+          "PublishedPort": 8084,
+          "Protocol": "tcp"
+        },
+        {
+          "URL": "127.0.0.1",
+          "TargetPort": 9084,
+          "PublishedPort": 9084,
+          "Protocol": "tcp"
+        }
+      ],
+      "RunningFor": "16 minutes ago",
+      "Service": "balancer",
+      "Size": "0B",
+      "State": "running",
+      "Status": "Up 3 minutes (healthy)"
+    },
+    {
+      "Command": "\"/service\"",
+      "CreatedAt": "2026-10-11 14:51:05 +0300 MSK",
+      "Engine": "",
+      "ExitCode": 0,
+      "Health": "healthy",
+      "ID": "d16d3af48b98",
+      "Image": "sha256:fce58dc0facfe496431860833f3df10ceb2c7ac100fa4daf85b2fdbb14230b19",
+      "Labels": "desktop.docker.io/ports/9082/tcp=127.0.0.1:9082,com.docker.compose.config-hash=b469e4ce70649265e9e0c2856d2b729f92e0caf912b3a9742dfdad989bd212d4,com.docker.compose.project.working_dir=/Users/riendemal/Desktop/RienDeMal/go_projects/food-delivery/infrastructure/deploy/compose,com.docker.compose.replace=catalog-1,desktop.docker.io/ports/8082/tcp=127.0.0.1:8082,com.docker.compose.depends_on=postgres:service_healthy:false,com.docker.compose.image=sha256:3731ca8cbdfc8226373ca8eee51b63c7f4ee2b656c946a18c93f797add749fce,com.docker.compose.oneoff=False,com.docker.compose.project.environment_file=/Users/riendemal/Desktop/RienDeMal/go_projects/food-delivery/infrastructure/.env,com.docker.compose.container-number=1,com.docker.compose.service=catalog,com.docker.compose.project=food-delivery,com.docker.compose.project.config_files=/Users/riendemal/Desktop/RienDeMal/go_projects/food-delivery/infrastructure/deploy/compose/compose.yaml,com.docker.compose.version=5.5.1,desktop.docker.io/ports.scheme=v2",
+      "LocalVolumes": "0",
+      "Mounts": "",
+      "Name": "food-delivery-catalog-1",
+      "Names": "food-delivery-catalog-1",
+      "Networks": "food-delivery_default",
+      "Ports": "127.0.0.1:8082->8082/tcp, 127.0.0.1:9082->9082/tcp",
+      "Project": "food-delivery",
+      "Publishers": [
+        {
+          "URL": "127.0.0.1",
+          "TargetPort": 8082,
+          "PublishedPort": 8082,
+          "Protocol": "tcp"
+        },
+        {
+          "URL": "127.0.0.1",
+          "TargetPort": 9082,
+          "PublishedPort": 9082,
+          "Protocol": "tcp"
+        }
+      ],
+      "RunningFor": "31 minutes ago",
+      "Service": "catalog",
+      "Size": "0B",
+      "State": "running",
+      "Status": "Up 17 minutes (healthy)"
+    },
+    {
+      "Command": "\"/service\"",
+      "CreatedAt": "2026-10-11 14:51:05 +0300 MSK",
+      "Engine": "",
+      "ExitCode": 0,
+      "Health": "healthy",
+      "ID": "b782427d20df",
+      "Image": "sha256:fce58dc0facfe496431860833f3df10ceb2c7ac100fa4daf85b2fdbb14230b19",
+      "Labels": "com.docker.compose.container-number=1,com.docker.compose.depends_on=postgres:service_healthy:false,com.docker.compose.oneoff=False,com.docker.compose.project=food-delivery,com.docker.compose.project.environment_file=/Users/riendemal/Desktop/RienDeMal/go_projects/food-delivery/infrastructure/.env,desktop.docker.io/ports.scheme=v2,desktop.docker.io/ports/9082/tcp=127.0.0.1:9085,com.docker.compose.service=catalog-2,com.docker.compose.version=5.5.1,desktop.docker.io/ports/8082/tcp=127.0.0.1:8085,com.docker.compose.config-hash=4ae84d6bef8b68f64dffa5bd28484d933b66ff51a6f81245c254bd39b8485e6d,com.docker.compose.image=sha256:3731ca8cbdfc8226373ca8eee51b63c7f4ee2b656c946a18c93f797add749fce,com.docker.compose.project.config_files=/Users/riendemal/Desktop/RienDeMal/go_projects/food-delivery/infrastructure/deploy/compose/compose.yaml,com.docker.compose.project.working_dir=/Users/riendemal/Desktop/RienDeMal/go_projects/food-delivery/infrastructure/deploy/compose,com.docker.compose.replace=catalog-2-1",
+      "LocalVolumes": "0",
+      "Mounts": "",
+      "Name": "food-delivery-catalog-2-1",
+      "Names": "food-delivery-catalog-2-1",
+      "Networks": "food-delivery_default",
+      "Ports": "127.0.0.1:8085->8082/tcp, 127.0.0.1:9085->9082/tcp",
+      "Project": "food-delivery",
+      "Publishers": [
+        {
+          "URL": "127.0.0.1",
+          "TargetPort": 8082,
+          "PublishedPort": 8085,
+          "Protocol": "tcp"
+        },
+        {
+          "URL": "127.0.0.1",
+          "TargetPort": 9082,
+          "PublishedPort": 9085,
+          "Protocol": "tcp"
+        }
+      ],
+      "RunningFor": "31 minutes ago",
+      "Service": "catalog-2",
+      "Size": "0B",
+      "State": "running",
+      "Status": "Up 17 minutes (healthy)"
+    },
+    {
+      "Command": "\"/bin/tini -- /usr/l…\"",
+      "CreatedAt": "2026-10-11 14:28:10 +0300 MSK",
+      "Engine": "",
+      "ExitCode": 0,
+      "Health": "healthy",
+      "ID": "1470b9e6373e",
+      "Image": "docker.elastic.co/elasticsearch/elasticsearch:9.5.5",
+      "Labels": "org.opencontainers.image.version=9.5.5,vcs-type=git,com.docker.compose.project.environment_file=/Users/riendemal/Desktop/RienDeMal/go_projects/food-delivery/infrastructure/.env,com.redhat.license_terms=https://www.redhat.com/en/about/red-hat-end-user-license-agreements#UBI,desktop.docker.io/ports.scheme=v2,io.buildah.version=1.44.0,io.k8s.display-name=Red Hat Universal Base Image 9 Minimal,io.openshift.expose-services=,org.label-schema.name=Elasticsearch,org.opencontainers.image.documentation=https://www.elastic.co/guide/en/elasticsearch/reference/index.html,build-date=2026-09-30T07:44:47Z,org.label-schema.url=https://www.elastic.co/products/elasticsearch,org.label-schema.usage=https://www.elastic.co/guide/en/elasticsearch/reference/index.html,org.opencontainers.image.created=2026-09-30T22:12:03.984586187Z,org.opencontainers.image.source=https://github.com/elastic/elasticsearch,vcs-ref=f354e3d450169972cb1f8df64acae506d96d4c49,com.docker.compose.container-number=1,com.docker.compose.depends_on=,cpe=cpe:/a:redhat:enterprise_linux:9::appstream,org.label-schema.schema-version=1.0,org.opencontainers.image.vendor=Elastic,vendor=Elastic,version=9.5.5,com.docker.compose.config-hash=1a7bf8e1cc72b2accd4e5180a88fd2b1486b6a3f201e03e170658bb278c35aa7,com.docker.compose.image=sha256:35c5cab56b4f04452bf82ab52638d14ada25c1abdeb5abd096157f9d75ec55c5,com.docker.compose.project=food-delivery,com.docker.compose.project.config_files=/Users/riendemal/Desktop/RienDeMal/go_projects/food-delivery/infrastructure/deploy/compose/compose.yaml,desktop.docker.io/ports/9200/tcp=127.0.0.1:9200,distribution-scope=public,maintainer=infra@elastic.co,name=Elasticsearch,com.docker.compose.oneoff=False,com.docker.compose.version=5.5.1,org.label-schema.build-date=2026-09-30T22:12:03.984586187Z,org.label-schema.license=Elastic-License-2.0,org.label-schema.vcs-url=https://github.com/elastic/elasticsearch,org.label-schema.vendor=Elastic,org.opencontainers.image.url=https://www.elastic.co/products/elasticsearch,release=1,architecture=aarch64,com.docker.compose.project.working_dir=/Users/riendemal/Desktop/RienDeMal/go_projects/food-delivery/infrastructure/deploy/compose,com.redhat.component=ubi9-minimal-container,com.docker.compose.service=elasticsearch,io.openshift.tags=minimal rhel9,org.label-schema.version=9.5.5,org.opencontainers.image.licenses=Elastic-License-2.0,org.opencontainers.image.revision=48acba663b09e70b115dd879329141506c377890,org.opencontainers.image.title=Elasticsearch,summary=Elasticsearch,url=https://catalog.redhat.com/en/search?searchType=containers,description=You know, for search.,io.k8s.description=The Universal Base Image Minimal is a stripped down image that uses microdnf as a package manager. This base image is freely redistributable, but Red Hat only supports Red Hat technologies through subscriptions for Red Hat products. This image is maintained by Red Hat and updated regularly.,org.label-schema.vcs-ref=48acba663b09e70b115dd879329141506c377890",
+      "LocalVolumes": "1",
+      "Mounts": "food-delivery_…",
+      "Name": "food-delivery-elasticsearch-1",
+      "Names": "food-delivery-elasticsearch-1",
+      "Networks": "food-delivery_default",
+      "Ports": "127.0.0.1:9200->9200/tcp",
+      "Project": "food-delivery",
+      "Publishers": [
+        {
+          "URL": "127.0.0.1",
+          "TargetPort": 9200,
+          "PublishedPort": 9200,
+          "Protocol": "tcp"
+        }
+      ],
+      "RunningFor": "54 minutes ago",
+      "Service": "elasticsearch",
+      "Size": "0B",
+      "State": "running",
+      "Status": "Up 17 minutes (healthy)"
+    },
+    {
+      "Command": "\"/usr/bin/tini -- /u…\"",
+      "CreatedAt": "2026-10-11 14:28:10 +0300 MSK",
+      "Engine": "",
+      "ExitCode": 0,
+      "Health": "",
+      "ID": "17722550cff5",
+      "Image": "docker.elastic.co/beats/filebeat:9.5.5",
+      "Labels": "desktop.docker.io/ports.scheme=v2,io.buildah.version=1.44.0,name=filebeat,org.label-schema.url=https://www.elastic.co/beats/filebeat,org.label-schema.version=9.5.5,org.opencontainers.image.authors=infra@elastic.co,com.docker.compose.image=sha256:03907b8fe54aa7b317ea9706a29e73db887d6783b69e8a24f2781236b3eb379e,description=Filebeat sends log files to Logstash or directly to Elasticsearch.,desktop.docker.io/binds/0/Source=/var/run/docker.sock,distribution-scope=public,summary=filebeat,vendor=Elastic,com.docker.compose.container-number=1,com.docker.compose.project.environment_file=/Users/riendemal/Desktop/RienDeMal/go_projects/food-delivery/infrastructure/.env,com.redhat.license_terms=https://www.redhat.com/en/about/red-hat-end-user-license-agreements#UBI,io.openshift.tags=minimal rhel9,org.label-schema.vcs-ref=b80bf8464fba72f582cefed91dd72909eb7116db,org.opencontainers.image.created=2026-10-01T00:00:52Z,org.opencontainers.image.revision=f354e3d450169972cb1f8df64acae506d96d4c49,org.opencontainers.image.vendor=Elastic,com.docker.compose.project=food-delivery,com.docker.compose.project.working_dir=/Users/riendemal/Desktop/RienDeMal/go_projects/food-delivery/infrastructure/deploy/compose,com.docker.compose.service=filebeat,com.docker.compose.version=5.5.1,desktop.docker.io/binds/2/SourceKind=hostFile,io.k8s.description=Filebeat sends log files to Logstash or directly to Elasticsearch.,maintainer=infra@elastic.co,org.label-schema.vcs-url=github.com/elastic/beats/v7,com.docker.compose.depends_on=elasticsearch:service_healthy:false,com.docker.compose.project.config_files=/Users/riendemal/Desktop/RienDeMal/go_projects/food-delivery/infrastructure/deploy/compose/compose.yaml,desktop.docker.io/binds/2/Source=/Users/riendemal/Desktop/RienDeMal/go_projects/food-delivery/infrastructure/deploy/compose/filebeat/filebeat.yml,io.openshift.expose-services=,org.label-schema.build-date=2026-10-01T00:00:52Z,org.label-schema.schema-version=1.0,org.opencontainers.image.licenses=Elastic License,org.opencontainers.image.title=Filebeat,com.docker.compose.config-hash=d4043e001fef4d6f23f10e85906e841146e5b041d489cba991cd40102b00a26a,com.redhat.component=ubi9-minimal-container,desktop.docker.io/binds/0/SourceKind=dockerSocketProxied,desktop.docker.io/binds/2/Target=/usr/share/filebeat/filebeat.yml,license=Elastic License,org.label-schema.license=Elastic License,org.label-schema.name=filebeat,release=1,com.docker.compose.oneoff=False,desktop.docker.io/binds/0/Target=/var/run/docker.sock,io.k8s.display-name=Filebeat image,org.label-schema.vendor=Elastic,vcs-ref=f354e3d450169972cb1f8df64acae506d96d4c49,vcs-type=git,architecture=aarch64,url=https://www.elastic.co/beats/filebeat,version=9.5.5,build-date=2026-09-30T07:44:47Z,cpe=cpe:/a:redhat:enterprise_linux:9::appstream",
+      "LocalVolumes": "1",
+      "Mounts": "food-delivery_…,/host_mnt/User…,/var/lib/docke…,/run/host-serv…",
+      "Name": "food-delivery-filebeat-1",
+      "Names": "food-delivery-filebeat-1",
+      "Networks": "food-delivery_default",
+      "Ports": "",
+      "Project": "food-delivery",
+      "Publishers": [],
+      "RunningFor": "54 minutes ago",
+      "Service": "filebeat",
+      "Size": "0B",
+      "State": "running",
+      "Status": "Up 16 minutes"
+    },
+    {
+      "Command": "\"/run.sh\"",
+      "CreatedAt": "2026-10-09 13:47:09 +0300 MSK",
+      "Engine": "",
+      "ExitCode": 0,
+      "Health": "healthy",
+      "ID": "732dec8e97f6",
+      "Image": "grafana/grafana:13.2.2",
+      "Labels": "desktop.docker.io/ports/3000/tcp=127.0.0.1:3000,org.opencontainers.image.source=https://github.com/grafana/grafana,com.docker.compose.project=food-delivery,desktop.docker.io/binds/0/Target=/etc/grafana/provisioning,desktop.docker.io/binds/1/Source=/Users/riendemal/Desktop/RienDeMal/go_projects/food-delivery/infrastructure/deploy/compose/grafana/dashboards,com.docker.compose.image=sha256:d523f1346c0cd277de119bc1acb21b39ec89427975ae8b0815561698e859f725,desktop.docker.io/binds/0/Source=/Users/riendemal/Desktop/RienDeMal/go_projects/food-delivery/infrastructure/deploy/compose/grafana/provisioning,desktop.docker.io/binds/0/SourceKind=hostFile,desktop.docker.io/binds/1/Target=/var/lib/grafana/dashboards,desktop.docker.io/ports.scheme=v2,com.docker.compose.config-hash=e6d9a591dc320fb2895e02cc239a1219a2e2cf0a77865c9e8081043800572d19,com.docker.compose.container-number=1,com.docker.compose.oneoff=False,com.docker.compose.project.config_files=/Users/riendemal/Desktop/RienDeMal/go_projects/food-delivery/infrastructure/deploy/compose/compose.yaml,com.docker.compose.project.working_dir=/Users/riendemal/Desktop/RienDeMal/go_projects/food-delivery/infrastructure/deploy/compose,com.docker.compose.service=grafana,desktop.docker.io/binds/1/SourceKind=hostFile,maintainer=Grafana Labs <hello@grafana.com>,com.docker.compose.depends_on=prometheus:service_healthy:false,com.docker.compose.project.environment_file=/Users/riendemal/Desktop/RienDeMal/go_projects/food-delivery/infrastructure/.env,com.docker.compose.replace=grafana-1,com.docker.compose.version=5.5.1",
+      "LocalVolumes": "1",
+      "Mounts": "/host_mnt/User…,food-delivery_…,/host_mnt/User…",
+      "Name": "food-delivery-grafana-1",
+      "Names": "food-delivery-grafana-1",
+      "Networks": "food-delivery_default",
+      "Ports": "127.0.0.1:3000->3000/tcp",
+      "Project": "food-delivery",
+      "Publishers": [
+        {
+          "URL": "127.0.0.1",
+          "TargetPort": 3000,
+          "PublishedPort": 3000,
+          "Protocol": "tcp"
+        }
+      ],
+      "RunningFor": "2 days ago",
+      "Service": "grafana",
+      "Size": "0B",
+      "State": "running",
+      "Status": "Up 3 hours (healthy)"
+    },
+    {
+      "Command": "\"/__cacert_entrypoin…\"",
+      "CreatedAt": "2026-10-06 09:46:51 +0300 MSK",
+      "Engine": "",
+      "ExitCode": 0,
+      "Health": "healthy",
+      "ID": "15524bd445f4",
+      "Image": "apache/kafka:4.1.2",
+      "Labels": "desktop.docker.io/ports.scheme=v2,com.docker.compose.project.environment_file=/Users/riendemal/Desktop/RienDeMal/go_projects/food-delivery/infrastructure/.env,com.docker.compose.version=5.5.1,desktop.docker.io/ports/19092/tcp=127.0.0.1:19092,org.label-schema.build-date=2026-02-25,org.label-schema.description=Apache Kafka,org.label-schema.name=kafka,org.label-schema.vcs-url=https://github.com/apache/kafka,com.docker.compose.container-number=1,com.docker.compose.project.config_files=/Users/riendemal/Desktop/RienDeMal/go_projects/food-delivery/infrastructure/deploy/compose/compose.yaml,com.docker.compose.project.working_dir=/Users/riendemal/Desktop/RienDeMal/go_projects/food-delivery/infrastructure/deploy/compose,com.docker.compose.config-hash=45910340ca346fd31173cb649ae32527280db3da360292bdb0e82020b06ca5c4,com.docker.compose.image=sha256:4a07b91bf81b35fcc2aaabf3ab6e72aba68d3bb782bce95baba826270c3648da,com.docker.compose.oneoff=False,com.docker.compose.service=kafka,maintainer=Apache Kafka,com.docker.compose.depends_on=,com.docker.compose.project=food-delivery",
+      "LocalVolumes": "3",
+      "Mounts": "827963e94f2f19…,9f7eeeb90d2b17…,food-delivery_…",
+      "Name": "food-delivery-kafka-1",
+      "Names": "food-delivery-kafka-1",
+      "Networks": "food-delivery_default",
+      "Ports": "127.0.0.1:19092->19092/tcp",
+      "Project": "food-delivery",
+      "Publishers": [
+        {
+          "URL": "127.0.0.1",
+          "TargetPort": 19092,
+          "PublishedPort": 19092,
+          "Protocol": "tcp"
+        }
+      ],
+      "RunningFor": "5 days ago",
+      "Service": "kafka",
+      "Size": "0B",
+      "State": "running",
+      "Status": "Up 3 hours (healthy)"
+    },
+    {
+      "Command": "\"/bin/sh -c 'java --…\"",
+      "CreatedAt": "2026-10-06 09:46:52 +0300 MSK",
+      "Engine": "",
+      "ExitCode": 0,
+      "Health": "",
+      "ID": "f048b4beecd3",
+      "Image": "ghcr.io/kafbat/kafka-ui:v1.4.2",
+      "Labels": "com.docker.compose.config-hash=3cc51b419e3c5f1b48dd4ca12f641ac7a63f67a5ee24be2156e45926b26872d0,com.docker.compose.container-number=1,com.docker.compose.depends_on=kafka:service_healthy:false,com.docker.compose.image=sha256:10798c6b7e99a78bd24f41d716867aba7cdae84312a61ad0380b679c2410921c,com.docker.compose.project.environment_file=/Users/riendemal/Desktop/RienDeMal/go_projects/food-delivery/infrastructure/.env,com.docker.compose.oneoff=False,com.docker.compose.project=food-delivery,com.docker.compose.project.config_files=/Users/riendemal/Desktop/RienDeMal/go_projects/food-delivery/infrastructure/deploy/compose/compose.yaml,com.docker.compose.project.working_dir=/Users/riendemal/Desktop/RienDeMal/go_projects/food-delivery/infrastructure/deploy/compose,com.docker.compose.service=kafka-ui,com.docker.compose.version=5.5.1,desktop.docker.io/ports.scheme=v2,desktop.docker.io/ports/8080/tcp=127.0.0.1:8083",
+      "LocalVolumes": "0",
+      "Mounts": "",
+      "Name": "food-delivery-kafka-ui-1",
+      "Names": "food-delivery-kafka-ui-1",
+      "Networks": "food-delivery_default",
+      "Ports": "127.0.0.1:8083->8080/tcp",
+      "Project": "food-delivery",
+      "Publishers": [
+        {
+          "URL": "127.0.0.1",
+          "TargetPort": 8080,
+          "PublishedPort": 8083,
+          "Protocol": "tcp"
+        }
+      ],
+      "RunningFor": "5 days ago",
+      "Service": "kafka-ui",
+      "Size": "0B",
+      "State": "running",
+      "Status": "Up 3 hours"
+    },
+    {
+      "Command": "\"/bin/tini -- /usr/l…\"",
+      "CreatedAt": "2026-10-11 14:28:10 +0300 MSK",
+      "Engine": "",
+      "ExitCode": 0,
+      "Health": "healthy",
+      "ID": "912b0bcdbec7",
+      "Image": "docker.elastic.co/kibana/kibana:9.5.5",
+      "Labels": "org.label-schema.build-date=2026-09-30T12:22:31.900Z,org.label-schema.name=Kibana,org.opencontainers.image.revision=a2890159e2486503b9e3a0c6f422b153a746651a,release=1,vcs-type=git,vendor=Elastic,name=Kibana,architecture=aarch64,com.docker.compose.config-hash=8a6d35a995a2fd9fefba16d2babcb662c16f6367142c18e318ceeabd407f9889,com.docker.compose.image=sha256:da3a6d265226f85f8ad4c9474a7547d77b55501e0e8c858484ec3d735fec81ad,com.redhat.license_terms=https://www.redhat.com/en/about/red-hat-end-user-license-agreements#UBI,cpe=cpe:/a:redhat:enterprise_linux:9::appstream,org.label-schema.url=https://www.elastic.co/products/kibana,org.label-schema.vcs-ref=a2890159e2486503b9e3a0c6f422b153a746651a,com.docker.compose.project.config_files=/Users/riendemal/Desktop/RienDeMal/go_projects/food-delivery/infrastructure/deploy/compose/compose.yaml,com.docker.compose.project.working_dir=/Users/riendemal/Desktop/RienDeMal/go_projects/food-delivery/infrastructure/deploy/compose,desktop.docker.io/ports/5601/tcp=127.0.0.1:5601,distribution-scope=public,io.buildah.version=1.44.0,maintainer=infra@elastic.co,org.label-schema.license=Elastic License,org.label-schema.schema-version=1.0,org.label-schema.version=9.5.5,org.opencontainers.image.source=https://github.com/elastic/kibana,org.opencontainers.image.url=https://www.elastic.co/products/kibana,url=https://catalog.redhat.com/en/search?searchType=containers,build-date=2026-09-28T00:39:53Z,com.docker.compose.project=food-delivery,com.redhat.component=ubi9-minimal-container,desktop.docker.io/ports.scheme=v2,org.label-schema.vendor=Elastic,org.opencontainers.image.documentation=https://www.elastic.co/guide/en/kibana/reference/index.html,vcs-ref=5fed6512327cf4e03d25e424d9f6d5eed9016958,version=9.5.5,com.docker.compose.project.environment_file=/Users/riendemal/Desktop/RienDeMal/go_projects/food-delivery/infrastructure/.env,com.docker.compose.version=5.5.1,io.openshift.tags=minimal rhel9,org.opencontainers.image.created=2026-09-30T12:22:31.900Z,org.opencontainers.image.version=9.5.5,com.docker.compose.depends_on=elasticsearch:service_healthy:false,io.k8s.display-name=Red Hat Universal Base Image 9 Minimal,org.label-schema.usage=https://www.elastic.co/guide/en/kibana/reference/index.html,org.label-schema.vcs-url=https://github.com/elastic/kibana,com.docker.compose.container-number=1,com.docker.compose.oneoff=False,com.docker.compose.service=kibana,io.openshift.expose-services=,org.opencontainers.image.licenses=Elastic License,org.opencontainers.image.title=Kibana,org.opencontainers.image.vendor=Elastic,summary=Kibana,description=Your window into the Elastic Stack.,io.k8s.description=The Universal Base Image Minimal is a stripped down image that uses microdnf as a package manager. This base image is freely redistributable, but Red Hat only supports Red Hat technologies through subscriptions for Red Hat products. This image is maintained by Red Hat and updated regularly.",
+      "LocalVolumes": "0",
+      "Mounts": "",
+      "Name": "food-delivery-kibana-1",
+      "Names": "food-delivery-kibana-1",
+      "Networks": "food-delivery_default",
+      "Ports": "127.0.0.1:5601->5601/tcp",
+      "Project": "food-delivery",
+      "Publishers": [
+        {
+          "URL": "127.0.0.1",
+          "TargetPort": 5601,
+          "PublishedPort": 5601,
+          "Protocol": "tcp"
+        }
+      ],
+      "RunningFor": "54 minutes ago",
+      "Service": "kibana",
+      "Size": "0B",
+      "State": "running",
+      "Status": "Up 16 minutes (healthy)"
+    },
+    {
+      "Command": "\"/service\"",
+      "CreatedAt": "2026-10-11 14:51:05 +0300 MSK",
+      "Engine": "",
+      "ExitCode": 0,
+      "Health": "healthy",
+      "ID": "5751536d6f3e",
+      "Image": "sha256:887371ea94942f6567a210216e44722dd895860b16900ed135fa5aebe2d8e13d",
+      "Labels": "com.docker.compose.config-hash=8ebd66a46cd14ce33743d7a902f782bd60c540cbca105deb082837a3951c39f2,com.docker.compose.project=food-delivery,com.docker.compose.project.config_files=/Users/riendemal/Desktop/RienDeMal/go_projects/food-delivery/infrastructure/deploy/compose/compose.yaml,com.docker.compose.project.environment_file=/Users/riendemal/Desktop/RienDeMal/go_projects/food-delivery/infrastructure/.env,com.docker.compose.replace=notifications-1,com.docker.compose.service=notifications,desktop.docker.io/ports.scheme=v2,desktop.docker.io/ports/8081/tcp=127.0.0.1:8081,com.docker.compose.container-number=1,com.docker.compose.depends_on=postgres:service_healthy:false,com.docker.compose.image=sha256:10dd26a7455e61100f93ac0ed11013c869a9c7e64b57b68df1a66d8ea0a13b33,com.docker.compose.oneoff=False,com.docker.compose.project.working_dir=/Users/riendemal/Desktop/RienDeMal/go_projects/food-delivery/infrastructure/deploy/compose,com.docker.compose.version=5.5.1",
+      "LocalVolumes": "0",
+      "Mounts": "",
+      "Name": "food-delivery-notifications-1",
+      "Names": "food-delivery-notifications-1",
+      "Networks": "food-delivery_default",
+      "Ports": "127.0.0.1:8081->8081/tcp",
+      "Project": "food-delivery",
+      "Publishers": [
+        {
+          "URL": "127.0.0.1",
+          "TargetPort": 8081,
+          "PublishedPort": 8081,
+          "Protocol": "tcp"
+        }
+      ],
+      "RunningFor": "31 minutes ago",
+      "Service": "notifications",
+      "Size": "0B",
+      "State": "running",
+      "Status": "Up 31 minutes (healthy)"
+    },
+    {
+      "Command": "\"/service\"",
+      "CreatedAt": "2026-10-11 15:17:16 +0300 MSK",
+      "Engine": "",
+      "ExitCode": 0,
+      "Health": "healthy",
+      "ID": "7fecb9005942",
+      "Image": "food-delivery/orders:local",
+      "Labels": "com.docker.compose.image=sha256:3378e802d9af615ee555a171298a4bdd8bc32417efeea889877066c09afd250b,com.docker.compose.oneoff=False,com.docker.compose.project.config_files=/Users/riendemal/Desktop/RienDeMal/go_projects/food-delivery/infrastructure/deploy/compose/compose.yaml,com.docker.compose.project.environment_file=/Users/riendemal/Desktop/RienDeMal/go_projects/food-delivery/infrastructure/.env,com.docker.compose.service=orders,com.docker.compose.version=5.5.1,desktop.docker.io/ports/8080/tcp=127.0.0.1:8080,com.docker.compose.config-hash=22064960d5bca39230eb5c4d8e762fc5e124419d14e0f9e174346d8c079d3c71,com.docker.compose.depends_on=,com.docker.compose.project=food-delivery,com.docker.compose.project.working_dir=/Users/riendemal/Desktop/RienDeMal/go_projects/food-delivery/infrastructure/deploy/compose,com.docker.compose.replace=orders-1,desktop.docker.io/ports.scheme=v2,com.docker.compose.container-number=1",
+      "LocalVolumes": "0",
+      "Mounts": "",
+      "Name": "food-delivery-orders-1",
+      "Names": "food-delivery-orders-1",
+      "Networks": "food-delivery_default",
+      "Ports": "127.0.0.1:8080->8080/tcp",
+      "Project": "food-delivery",
+      "Publishers": [
+        {
+          "URL": "127.0.0.1",
+          "TargetPort": 8080,
+          "PublishedPort": 8080,
+          "Protocol": "tcp"
+        }
+      ],
+      "RunningFor": "5 minutes ago",
+      "Service": "orders",
+      "Size": "0B",
+      "State": "running",
+      "Status": "Up 4 minutes (healthy)"
+    },
+    {
+      "Command": "\"docker-entrypoint.s…\"",
+      "CreatedAt": "2026-10-05 14:38:46 +0300 MSK",
+      "Engine": "",
+      "ExitCode": 0,
+      "Health": "healthy",
+      "ID": "3bea5ffb292d",
+      "Image": "postgres:17.11-bookworm",
+      "Labels": "com.docker.compose.project.config_files=/Users/riendemal/Desktop/RienDeMal/go_projects/food-delivery/infrastructure/deploy/compose/compose.yaml,com.docker.compose.project.working_dir=/Users/riendemal/Desktop/RienDeMal/go_projects/food-delivery/infrastructure/deploy/compose,desktop.docker.io/binds/1/Source=/Users/riendemal/Desktop/RienDeMal/go_projects/food-delivery/infrastructure/deploy/compose/postgres/init,desktop.docker.io/binds/1/Target=/docker-entrypoint-initdb.d,com.docker.compose.depends_on=,com.docker.compose.project=food-delivery,com.docker.compose.service=postgres,desktop.docker.io/binds/1/SourceKind=hostFile,com.docker.compose.image=sha256:75731e2765e7d0c8bb7dea960ef3bdcde68d16314991ab2057a2a74ea0fff257,com.docker.compose.replace=postgres-1,desktop.docker.io/ports.scheme=v2,desktop.docker.io/ports/5432/tcp=127.0.0.1:15432,com.docker.compose.project.environment_file=/Users/riendemal/Desktop/RienDeMal/go_projects/food-delivery/infrastructure/.env,com.docker.compose.version=5.5.1,com.docker.compose.config-hash=7960f79524a698f7bd23c6d728a9370477250e127c58590f20c684d30896aa86,com.docker.compose.container-number=1,com.docker.compose.oneoff=False",
+      "LocalVolumes": "1",
+      "Mounts": "/host_mnt/User…,food-delivery_…",
+      "Name": "food-delivery-postgres-1",
+      "Names": "food-delivery-postgres-1",
+      "Networks": "food-delivery_default",
+      "Ports": "127.0.0.1:15432->5432/tcp",
+      "Project": "food-delivery",
+      "Publishers": [
+        {
+          "URL": "127.0.0.1",
+          "TargetPort": 5432,
+          "PublishedPort": 15432,
+          "Protocol": "tcp"
+        }
+      ],
+      "RunningFor": "6 days ago",
+      "Service": "postgres",
+      "Size": "0B",
+      "State": "running",
+      "Status": "Up 3 hours (healthy)"
+    },
+    {
+      "Command": "\"/bin/prometheus --c…\"",
+      "CreatedAt": "2026-10-09 13:47:07 +0300 MSK",
+      "Engine": "",
+      "ExitCode": 0,
+      "Health": "healthy",
+      "ID": "4a6780c2ed79",
+      "Image": "prom/prometheus:v3.13.4",
+      "Labels": "com.docker.compose.replace=prometheus-1,desktop.docker.io/ports.scheme=v2,com.docker.compose.depends_on=,desktop.docker.io/binds/1/SourceKind=hostFile,desktop.docker.io/binds/1/Target=/etc/prometheus/prometheus.yml,desktop.docker.io/ports/9090/tcp=127.0.0.1:9090,org.opencontainers.image.authors=The Prometheus Authors,org.opencontainers.image.licenses=Apache License 2.0,org.opencontainers.image.source=https://github.com/prometheus/prometheus,com.docker.compose.container-number=1,com.docker.compose.version=5.5.1,maintainer=The Prometheus Authors <prometheus-developers@googlegroups.com>,org.opencontainers.image.vendor=Prometheus,com.docker.compose.image=sha256:765261de302accc2aa2fa1c74aed31ce51c0acd92a0a55406903dbacc18ea39c,com.docker.compose.oneoff=False,com.docker.compose.service=prometheus,io.prometheus.image.variant=busybox,org.opencontainers.image.description=The Prometheus monitoring system and time series database,org.opencontainers.image.documentation=https://prometheus.io/docs,org.opencontainers.image.title=Prometheus,org.opencontainers.image.url=https://github.com/prometheus/prometheus,desktop.docker.io/binds/1/Source=/Users/riendemal/Desktop/RienDeMal/go_projects/food-delivery/infrastructure/deploy/compose/prometheus/prometheus.yml,com.docker.compose.config-hash=1fdef6e1c26806d631f681cb0fa3f36454792fb45b13abfbfa35f26d4fb01205,com.docker.compose.project=food-delivery,com.docker.compose.project.config_files=/Users/riendemal/Desktop/RienDeMal/go_projects/food-delivery/infrastructure/deploy/compose/compose.yaml,com.docker.compose.project.environment_file=/Users/riendemal/Desktop/RienDeMal/go_projects/food-delivery/infrastructure/.env,com.docker.compose.project.working_dir=/Users/riendemal/Desktop/RienDeMal/go_projects/food-delivery/infrastructure/deploy/compose",
+      "LocalVolumes": "1",
+      "Mounts": "/host_mnt/User…,food-delivery_…",
+      "Name": "food-delivery-prometheus-1",
+      "Names": "food-delivery-prometheus-1",
+      "Networks": "food-delivery_default",
+      "Ports": "127.0.0.1:9090->9090/tcp",
+      "Project": "food-delivery",
+      "Publishers": [
+        {
+          "URL": "127.0.0.1",
+          "TargetPort": 9090,
+          "PublishedPort": 9090,
+          "Protocol": "tcp"
+        }
+      ],
+      "RunningFor": "2 days ago",
+      "Service": "prometheus",
+      "Size": "0B",
+      "State": "running",
+      "Status": "Up 3 hours (healthy)"
+    },
+    {
+      "Command": "\"docker-entrypoint.s…\"",
+      "CreatedAt": "2026-10-08 13:03:41 +0300 MSK",
+      "Engine": "",
+      "ExitCode": 0,
+      "Health": "healthy",
+      "ID": "5e73906e3b44",
+      "Image": "redis@sha256:7d1e4ce8b9395088377ab382d1f6cfdbd13b3690795198a0399ab8d683064d6d",
+      "Labels": "com.docker.compose.depends_on=,com.docker.compose.project=food-delivery,com.docker.compose.project.config_files=/Users/riendemal/Desktop/RienDeMal/go_projects/food-delivery/infrastructure/deploy/compose/compose.yaml,com.docker.compose.service=redis,com.docker.compose.version=5.5.1,desktop.docker.io/ports.scheme=v2,desktop.docker.io/ports/6379/tcp=127.0.0.1:16379,com.docker.compose.container-number=1,com.docker.compose.image=sha256:490b3e51d8c731777cef22539ee5ab2bf2858b1a723b1d9e387207dc29ecf27a,com.docker.compose.oneoff=False,com.docker.compose.project.environment_file=/Users/riendemal/Desktop/RienDeMal/go_projects/food-delivery/infrastructure/.env,com.docker.compose.project.working_dir=/Users/riendemal/Desktop/RienDeMal/go_projects/food-delivery/infrastructure/deploy/compose,com.docker.compose.config-hash=5fbedf1d85ea0465dbc2e33436f77a56dc5636b8c18e312488709514af420505",
+      "LocalVolumes": "0",
+      "Mounts": "",
+      "Name": "food-delivery-redis-1",
+      "Names": "food-delivery-redis-1",
+      "Networks": "food-delivery_default",
+      "Ports": "127.0.0.1:16379->6379/tcp",
+      "Project": "food-delivery",
+      "Publishers": [
+        {
+          "URL": "127.0.0.1",
+          "TargetPort": 6379,
+          "PublishedPort": 16379,
+          "Protocol": "tcp"
+        }
+      ],
+      "RunningFor": "3 days ago",
+      "Service": "redis",
+      "Size": "0B",
+      "State": "running",
+      "Status": "Up 3 hours (healthy)"
+    },
+    {
+      "Command": "\"./docker-entry.sh n…\"",
+      "CreatedAt": "2026-10-08 13:03:42 +0300 MSK",
+      "Engine": "",
+      "ExitCode": 0,
+      "Health": "healthy",
+      "ID": "9242656d8c8e",
+      "Image": "redis/redisinsight@sha256:b5e19ee240abef6edb435871b90ff8a210995422e8e018ab61c0339d318a1f84",
+      "Labels": "com.docker.compose.project.config_files=/Users/riendemal/Desktop/RienDeMal/go_projects/food-delivery/infrastructure/deploy/compose/compose.yaml,com.docker.compose.project.environment_file=/Users/riendemal/Desktop/RienDeMal/go_projects/food-delivery/infrastructure/.env,com.docker.compose.project.working_dir=/Users/riendemal/Desktop/RienDeMal/go_projects/food-delivery/infrastructure/deploy/compose,com.docker.compose.config-hash=d6eac413df148a7e23b3561da944144becd7ae9436790bbde3ff52d51200b34f,com.docker.compose.service=redis-insight,com.docker.compose.version=5.5.1,desktop.docker.io/ports.scheme=v2,desktop.docker.io/ports/5540/tcp=127.0.0.1:5540,com.docker.compose.container-number=1,com.docker.compose.depends_on=redis:service_healthy:false,com.docker.compose.image=sha256:c5727416132f2b318a4b1ba8f7ab374c54844839fc42b13455d8edc2ac7b89e2,com.docker.compose.oneoff=False,com.docker.compose.project=food-delivery",
+      "LocalVolumes": "1",
+      "Mounts": "food-delivery_…",
+      "Name": "food-delivery-redis-insight-1",
+      "Names": "food-delivery-redis-insight-1",
+      "Networks": "food-delivery_default",
+      "Ports": "127.0.0.1:5540->5540/tcp",
+      "Project": "food-delivery",
+      "Publishers": [
+        {
+          "URL": "127.0.0.1",
+          "TargetPort": 5540,
+          "PublishedPort": 5540,
+          "Protocol": "tcp"
+        }
+      ],
+      "RunningFor": "3 days ago",
+      "Service": "redis-insight",
+      "Size": "0B",
+      "State": "running",
+      "Status": "Up 3 hours (healthy)"
+    }
+  ]
+}

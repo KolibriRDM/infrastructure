@@ -1,0 +1,36 @@
+?   	github.com/KolibriRDM/orders-service/cmd/healthcheck	[no test files]
+ok  	github.com/KolibriRDM/orders-service/cmd/orders	3.044s
+ok  	github.com/KolibriRDM/orders-service/internal	2.402s
+ok  	github.com/KolibriRDM/orders-service/internal/catalogclient	4.086s
+?   	github.com/KolibriRDM/orders-service/internal/errors	[no test files]
+ok  	github.com/KolibriRDM/orders-service/internal/handler	5.899s
+?   	github.com/KolibriRDM/orders-service/internal/handler/dto	[no test files]
+ok  	github.com/KolibriRDM/orders-service/internal/kafkapublisher	6.504s
+ok  	github.com/KolibriRDM/orders-service/internal/model	3.948s
+ok  	github.com/KolibriRDM/orders-service/internal/platform/config	0.960s
+ok  	github.com/KolibriRDM/orders-service/internal/platform/metrics	1.953s
+ok  	github.com/KolibriRDM/orders-service/internal/platform/postgres	5.290s
+?   	github.com/KolibriRDM/orders-service/internal/platform/redis	[no test files]
+ok  	github.com/KolibriRDM/orders-service/internal/ratelimiter	4.378s
+ok  	github.com/KolibriRDM/orders-service/internal/repository	4.789s
+ok  	github.com/KolibriRDM/orders-service/internal/repository/memory	4.151s
+ok  	github.com/KolibriRDM/orders-service/internal/service	6.258s
+?   	github.com/KolibriRDM/orders-service/internal/transport/grpc/catalogv1	[no test files]
+?   	github.com/KolibriRDM/orders-service/cmd/healthcheck	[no test files]
+ok  	github.com/KolibriRDM/orders-service/cmd/orders	6.444s
+ok  	github.com/KolibriRDM/orders-service/internal	1.495s
+ok  	github.com/KolibriRDM/orders-service/internal/catalogclient	5.269s
+?   	github.com/KolibriRDM/orders-service/internal/errors	[no test files]
+ok  	github.com/KolibriRDM/orders-service/internal/handler	3.785s
+?   	github.com/KolibriRDM/orders-service/internal/handler/dto	[no test files]
+ok  	github.com/KolibriRDM/orders-service/internal/kafkapublisher	9.167s
+ok  	github.com/KolibriRDM/orders-service/internal/model	5.522s
+ok  	github.com/KolibriRDM/orders-service/internal/platform/config	5.138s
+ok  	github.com/KolibriRDM/orders-service/internal/platform/metrics	2.962s
+ok  	github.com/KolibriRDM/orders-service/internal/platform/postgres	3.548s
+?   	github.com/KolibriRDM/orders-service/internal/platform/redis	[no test files]
+ok  	github.com/KolibriRDM/orders-service/internal/ratelimiter	1.995s
+ok  	github.com/KolibriRDM/orders-service/internal/repository	5.731s
+ok  	github.com/KolibriRDM/orders-service/internal/repository/memory	5.659s
+ok  	github.com/KolibriRDM/orders-service/internal/service	7.200s
+?   	github.com/KolibriRDM/orders-service/internal/transport/grpc/catalogv1	[no test files]

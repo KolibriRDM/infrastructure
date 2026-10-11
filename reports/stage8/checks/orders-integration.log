@@ -1,0 +1,17 @@
+eaa8781c8245b100f57a828bd05a5ed24ea4edd11171ebb83dda69084f211fa3
+BEGIN
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE INDEX
+COMMIT
+ok  	github.com/KolibriRDM/orders-service/internal/repository	3.935s
+dd6c9961b4543eca28c076acb64ab042814e655a3a5f1fb7ff22937d5098cf01
+ok  	github.com/KolibriRDM/orders-service/internal/ratelimiter	1.791s
+bd5431550f443699ff35b49c25e16b5b57ca968cb5144fc5c194d0bfb0bc64bc
+ok  	github.com/KolibriRDM/orders-service/internal/kafkapublisher	7.820s
+ok  	github.com/KolibriRDM/orders-service/cmd/orders	22.204s
+food-orders-relay-test-46919c5068
+food-ci-redis-46919c5068
+food-ci-postgres-46919c5068

@@ -1,0 +1,21 @@
+bash ./scripts/test-orders-relay.sh
+ Container food-delivery-postgres-1 Running 
+ Container food-delivery-postgres-1 Waiting 
+ Container food-delivery-postgres-1 Healthy 
+CREATE DATABASE
+REVOKE
+ Container food-delivery-migrate-orders-run-38c69d94de4c Creating 
+ Container food-delivery-migrate-orders-run-38c69d94de4c Created 
+1/u create_orders (189.031542ms)
+=== RUN   TestOrdersRelayProcess
+    main_integration_test.go:308: initial outbox publication confirmed
+    main_integration_test.go:321: Kafka stopped: event remains pending, retry persisted, HTTP available
+    main_integration_test.go:324: same orders process recovered and published backlog
+    main_integration_test.go:353: SIGTERM: HTTP and relay stopped cleanly
+    main_integration_test.go:361: startup without Kafka and SIGINT shutdown succeeded
+=== RUN   TestOrdersRelayProcess/occupied_HTTP_port_does_not_start_relay
+--- PASS: TestOrdersRelayProcess (47.95s)
+    --- PASS: TestOrdersRelayProcess/occupied_HTTP_port_does_not_start_relay (0.12s)
+PASS
+ok  	github.com/KolibriRDM/orders-service/cmd/orders	50.896s
+DROP DATABASE

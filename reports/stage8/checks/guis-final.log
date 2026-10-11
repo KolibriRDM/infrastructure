@@ -1,0 +1,24 @@
+python3 scripts/check-guis.py
+{
+  "pages": {
+    "Kafbat UI": {
+      "http_status": 200,
+      "javascript_files": 1
+    },
+    "Redis Insight": {
+      "http_status": 200,
+      "javascript_files": 1
+    }
+  },
+  "kafka": {
+    "topic": "food.order-created.v1",
+    "partitions": 3,
+    "messages": 38898
+  },
+  "redis": {
+    "connection": "food-delivery",
+    "version": "8.2.9",
+    "keys": 1
+  },
+  "scope": "HTTP, JS assets and live GUI APIs; no automated visual assertion"
+}

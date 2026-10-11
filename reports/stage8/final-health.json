@@ -1,0 +1,26 @@
+{
+  "prometheus": [
+    {
+      "job": "balancer",
+      "health": "up"
+    },
+    {
+      "job": "catalog",
+      "health": "up"
+    },
+    {
+      "job": "catalog",
+      "health": "up"
+    },
+    {
+      "job": "notifications",
+      "health": "up"
+    },
+    {
+      "job": "orders",
+      "health": "up"
+    }
+  ],
+  "elasticsearch": "green",
+  "kibana": "available"
+}
