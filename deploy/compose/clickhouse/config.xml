@@ -1,0 +1,10 @@
+<clickhouse>
+    <!-- Ограничиваем память и фоновые потоки учебного экземпляра. -->
+    <max_server_memory_usage>805306368</max_server_memory_usage>
+    <mark_cache_size>67108864</mark_cache_size>
+    <uncompressed_cache_size>16777216</uncompressed_cache_size>
+    <background_schedule_pool_size>16</background_schedule_pool_size>
+    <background_message_broker_schedule_pool_size>4</background_message_broker_schedule_pool_size>
+    <logger><level>warning</level><size>10M</size><count>3</count></logger>
+    <kafka><auto_offset_reset>earliest</auto_offset_reset></kafka>
+</clickhouse>

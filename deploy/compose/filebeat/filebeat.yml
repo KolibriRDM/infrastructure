@@ -31,17 +31,17 @@ filebeat.autodiscover:
                     fail_on_error: false
 # app сохраняет исходные поля slog без конфликта с ECS-полями Filebeat.
 setup.ilm.enabled: false
-# Явный шаблон создаёт обычный индекс с нулём реплик на одном узле.
-setup.template.name: food-delivery-logs-index
-setup.template.pattern: food-delivery-logs
+# Суточные индексы удаляются ILM через семь дней после создания.
+setup.template.name: food-delivery-logs-daily
+setup.template.pattern: food-delivery-logs-daily-*
 setup.template.overwrite: true
 setup.template.json.enabled: true
 setup.template.json.path: /usr/share/filebeat/template.json
-setup.template.json.name: food-delivery-logs-index
+setup.template.json.name: food-delivery-logs-daily
 setup.template.json.data_stream: false
 output.elasticsearch:
   hosts: ["http://elasticsearch:9200"]
-  index: "food-delivery-logs"
+  index: "food-delivery-logs-daily-%{+yyyy.MM.dd}"
 logging.level: warning
 http.enabled: true
 http.host: 127.0.0.1

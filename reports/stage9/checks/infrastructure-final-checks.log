@@ -1,0 +1,14 @@
+ok  	github.com/KolibriRDM/food-delivery-infrastructure/cmd/balancer	1.076s
+?   	github.com/KolibriRDM/food-delivery-infrastructure/cmd/devcheck	[no test files]
+?   	github.com/KolibriRDM/food-delivery-infrastructure/cmd/healthcheck	[no test files]
+ok  	github.com/KolibriRDM/food-delivery-infrastructure/internal/balancer	3.772s
+ok  	github.com/KolibriRDM/food-delivery-infrastructure/internal/devcheck	2.257s
+ok  	github.com/KolibriRDM/food-delivery-infrastructure/internal/platform/config	2.881s
+?   	github.com/KolibriRDM/food-delivery-infrastructure/internal/transport/grpc/catalogv1	[no test files]
+ok  	github.com/KolibriRDM/food-delivery-infrastructure/cmd/balancer	2.267s
+?   	github.com/KolibriRDM/food-delivery-infrastructure/cmd/devcheck	[no test files]
+?   	github.com/KolibriRDM/food-delivery-infrastructure/cmd/healthcheck	[no test files]
+ok  	github.com/KolibriRDM/food-delivery-infrastructure/internal/balancer	3.842s
+ok  	github.com/KolibriRDM/food-delivery-infrastructure/internal/devcheck	2.716s
+ok  	github.com/KolibriRDM/food-delivery-infrastructure/internal/platform/config	3.010s
+?   	github.com/KolibriRDM/food-delivery-infrastructure/internal/transport/grpc/catalogv1	[no test files]

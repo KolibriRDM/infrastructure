@@ -86,7 +86,7 @@ apps-stop:
 
 # Показывает состояние приложений, инфраструктуры и GUI.
 status:
-	$(COMPOSE) --profile ui --profile monitoring --profile logs ps
+	$(COMPOSE) --profile ui --profile monitoring --profile logs --profile analytics ps
 
 # Показывает последние сообщения приложений и продолжает чтение.
 logs:
@@ -167,7 +167,10 @@ check-balancer:
 # Поднимает централизованный сбор журналов отдельным профилем.
 logs-up:
 	$(COMPOSE) --profile logs config --quiet
-	$(COMPOSE) --profile logs up -d --wait --wait-timeout 360 elasticsearch kibana filebeat
+	$(COMPOSE) --profile logs up -d --wait --wait-timeout 360 elasticsearch kibana
+	$(MAKE) logs-setup
+	$(COMPOSE) --profile logs up -d --wait --wait-timeout 60 filebeat
+	$(COMPOSE) --profile logs restart filebeat
 	$(MAKE) logs-check
 
 # Проверяет Filebeat и доступность Elasticsearch/Kibana.
@@ -201,3 +204,56 @@ check-guis:
 # Сверяет все события последнего нагрузочного прогона после разгрузки outbox.
 check-load-delivery:
 	go run ./cmd/devcheck check-load-delivery
+
+.PHONY: check-faults logs-setup check-kibana acceptance
+# Проверяет реальные отказы, временно останавливая зависимости учебного стенда.
+check-faults:
+	go run ./cmd/devcheck check-faults
+
+# Настраивает ограниченное хранение и сохранённые поиски Kibana.
+logs-setup:
+	go run ./cmd/devcheck logs-setup
+
+# Находит логи нового заказа по service, order_id и event_id.
+check-kibana:
+	go run ./cmd/devcheck check-kibana
+
+# Запускает итоговую приёмку последовательно, чтобы отказы не мешали соседним тестам.
+acceptance:
+	$(MAKE) test-business
+	$(MAKE) test-events-e2e
+	$(MAKE) test-notifications-integration
+	$(MAKE) check-balancer
+	$(MAKE) check-faults
+	$(MAKE) check-guis
+	$(MAKE) logs-check
+	$(MAKE) check-kibana
+	$(MAKE) check-acceptance
+
+.PHONY: test-notifications-integration
+# Проверяет consumer на отдельных PostgreSQL/Kafka, включая падение после DB commit.
+test-notifications-integration:
+	cd ../notifications-service && GOWORK=off go run ./cmd/ci-integration
+
+.PHONY: check-acceptance
+# Проверяет изоляцию баз, targets Prometheus и запросы dashboard Grafana.
+check-acceptance:
+	go run ./cmd/devcheck check-acceptance
+
+.PHONY: analytics-up analytics-stop analytics-query check-analytics
+# Запускает ClickHouse и повторяемо создаёт таблицы и Kafka-потребителя.
+analytics-up:
+	$(COMPOSE) --profile analytics up -d --wait --wait-timeout 180 clickhouse
+	$(COMPOSE) exec -T clickhouse sh -ec 'exec clickhouse-client --user "$$CLICKHOUSE_USER" --password "$$CLICKHOUSE_PASSWORD" --multiquery' < deploy/compose/clickhouse/init.sql
+
+# Останавливает аналитику, сохраняя её таблицы и offsets группы.
+analytics-stop:
+	$(COMPOSE) stop clickhouse
+
+# Показывает три готовых аналитических запроса.
+analytics-query:
+	$(COMPOSE) exec -T clickhouse sh -ec 'exec clickhouse-client --user "$$CLICKHOUSE_USER" --password "$$CLICKHOUSE_PASSWORD" --multiquery' < deploy/compose/clickhouse/queries.sql
+
+# Проверяет доставку, повтор события, перезапуск и независимость уведомлений.
+check-analytics:
+	go run ./cmd/devcheck check-analytics

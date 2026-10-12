@@ -1,0 +1,7 @@
+BEGIN
+CREATE TABLE
+CREATE INDEX
+COMMIT
+ok  	github.com/KolibriRDM/notifications-service/internal/repository	1.759s
+ok  	github.com/KolibriRDM/notifications-service/internal/kafkaconsumer	47.055s
+ok  	github.com/KolibriRDM/notifications-service/cmd/notifications	4.458s

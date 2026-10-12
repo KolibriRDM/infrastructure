@@ -1,0 +1,28 @@
+?   	github.com/KolibriRDM/notifications-service/cmd/ci-integration	[no test files]
+?   	github.com/KolibriRDM/notifications-service/cmd/healthcheck	[no test files]
+ok  	github.com/KolibriRDM/notifications-service/cmd/notifications	2.041s
+?   	github.com/KolibriRDM/notifications-service/internal/errors	[no test files]
+ok  	github.com/KolibriRDM/notifications-service/internal/handler	0.480s
+?   	github.com/KolibriRDM/notifications-service/internal/handler/dto	[no test files]
+ok  	github.com/KolibriRDM/notifications-service/internal/kafkaconsumer	7.023s
+ok  	github.com/KolibriRDM/notifications-service/internal/kafkapublisher	0.940s
+ok  	github.com/KolibriRDM/notifications-service/internal/model	4.354s
+ok  	github.com/KolibriRDM/notifications-service/internal/platform/config	2.455s
+ok  	github.com/KolibriRDM/notifications-service/internal/platform/metrics	3.504s
+ok  	github.com/KolibriRDM/notifications-service/internal/platform/postgres	2.952s
+ok  	github.com/KolibriRDM/notifications-service/internal/repository	4.862s
+ok  	github.com/KolibriRDM/notifications-service/internal/service	3.954s
+?   	github.com/KolibriRDM/notifications-service/cmd/ci-integration	[no test files]
+?   	github.com/KolibriRDM/notifications-service/cmd/healthcheck	[no test files]
+ok  	github.com/KolibriRDM/notifications-service/cmd/notifications	1.668s
+?   	github.com/KolibriRDM/notifications-service/internal/errors	[no test files]
+ok  	github.com/KolibriRDM/notifications-service/internal/handler	6.419s
+?   	github.com/KolibriRDM/notifications-service/internal/handler/dto	[no test files]
+ok  	github.com/KolibriRDM/notifications-service/internal/kafkaconsumer	8.443s
+ok  	github.com/KolibriRDM/notifications-service/internal/kafkapublisher	3.316s
+ok  	github.com/KolibriRDM/notifications-service/internal/model	2.131s
+ok  	github.com/KolibriRDM/notifications-service/internal/platform/config	3.721s
+ok  	github.com/KolibriRDM/notifications-service/internal/platform/metrics	5.826s
+ok  	github.com/KolibriRDM/notifications-service/internal/platform/postgres	4.276s
+ok  	github.com/KolibriRDM/notifications-service/internal/repository	4.812s
+ok  	github.com/KolibriRDM/notifications-service/internal/service	5.284s

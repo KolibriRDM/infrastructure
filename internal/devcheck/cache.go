@@ -73,7 +73,7 @@ func (r *runner) ready(ctx context.Context, base string) error {
 	if err := r.getJSON(ctx, "GET", base+"/readyz", nil, nil, &result); err != nil {
 		return err
 	}
-	if result.Status != "ok" {
+	if result.Status != "ok" && result.Status != "ready" {
 		return fmt.Errorf("%s is not ready", base)
 	}
 	return nil

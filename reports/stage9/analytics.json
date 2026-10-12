@@ -1,0 +1,37 @@
+{
+  "after_duplicate": {
+    "raw_events": 2,
+    "orders_created": 1,
+    "sum_kopecks": 44900,
+    "average_kopecks": 44900
+  },
+  "after_restart": {
+    "raw_events": 2,
+    "orders_created": 1,
+    "sum_kopecks": 44900,
+    "average_kopecks": 44900
+  },
+  "backlog_order": {
+    "order_id": "d6c7120c-54b7-4860-a188-3bc9e36d469d",
+    "user_id": "deb8422e-bb5e-4aed-ba2d-a9edf58585ac",
+    "idempotency_key": "stage9-af0336b588471cda20e1967e552a842d",
+    "event_id": "7a5f045e-a203-43f8-909d-9f0f2cc71dc6"
+  },
+  "before_duplicate": {
+    "raw_events": 1,
+    "orders_created": 1,
+    "sum_kopecks": 44900,
+    "average_kopecks": 44900
+  },
+  "checked_at": "2026-10-11T20:10:20.316111Z",
+  "consumer_group": "GROUP           TOPIC                 PARTITION  CURRENT-OFFSET  LOG-END-OFFSET  LAG             CONSUMER-ID                                                                               HOST            CLIENT-ID\nanalytics-v1    food.order-created.v1 2          14845           14845           0               ClickHouse-7a270acbe264-analytics-order_events_kafka-502b4c6c-21e2-46a7-8d11-ae0f13a01369 /172.22.0.17    ClickHouse-7a270acbe264-analytics-order_events_kafka\nanalytics-v1    food.order-created.v1 0          14871           14871           0               ClickHouse-7a270acbe264-analytics-order_events_kafka-502b4c6c-21e2-46a7-8d11-ae0f13a01369 /172.22.0.17    ClickHouse-7a270acbe264-analytics-order_events_kafka\nanalytics-v1    food.order-created.v1 1          14968           14968           0               ClickHouse-7a270acbe264-analytics-order_events_kafka-502b4c6c-21e2-46a7-8d11-ae0f13a01369 /172.22.0.17    ClickHouse-7a270acbe264-analytics-order_events_kafka",
+  "example_queries": "44680\t2006132000\t44900\n2026-10-11 20:00:00\t3\t134700\n2026-10-11 19:00:00\t20\t898000\n2026-10-11 13:00:00\t159\t7139100\n2026-10-11 12:00:00\t44487\t1997466300\n2026-10-11 09:00:00\t4\t179600\n2026-10-09 10:00:00\t2\t89800\n2026-10-09 06:00:00\t2\t89800\n2026-10-07 12:00:00\t3\t134700\n44684\t44680\t4",
+  "notifications_independent": true,
+  "order": {
+    "order_id": "6eace911-34fd-4072-bf5c-c32b1cdefede",
+    "user_id": "33e26a21-b6ac-4e95-a927-deabca03a3f9",
+    "idempotency_key": "stage9-9b9c92be30a33af16bb9fb99e13cf16a",
+    "event_id": "f0cd19b2-0d14-4ebe-a2cd-62d7bdd14ed7"
+  },
+  "sql_ui": "http://localhost:18123/play"
+}

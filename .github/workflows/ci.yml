@@ -27,7 +27,7 @@ jobs:
       - run: docker build --tag food-delivery/ci:${{ github.sha }} .
   integration:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
         with:
@@ -55,12 +55,21 @@ jobs:
         working-directory: infrastructure
         run: |
           cp .env.example .env
+          # Удаляем исторические JSON только в одноразовом checkout runner.
+          rm -f reports/stage9/faults.json reports/stage9/kibana.json reports/stage9/acceptance.json reports/stage9/analytics.json
           make up
-          make check-balancer
-          make test-business
-          make test-events-e2e
-          make check-guis
+          make grafana-up
+          make logs-up
+          make acceptance
+          make analytics-up
+          make check-analytics
+      - name: Save acceptance results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: acceptance-results
+          path: infrastructure/reports/stage9/*.json
       - name: Stop test stack
         if: always()
         working-directory: infrastructure
-        run: docker compose --env-file .env -f deploy/compose/compose.yaml down -v
+        run: docker compose --env-file .env -f deploy/compose/compose.yaml --profile ui --profile monitoring --profile logs --profile analytics down -v

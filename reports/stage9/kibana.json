@@ -1,0 +1,28 @@
+{
+  "checked_at": "2026-10-11T20:23:25.881603Z",
+  "discover": "http://localhost:5601/app/discover#/view/food-delivery-last-order",
+  "lifecycle": {
+    "indices": {
+      "food-delivery-logs-daily-2026.10.11": {
+        "managed": true,
+        "policy": "food-delivery-logs-retention",
+        "step": "complete"
+      }
+    }
+  },
+  "matches": {
+    "app.event_id.keyword": 2,
+    "app.order_id.keyword": 3,
+    "service.name.keyword": 50
+  },
+  "order": {
+    "order_id": "78cd5cb1-7811-4ed0-b18a-0cd6008aaa86",
+    "user_id": "f1244b15-cfac-431c-b60b-05a919e6bbf3",
+    "idempotency_key": "stage9-cc073b6eaa59ab45210a6c00758891a9",
+    "event_id": "2fcafc43-c7e9-4f57-8456-5a912603c53f"
+  },
+  "services": {
+    "notifications-service": true,
+    "orders-service": true
+  }
+}

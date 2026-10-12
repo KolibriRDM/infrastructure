@@ -347,6 +347,34 @@ services:
       elasticsearch:
         condition: service_healthy
 
+  # Аналитика потребляет события собственной группой, сохраняя данные на volume.
+  clickhouse:
+    image: clickhouse/clickhouse-server:26.8@sha256:35b2bc23277259a249af5fbb199ca9ce5042eb249ecbbcbb15b19256a1f41660
+    profiles: ["analytics"]
+    restart: unless-stopped
+    mem_limit: 1g
+    stop_grace_period: 30s
+    logging: *app-logging
+    environment:
+      CLICKHOUSE_USER: analytics
+      CLICKHOUSE_PASSWORD: ${CLICKHOUSE_PASSWORD:-analytics_local}
+      CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT: "1"
+    ports:
+      - "127.0.0.1:18123:8123"
+    volumes:
+      - clickhouse_data:/var/lib/clickhouse
+      - ./clickhouse/config.xml:/etc/clickhouse-server/config.d/food.xml:ro
+      - ./clickhouse/users.xml:/etc/clickhouse-server/users.d/food.xml:ro
+    healthcheck:
+      test: ["CMD-SHELL", "clickhouse-client --user \"$$CLICKHOUSE_USER\" --password \"$$CLICKHOUSE_PASSWORD\" --query 'SELECT 1'"]
+      interval: 5s
+      timeout: 3s
+      retries: 24
+      start_period: 20s
+    depends_on:
+      kafka:
+        condition: service_healthy
+
   migrate-catalog:
     image: migrate/migrate:v4.20.1
     profiles: [tools]
@@ -411,3 +439,4 @@ volumes:
 
   elasticsearch_data:
   filebeat_data:
+  clickhouse_data:

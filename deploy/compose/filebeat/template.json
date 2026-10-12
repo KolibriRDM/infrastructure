@@ -1,19 +1,16 @@
 {
-  "index_patterns": [
-    "food-delivery-logs"
-  ],
-  "priority": 500,
+  "index_patterns": ["food-delivery-logs-daily-*"],
+  "priority": 600,
   "template": {
     "settings": {
       "number_of_shards": 1,
       "number_of_replicas": 0,
-      "refresh_interval": "5s"
+      "refresh_interval": "5s",
+      "index.lifecycle.name": "food-delivery-logs-retention"
     },
     "mappings": {
       "properties": {
-        "@timestamp": {
-          "type": "date"
-        }
+        "@timestamp": {"type": "date"}
       }
     }
   }

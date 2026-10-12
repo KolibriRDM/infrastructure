@@ -52,10 +52,20 @@ func newRunner() *runner {
 // Run выбирает проверку; запускать команду нужно из корня infrastructure.
 func Run(ctx context.Context, args []string) error {
 	if len(args) == 0 {
-		return errors.New("usage: devcheck demo-order|check-menu-cache|check-order-rate-limit|check-redis|check-logs|check-guis|check-load-delivery|load menu|orders|free-port")
+		return errors.New("usage: devcheck demo-order|check-menu-cache|check-order-rate-limit|check-redis|check-logs|check-guis|check-load-delivery|check-faults|logs-setup|check-kibana|check-acceptance|check-analytics|load menu|orders|free-port")
 	}
 	r := newRunner()
 	switch args[0] {
+	case "check-analytics":
+		return r.checkAnalytics(ctx)
+	case "check-acceptance":
+		return r.checkAcceptance(ctx)
+	case "logs-setup":
+		return r.setupLogs(ctx)
+	case "check-kibana":
+		return r.checkKibana(ctx)
+	case "check-faults":
+		return r.checkFaults(ctx)
 	case "demo-order":
 		return r.demoOrder(ctx)
 	case "check-menu-cache":
@@ -134,7 +144,12 @@ func (r *runner) getJSON(ctx context.Context, method, url string, payload any, h
 
 // command ограничивает время внешнего процесса и сохраняет stderr при ошибке.
 func command(ctx context.Context, input string, name string, args ...string) (string, error) {
-	ctx, cancel := context.WithTimeout(ctx, 90*time.Second)
+	return commandWithTimeout(ctx, 90*time.Second, input, name, args...)
+}
+
+// commandWithTimeout задаёт отдельный срок для длительного запуска Elastic Stack.
+func commandWithTimeout(ctx context.Context, timeout time.Duration, input string, name string, args ...string) (string, error) {
+	ctx, cancel := context.WithTimeout(ctx, timeout)
 	defer cancel()
 	cmd := exec.CommandContext(ctx, name, args...)
 	cmd.Stdin = strings.NewReader(input)

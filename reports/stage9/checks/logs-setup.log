@@ -1,0 +1,48 @@
+docker compose --env-file .env -f deploy/compose/compose.yaml --profile logs config --quiet
+docker compose --env-file .env -f deploy/compose/compose.yaml --profile logs up -d --wait --wait-timeout 360 elasticsearch kibana
+ Container food-delivery-elasticsearch-1 Running 
+ Container food-delivery-kibana-1 Running 
+ Container food-delivery-elasticsearch-1 Waiting 
+ Container food-delivery-elasticsearch-1 Healthy 
+ Container food-delivery-kibana-1 Waiting 
+ Container food-delivery-elasticsearch-1 Waiting 
+ Container food-delivery-elasticsearch-1 Healthy 
+ Container food-delivery-kibana-1 Healthy 
+/Applications/Xcode.app/Contents/Developer/usr/bin/make logs-setup
+go run ./cmd/devcheck logs-setup
+PASS: daily indices, 7-day ILM, legacy retention, Kibana data view and saved searches
+docker compose --env-file .env -f deploy/compose/compose.yaml --profile logs up -d --wait --wait-timeout 60 filebeat
+ Container food-delivery-filebeat-1 Running 
+ Container food-delivery-elasticsearch-1 Running 
+ Container food-delivery-elasticsearch-1 Waiting 
+ Container food-delivery-elasticsearch-1 Healthy 
+ Container food-delivery-filebeat-1 Waiting 
+ Container food-delivery-elasticsearch-1 Waiting 
+ Container food-delivery-filebeat-1 Healthy 
+ Container food-delivery-elasticsearch-1 Healthy 
+docker compose --env-file .env -f deploy/compose/compose.yaml --profile logs restart filebeat
+ Container food-delivery-filebeat-1 Restarting 
+ Container food-delivery-filebeat-1 Started 
+/Applications/Xcode.app/Contents/Developer/usr/bin/make logs-check
+docker compose --env-file .env -f deploy/compose/compose.yaml --profile logs exec -T filebeat filebeat test config -e --strict.perms=false
+Config OK
+docker compose --env-file .env -f deploy/compose/compose.yaml --profile logs exec -T filebeat filebeat test output -e --strict.perms=false
+elasticsearch: http://elasticsearch:9200...
+  parse url... OK
+  connection...
+    parse host... OK
+    dns lookup... OK
+    addresses: 172.22.0.13
+    dial up... OK
+  TLS... WARN secure connection disabled
+  talk to server... OK
+  version: 9.5.5
+curl -fsS http://127.0.0.1:9200/_cluster/health
+{"cluster_name":"docker-cluster","status":"green","timed_out":false,"number_of_nodes":1,"number_of_data_nodes":1,"active_primary_shards":54,"active_shards":54,"relocating_shards":0,"initializing_shards":0,"unassigned_shards":0,"unassigned_primary_shards":0,"delayed_unassigned_shards":0,"number_of_pending_tasks":1,"number_of_in_flight_fetch":0,"task_max_waiting_in_queue_millis":808,"active_shards_percent_as_number":100.0}curl -fsS http://127.0.0.1:5601/api/status > /dev/null
+go run ./cmd/devcheck check-logs
+{
+  "index": "food-delivery-logs-daily-2026.10.11",
+  "request_id": "HOF23KISE3HIQJEFAYQJKN44HH",
+  "service": "orders-service",
+  "status": 404
+}

@@ -1,0 +1,50 @@
+{
+  "checked_at": "2026-10-11T20:22:09.95596Z",
+  "checks": [
+    "Kafka outage: HTTP 201, pending outbox, complete recovery",
+    "notifications DB outage: no commit, no DLQ, exactly one notification after recovery",
+    "catalog outage: new create 503 without saved key, existing order/replay available",
+    "Redis outage: cache fallback, limiter fail-open, key/TTL restored",
+    "notifications restart: orders remain available, backlog delivered",
+    "telemetry outage: order and notification succeed"
+  ],
+  "orders": [
+    {
+      "order_id": "515bb204-f4e0-4223-959e-c2b12c8aa6ad",
+      "user_id": "5feae5b1-613a-4e83-8c3d-96a318673a5b",
+      "idempotency_key": "stage9-44b6bf71004aeb5471ea9b9e9bc90e40",
+      "event_id": "082d0ae6-1e4b-4567-a957-ec44ece19b70"
+    },
+    {
+      "order_id": "97d744c5-cb27-4b79-8584-2c3882fc496c",
+      "user_id": "58f7dc51-d416-474a-b66e-57f2810cb340",
+      "idempotency_key": "stage9-b83a371a3e63190ad263b0ff154eb1e5",
+      "event_id": "88596e8d-59f1-45be-bdb8-ef11fa349355"
+    },
+    {
+      "order_id": "ffa10644-9dee-4c4a-acce-82506fc69789",
+      "user_id": "d04d32eb-bf8f-471d-b300-d2fe982de0da",
+      "idempotency_key": "stage9-d18eb87e129d6e7b9ce62aa4b88485ac",
+      "event_id": "fd518768-b475-42c2-b8af-a341c940affa"
+    },
+    {
+      "order_id": "7c87979f-3335-4fd7-ac08-5dc66a967f5c",
+      "user_id": "50b2a1e7-824b-4a7d-b06f-587f57b0ffaf",
+      "idempotency_key": "stage9-02b3faa76d6c9b6963ddf1139eb03f99",
+      "event_id": "44d2d824-3ba5-47b3-b1d8-67b1703ecc4e"
+    },
+    {
+      "order_id": "2ac79d74-e945-4c65-952d-a9c1c83c490a",
+      "user_id": "e239b1b3-9e1a-4997-a07a-a7ec52e42324",
+      "idempotency_key": "stage9-7e61b1c44c730af04a3d6701f3ceaa1e",
+      "event_id": "defb59bd-c363-4f6c-9285-4bf29c596c6a"
+    },
+    {
+      "order_id": "29a4af69-3ea9-4d66-ac53-154f48b1dab4",
+      "user_id": "5c32fa38-48a7-4939-b2c7-ddd94049c70a",
+      "idempotency_key": "stage9-ae484e6d0b7e74dc9b2bb9101d618077",
+      "event_id": "c6b408c0-9d12-4fd8-ae14-dbc63c4a450c"
+    }
+  ],
+  "passed": true
+}

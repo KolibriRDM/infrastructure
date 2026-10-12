@@ -1,0 +1,10 @@
+docker compose --env-file .env -f deploy/compose/compose.yaml exec -T clickhouse sh -ec 'exec clickhouse-client --user "$CLICKHOUSE_USER" --password "$CLICKHOUSE_PASSWORD" --multiquery' < deploy/compose/clickhouse/queries.sql
+44677	2005997300	44900
+2026-10-11 19:00:00	20	898000
+2026-10-11 13:00:00	159	7139100
+2026-10-11 12:00:00	44487	1997466300
+2026-10-11 09:00:00	4	179600
+2026-10-09 10:00:00	2	89800
+2026-10-09 06:00:00	2	89800
+2026-10-07 12:00:00	3	134700
+44680	44677	3

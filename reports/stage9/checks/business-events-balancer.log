@@ -1,0 +1,94 @@
+bash ./scripts/with-test-redis.sh bash ./scripts/test-day2.sh
+Isolated test Redis: 127.0.0.1:58124 (food-test-redis-1791747320-75470)
+ Container food-delivery-postgres-1 Running 
+ Container food-delivery-postgres-1 Waiting 
+ Container food-delivery-postgres-1 Healthy 
+CREATE DATABASE
+REVOKE
+CREATE DATABASE
+REVOKE
+ Container food-delivery-migrate-orders-run-3b4b98c493ec Creating 
+ Container food-delivery-migrate-orders-run-3b4b98c493ec Created 
+1/u create_orders (111.654208ms)
+ Container food-delivery-migrate-catalog-run-d95df490dfde Creating 
+ Container food-delivery-migrate-catalog-run-d95df490dfde Created 
+1/u create_catalog (40.971583ms)
+BEGIN
+INSERT 0 2
+INSERT 0 6
+COMMIT
+=== RUN   TestDay2Processes
+=== RUN   TestDay2Processes/read_and_canonical_replay
+=== RUN   TestDay2Processes/foreign_and_missing_orders_are_indistinguishable
+=== RUN   TestDay2Processes/changed_body_conflicts
+=== RUN   TestDay2Processes/key_scoped_by_user
+=== RUN   TestDay2Processes/menu_updates_preserve_snapshots
+=== RUN   TestDay2Processes/outbox_stores_contract_while_Kafka_unavailable
+=== RUN   TestDay2Processes/order_status_and_cancellation
+=== RUN   TestDay2Processes/ten_concurrent_repeats
+=== RUN   TestDay2Processes/outbox_failure_rolls_back_complete_order
+=== RUN   TestDay2Processes/unavailable_dish_leaves_no_writes
+=== RUN   TestDay2Processes/restart_orders_while_catalog_is_down
+--- PASS: TestDay2Processes (16.08s)
+    --- PASS: TestDay2Processes/read_and_canonical_replay (0.17s)
+    --- PASS: TestDay2Processes/foreign_and_missing_orders_are_indistinguishable (0.04s)
+    --- PASS: TestDay2Processes/changed_body_conflicts (0.06s)
+    --- PASS: TestDay2Processes/key_scoped_by_user (0.06s)
+    --- PASS: TestDay2Processes/menu_updates_preserve_snapshots (0.20s)
+    --- PASS: TestDay2Processes/outbox_stores_contract_while_Kafka_unavailable (0.01s)
+    --- PASS: TestDay2Processes/order_status_and_cancellation (0.39s)
+    --- PASS: TestDay2Processes/ten_concurrent_repeats (1.41s)
+    --- PASS: TestDay2Processes/outbox_failure_rolls_back_complete_order (2.46s)
+    --- PASS: TestDay2Processes/unavailable_dish_leaves_no_writes (0.20s)
+    --- PASS: TestDay2Processes/restart_orders_while_catalog_is_down (5.73s)
+PASS
+ok  	github.com/KolibriRDM/food-delivery-infrastructure/tests/integration	17.858s
+DROP DATABASE
+DROP DATABASE
+bash ./scripts/with-test-redis.sh bash ./scripts/test-events-e2e.sh
+Isolated test Redis: 127.0.0.1:58868 (food-test-redis-1791747402-75690)
+ Container food-delivery-kafka-1 Running 
+ Container food-delivery-postgres-1 Running 
+ Container food-delivery-kafka-1 Waiting 
+ Container food-delivery-postgres-1 Waiting 
+ Container food-delivery-postgres-1 Healthy 
+ Container food-delivery-kafka-1 Healthy 
+CREATE DATABASE
+REVOKE
+CREATE DATABASE
+REVOKE
+CREATE DATABASE
+REVOKE
+ Container food-delivery-migrate-notifications-run-82a75e7884f2 Creating 
+ Container food-delivery-migrate-notifications-run-82a75e7884f2 Created 
+1/u create_notifications (210.375875ms)
+ Container food-delivery-migrate-orders-run-c6914fa65b74 Creating 
+ Container food-delivery-migrate-orders-run-c6914fa65b74 Created 
+1/u create_orders (27.076667ms)
+ Container food-delivery-migrate-catalog-run-674b4be72b6a Creating 
+ Container food-delivery-migrate-catalog-run-674b4be72b6a Created 
+1/u create_catalog (20.844959ms)
+BEGIN
+INSERT 0 2
+INSERT 0 6
+COMMIT
+=== RUN   TestOrderNotificationEvents
+    events_test.go:163: HTTP order -> catalog gRPC -> PostgreSQL outbox -> Kafka -> notifications PostgreSQL -> HTTP passed
+    events_test.go:185: repeated Kafka event committed without creating another notification
+    events_test.go:209: notifications restart consumed backlog with the same group; two orders, two events, two notifications
+--- PASS: TestOrderNotificationEvents (11.44s)
+PASS
+ok  	github.com/KolibriRDM/food-delivery-infrastructure/tests/integration	13.741s
+DROP DATABASE
+DROP DATABASE
+DROP DATABASE
+FOOD_BALANCER_COMPOSE_DIR="/Users/riendemal/Desktop/RienDeMal/go_projects/food-delivery/infrastructure" GOWORK=off go test -tags=integration -count=1 -timeout 240s -v ./tests/balancer
+=== RUN   TestBalancerCompose
+    compose_test.go:147: both healthy: HTTP and RPC split 2/2 on one gRPC connection
+    compose_test.go:156: catalog-2 stopped: all HTTP/RPC sent to catalog-1
+    compose_test.go:162: catalog-2 restored: split 2/2 without restarting balancer
+    compose_test.go:179: both stopped: HTTP 503, RPC Unavailable, healthz 200; errors returned within limits
+    compose_test.go:210: SIGTERM exit code 0; after restart HTTP/RPC work and old client reconnects
+--- PASS: TestBalancerCompose (22.77s)
+PASS
+ok  	github.com/KolibriRDM/food-delivery-infrastructure/tests/balancer	23.287s

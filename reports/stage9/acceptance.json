@@ -1,0 +1,7 @@
+{
+  "checked_at": "2026-10-11T20:23:29.082097Z",
+  "database_roles_isolated": true,
+  "grafana_panels": 17,
+  "promql_queries_checked": 16,
+  "targets_up": 5
+}

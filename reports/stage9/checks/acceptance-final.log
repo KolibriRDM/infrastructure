@@ -1,0 +1,31 @@
+go run ./cmd/devcheck check-acceptance
+{
+  "kafka": {
+    "messages": 44676,
+    "partitions": 3,
+    "topic": "food.order-created.v1"
+  },
+  "pages": {
+    "Kafbat UI": {
+      "http_status": 200,
+      "javascript_files": 1
+    },
+    "Redis Insight": {
+      "http_status": 200,
+      "javascript_files": 1
+    }
+  },
+  "redis": {
+    "connection": "food-delivery",
+    "keys": 1,
+    "version": "8.2.9"
+  },
+  "scope": "HTTP, JS assets and live GUI APIs; no automated visual assertion"
+}
+{
+  "checked_at": "2026-10-11T19:49:27.170088Z",
+  "database_roles_isolated": true,
+  "grafana_panels": 17,
+  "promql_queries_checked": 16,
+  "targets_up": 5
+}

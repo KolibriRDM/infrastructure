@@ -1,0 +1,36 @@
+ok  	github.com/KolibriRDM/catalog-service/cmd/catalog	1.440s
+?   	github.com/KolibriRDM/catalog-service/cmd/ci-integration	[no test files]
+?   	github.com/KolibriRDM/catalog-service/cmd/healthcheck	[no test files]
+ok  	github.com/KolibriRDM/catalog-service/internal	0.898s
+?   	github.com/KolibriRDM/catalog-service/internal/errors	[no test files]
+ok  	github.com/KolibriRDM/catalog-service/internal/handler	3.297s
+?   	github.com/KolibriRDM/catalog-service/internal/handler/dto	[no test files]
+ok  	github.com/KolibriRDM/catalog-service/internal/handler/grpc	0.492s
+?   	github.com/KolibriRDM/catalog-service/internal/model	[no test files]
+ok  	github.com/KolibriRDM/catalog-service/internal/platform/config	3.096s
+ok  	github.com/KolibriRDM/catalog-service/internal/platform/metrics	1.854s
+ok  	github.com/KolibriRDM/catalog-service/internal/platform/postgres	2.698s
+?   	github.com/KolibriRDM/catalog-service/internal/platform/redis	[no test files]
+ok  	github.com/KolibriRDM/catalog-service/internal/repository	3.987s
+?   	github.com/KolibriRDM/catalog-service/internal/repository/entity	[no test files]
+ok  	github.com/KolibriRDM/catalog-service/internal/repository/menucache	4.821s
+ok  	github.com/KolibriRDM/catalog-service/internal/service	3.520s
+?   	github.com/KolibriRDM/catalog-service/internal/transport/grpc/catalogv1	[no test files]
+ok  	github.com/KolibriRDM/catalog-service/cmd/catalog	1.611s
+?   	github.com/KolibriRDM/catalog-service/cmd/ci-integration	[no test files]
+?   	github.com/KolibriRDM/catalog-service/cmd/healthcheck	[no test files]
+ok  	github.com/KolibriRDM/catalog-service/internal	5.195s
+?   	github.com/KolibriRDM/catalog-service/internal/errors	[no test files]
+ok  	github.com/KolibriRDM/catalog-service/internal/handler	4.154s
+?   	github.com/KolibriRDM/catalog-service/internal/handler/dto	[no test files]
+ok  	github.com/KolibriRDM/catalog-service/internal/handler/grpc	3.498s
+?   	github.com/KolibriRDM/catalog-service/internal/model	[no test files]
+ok  	github.com/KolibriRDM/catalog-service/internal/platform/config	3.883s
+ok  	github.com/KolibriRDM/catalog-service/internal/platform/metrics	4.835s
+ok  	github.com/KolibriRDM/catalog-service/internal/platform/postgres	2.026s
+?   	github.com/KolibriRDM/catalog-service/internal/platform/redis	[no test files]
+ok  	github.com/KolibriRDM/catalog-service/internal/repository	2.511s
+?   	github.com/KolibriRDM/catalog-service/internal/repository/entity	[no test files]
+ok  	github.com/KolibriRDM/catalog-service/internal/repository/menucache	6.000s
+ok  	github.com/KolibriRDM/catalog-service/internal/service	4.374s
+?   	github.com/KolibriRDM/catalog-service/internal/transport/grpc/catalogv1	[no test files]
